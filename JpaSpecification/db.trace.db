@@ -1,0 +1,9 @@
+2022-09-03 18:30:31 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EMPLOYEE where job [*]Software Test Engineer"; SQL statement:
+SELECT * FROM EMPLOYEE where job Software Test Engineer [42000-214]
+2022-09-03 18:30:34 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EMPLOYEE where job [*]Software Test Engineer IV"; SQL statement:
+SELECT * FROM EMPLOYEE where job Software Test Engineer IV [42000-214]
+2022-09-03 18:30:48 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLSyntaxErrorException: Syntax error in SQL statement "SELECT * FROM EMPLOYEE where job = Software [*]Test Engineer IV"; SQL statement:
+SELECT * FROM EMPLOYEE where job = Software Test Engineer IV [42000-214]

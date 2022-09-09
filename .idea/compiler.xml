@@ -8,11 +8,9 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SpringBootNew" />
         <module name="JpaSpecification" />
+        <module name="Spring-Batch" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="Spring-Batch" target="17" />
-    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">

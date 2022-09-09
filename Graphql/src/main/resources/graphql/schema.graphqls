@@ -1,0 +1,60 @@
+type Blog {
+    id: ID!
+    title: String
+    description: String
+    author: Author
+}
+
+type Author {
+    id: ID!
+    name: String
+    age: Int
+}
+
+type Response {
+    message: String
+    code: Int
+}
+
+type Query {
+    allBlogs: [Blog]
+    findByIdBlog(id: ID!): Blog
+
+    allAuthors: [Author]
+    findByIdAuthor(id: ID!): Author
+}
+
+type Mutation {
+    saveBlog(dto: BlogCreateDTO): Response
+    deleteByIdBlog(id: ID!): Response
+    updateBlog(dto: BlogUpdateDTO): Response
+
+    saveAuthor(dto: AuthorCreateDTO): Response
+    deleteByIdAuthor(id: ID!): Response
+    updateAuthor(dto: AuthorUpdateDTO): Response
+}
+
+input BlogCreateDTO {
+    id: Int
+    title: String
+    description: String
+    author_id: Int
+}
+
+input BlogUpdateDTO {
+    id: ID!
+    title: String
+    description: String
+}
+
+input AuthorCreateDTO {
+    id: Int
+    name: String
+    age: Int
+}
+
+input AuthorUpdateDTO {
+    id: ID!
+    name: String
+    age: Int
+}

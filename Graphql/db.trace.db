@@ -1,0 +1,6 @@
+2022-08-14 22:51:38 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (BLOG: ""ID"" INTEGER NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."BLOG"("ID","DESCRIPTION","TITLE","AUTHOR_ID")VALUES(?,?,?,?) [22018-214]
+2022-08-14 22:51:38 jdbc[13]: exception
+org.h2.jdbc.JdbcSQLDataException: Data conversion error converting "'' (BLOG: ""ID"" INTEGER NOT NULL)"; SQL statement:
+INSERT INTO "PUBLIC"."BLOG"("ID","DESCRIPTION","TITLE","AUTHOR_ID")VALUES(?,?,?,?) [22018-214]

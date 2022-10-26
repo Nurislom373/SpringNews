@@ -7,6 +7,8 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/JpaSpecification/pom.xml" />
         <option value="$PROJECT_DIR$/SpringBatch/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringBootResilience4j/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringBootResilience4j/ServiceTwo/pom.xml" />
       </list>
     </option>
   </component>

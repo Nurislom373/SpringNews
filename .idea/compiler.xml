@@ -2,20 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="ServiceOne" />
         <module name="SpringBootNew" />
         <module name="JpaSpecification" />
         <module name="Spring-Batch" />
+        <module name="SpringBootResilience4j" />
+        <module name="ServiceTwo" />
       </profile>
     </annotationProcessing>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="JpaSpecification" options="-parameters" />
+      <module name="ServiceOne" options="-parameters" />
+      <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
+      <module name="SpringBootResilience4j" options="" />
     </option>
   </component>
 </project>

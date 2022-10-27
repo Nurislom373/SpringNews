@@ -1,7 +1,11 @@
 package org.khasanof.servicetwo;
 
+import io.github.resilience4j.bulkhead.BulkheadFullException;
+import io.github.resilience4j.bulkhead.annotation.Bulkhead;
 import io.github.resilience4j.circuitbreaker.CallNotPermittedException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
+import io.github.resilience4j.ratelimiter.RequestNotPermitted;
+import io.github.resilience4j.ratelimiter.annotation.RateLimiter;
 import io.github.resilience4j.retry.annotation.Retry;
 import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -87,11 +91,31 @@ class ServiceController {
         return result;
     }
 
+    /*
+        The bulkhead pattern limits the maximum number of concurrent calls to an external service.
+        Let's start by adding the /api/bulkhead API endpoint with the @Bulkhead annotation:
+     */
+    @RequestMapping(value = "time-limiter", method = RequestMethod.GET)
+    @Bulkhead(name="bulkheadApi")
+    public ResponseEntity<String> bulkheadApi() {
+        return new ResponseEntity<>(restTemplate.getForObject("/api/say", String.class), HttpStatus.OK);
+    }
+
+    /*
+        The rate limiter pattern limits the rate of requests to a resource.
+        Let's start by adding the /api/rate-limiter API endpoint with the @RateLimiter annotation
+     */
+    @RequestMapping(value = "rate-limiter", method = RequestMethod.GET)
+    @RateLimiter(name = "rateLimiterApi")
+    public ResponseEntity<String> rateLimitApi() {
+        return new ResponseEntity<>(restTemplate.getForObject("/api/say", String.class), HttpStatus.OK);
+    }
+
 
 }
 
 @ControllerAdvice
-class ApiExceptionHandler {
+class GlobalExceptionHandler {
 
     @ExceptionHandler({CallNotPermittedException.class})
     public ResponseEntity<String> handleCallNotPermittedException() {
@@ -101,6 +125,16 @@ class ApiExceptionHandler {
     @ExceptionHandler({TimeoutException.class})
     public ResponseEntity<String> handleTimeoutException() {
         return new ResponseEntity<>("Service is Down! with time-limiter", HttpStatus.REQUEST_TIMEOUT);
+    }
+
+    @ExceptionHandler({BulkheadFullException.class})
+    public ResponseEntity<String> handleBulkheadFullException() {
+        return new ResponseEntity<>("Service is Down! with bulkhead", HttpStatus.BANDWIDTH_LIMIT_EXCEEDED);
+    }
+
+    @ExceptionHandler({ RequestNotPermitted.class })
+    public ResponseEntity<String> handleRequestNotPermitted() {
+        return new ResponseEntity<>("Service is Down! with rate-limiter", HttpStatus.TOO_MANY_REQUESTS);
     }
 
 }

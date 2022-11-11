@@ -11,8 +11,9 @@
         <module name="SpringBootNew" />
         <module name="JpaSpecification" />
         <module name="Spring-Batch" />
-        <module name="SpringBootResilience4j" />
         <module name="ServiceTwo" />
+        <module name="SpringReactiveR2DBC" />
+        <module name="SpringBootResilience4j" />
       </profile>
     </annotationProcessing>
   </component>
@@ -23,6 +24,7 @@
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
+      <module name="SpringReactiveR2DBC" options="-parameters" />
     </option>
   </component>
 </project>

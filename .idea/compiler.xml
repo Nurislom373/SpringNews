@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SpringAOP" />
         <module name="ServiceOne" />
         <module name="SpringBootNew" />
         <module name="JpaSpecification" />
@@ -23,6 +24,7 @@
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
+      <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
     </option>

@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 
 @Controller
-@RequestMapping(value = "/transaction/*")
 public class TransactionController {
 
     private final TransactionDAO dao;
@@ -22,14 +21,19 @@ public class TransactionController {
         this.dao = dao;
     }
 
-    @RequestMapping(value = "create", method = RequestMethod.POST)
+    @RequestMapping(value = "/create", method = RequestMethod.POST)
     @ResponseBody
     public ResponseEntity<String> create(@RequestBody TransactionEntity entity) {
         dao.create(entity);
         return new ResponseEntity<>("Success", HttpStatus.CREATED);
     }
 
-    @RequestMapping(value = "list", method = RequestMethod.GET)
+    @RequestMapping(value = "/hello")
+    public String home() {
+        return "Hello World!";
+    }
+
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public ResponseEntity<List<TransactionEntity>> list() {
         return new ResponseEntity<>(dao.list(), HttpStatus.OK);

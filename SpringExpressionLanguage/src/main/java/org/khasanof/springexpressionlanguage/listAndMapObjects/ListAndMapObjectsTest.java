@@ -21,6 +21,13 @@ public class ListAndMapObjectsTest implements ApplicationContextAware {
 
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+        WorkersHolderSPL holderSPL = applicationContext.getBean(WorkersHolderSPL.class);
 
+        log.info("SpEL out firstWorker {}", holderSPL.firstWorker);
+        log.info("SpEL out georgeSalary {}", holderSPL.georgeSalary);
+        log.info("SpEL out johnSalary {}", holderSPL.johnSalary);
+        log.info("SpEL out lastWorker {}", holderSPL.lastWorker);
+        log.info("SpEL out susieSalary {}", holderSPL.susieSalary);
+        log.info("SpEL out numberOfWorkers {}", holderSPL.numberOfWorkers);
     }
 }

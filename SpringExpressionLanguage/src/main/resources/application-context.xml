@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+    http://www.springframework.org/schema/beans/spring-beans.xsd
+    http://www.springframework.org/schema/context
+    http://www.springframework.org/schema/context/spring-context.xsd">
+
+    <context:annotation-config/>
+    <context:component-scan base-package="org.khasanof.springexpressionlanguage"/>
+
+    <bean id="engine" class="org.khasanof.springexpressionlanguage.xmlExample.Engine">
+        <property name="capacity" value="3200"/>
+        <property name="horsePower" value="250"/>
+        <property name="numberOfCylinders" value="6"/>
+    </bean>
+
+    <bean id="car" class="org.khasanof.springexpressionlanguage.xmlExample.Car">
+        <property name="make" value="Some make"/>
+        <property name="model" value="2"/>
+        <property name="engine" value="#{engine}"/>
+        <property name="horsePower" value="#{engine.horsePower}"/>
+    </bean>
+
+    <bean id="spelOperators" class="org.khasanof.springexpressionlanguage.xmlExample.SpelOperators">
+        <property name="equal" value="#{1 == 1}"/>
+        <property name="notEqual" value="#{1 lt 1}"/>
+        <property name="greaterThanOrEqual" value="#{car.engine.numberOfCylinders >= 6}"/>
+        <property name="and" value="#{car.horsePower == 250 and car.engine.capacity lt 4000}"/>
+        <property name="or" value="#{car.horsePower > 300 or car.engine.capacity > 3000}"/>
+        <property name="addString" value="#{car.model + ' manufactured by ' + car.make}"/>
+    </bean>
+
+
+</beans>

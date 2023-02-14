@@ -27,10 +27,10 @@ public class Conditional {
         Another common use for the ternary operator is to check if some variable
         is null and then return the variable value or a default
      */
-//    @Value("#{someBean.someProperty != null ? someBean.someProperty : 'default'}")
+    @Value("#{someBean.someProperty != null ? someBean.someProperty : 'default'}")
     private String ternaryNull;
 
-//    @Value("#{someBean.someProperty ?: 'default'}") // Will inject provided string if someProperty is null
+    @Value("#{someBean.someProperty ?: 'default'}") // Will inject provided string if someProperty is null
     private String elvis;
 
 }

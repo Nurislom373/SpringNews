@@ -30,6 +30,6 @@ public class Regex {
     @Value("#{'invalid alphabetic string #$1' matches '[a-zA-Z\\s]+' }") // false
     private boolean invalidAlphabeticStringResult;
 
-//    @Value("#{someBean.someValue matches '\\d+'}") // true if someValue contains only digits
+    @Value("#{someBean.someValue matches '\\d+'}") // true if someValue contains only digits
     private boolean validNumericValue;
 }

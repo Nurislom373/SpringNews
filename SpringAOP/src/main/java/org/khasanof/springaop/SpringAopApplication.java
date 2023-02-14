@@ -1,9 +1,11 @@
 package org.khasanof.springaop;
 
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.khasanof.springaop.aspect.SecureMethod;
 import org.springframework.beans.BeansException;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -38,11 +40,12 @@ class DrugService {
 }
 
 @Aspect
+@Slf4j
 class DrugAspect {
 
 	@Before("execution(public String getName())")
 	public void getAdvice() {
-		System.out.println("Executing Advice on getName()");
+		log.info("Executing Advice on getName()");
 	}
 
 	@Before("execution(* org.khasanof.springaop.*.get*())")
@@ -78,10 +81,15 @@ class Data implements ApplicationContextAware {
 
 	@Override
 	public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-		DrugService drugService = applicationContext.getBean("drugService", DrugService.class);
-		drugService.setDrug(new Drug("Mezzaz"));
-		System.out.println(drugService.getDrug().getName());
-		drugService.getDrug().setName("Mezza");
+//		DrugService drugService = applicationContext.getBean("drugService", DrugService.class);
+//		drugService.setDrug(new Drug("Mezzaz"));
+//		System.out.println(drugService.getDrug().getName());
+//		drugService.getDrug().setName("Mezza");
+		try {
+			new SecureMethod().lockMethod();
+		} catch (Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
 

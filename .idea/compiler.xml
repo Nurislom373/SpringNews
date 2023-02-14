@@ -16,8 +16,12 @@
         <module name="ServiceTwo" />
         <module name="SpringReactiveR2DBC" />
         <module name="SpringBootResilience4j" />
+        <module name="SpringExpressionLanguage" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="SpringQueryDSL" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
@@ -27,6 +31,8 @@
       <module name="Spring-Batch" options="-parameters" />
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
+      <module name="SpringExpressionLanguage" options="-parameters" />
+      <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
     </option>
   </component>

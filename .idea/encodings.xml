@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="Encoding">
+    <file url="file://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-parent/2.7.3/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JpaSpecification/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Spring-Batch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringAOP/src/main/java" charset="UTF-8" />
@@ -9,10 +10,11 @@
     <file url="file://$PROJECT_DIR$/SpringBootResilience4j/ServiceOne/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringBootResilience4j/ServiceTwo/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringBootResilience4j/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringExpressionLanguage/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringMVC6/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringMVC6/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SpringQueryDSL/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringReactiveR2DBC/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/SpringReactiveR2DBC/src/main/resources" charset="UTF-8" />
-    <file url="file://$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-starter-parent/2.7.3/src/main/resources" charset="UTF-8" />
   </component>
 </project>

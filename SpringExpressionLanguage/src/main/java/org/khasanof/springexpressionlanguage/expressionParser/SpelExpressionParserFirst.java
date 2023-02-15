@@ -1,4 +1,4 @@
-package org.khasanof.springexpressionlanguage.ExpressionParser;
+package org.khasanof.springexpressionlanguage.expressionParser;
 
 import lombok.extern.slf4j.Slf4j;
 import org.khasanof.springexpressionlanguage.xmlExample.Car;
@@ -7,7 +7,6 @@ import org.springframework.expression.Expression;
 import org.springframework.expression.ExpressionParser;
 import org.springframework.expression.spel.standard.SpelExpressionParser;
 import org.springframework.expression.spel.support.StandardEvaluationContext;
-import org.springframework.stereotype.Component;
 
 /**
  * Author: Nurislom
@@ -18,9 +17,9 @@ import org.springframework.stereotype.Component;
  * <br/>
  * Package: org.khasanof.springexpressionlanguage.ExpressionParser
  */
-@Component
+//@Component
 @Slf4j
-public class SpelExpressionParserProgram implements CommandLineRunner {
+public class SpelExpressionParserFirst implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {

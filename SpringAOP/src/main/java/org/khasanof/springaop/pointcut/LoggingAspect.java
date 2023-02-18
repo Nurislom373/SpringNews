@@ -1,4 +1,4 @@
-package org.khasanof.springaop.config.aspc;
+package org.khasanof.springaop.pointcut;
 
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class LoggingAspect {
 
-    @Pointcut("@annotation(Log)")
+    @Pointcut("@annotation(org.khasanof.springaop.pointcut.Log)")
     public void logPointcut(){
     }
 
@@ -28,7 +28,7 @@ public class LoggingAspect {
         System.out.println("In Aspect");
     }
 
-    @Pointcut("execution(public void org.khasanof.springaop.config.aspc.TestService.observer())")
+    @Pointcut("execution(public void org.khasanof.springaop.pointcut.TestService.observer())")
     public void logPointcutWithExecution() {}
 
     @Before("logPointcutWithExecution()")
@@ -36,7 +36,7 @@ public class LoggingAspect {
         System.out.println("In Aspect from execution");
     }
 
-    @Pointcut("within(org.khasanof.springaop.config.aspc.EmployeeManager)")
+    @Pointcut("within(org.khasanof.springaop.pointcut.EmployeeManager)")
     public void logNewCut() {}
 
     @After("logNewCut()")

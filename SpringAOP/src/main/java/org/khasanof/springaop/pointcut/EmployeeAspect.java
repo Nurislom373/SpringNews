@@ -1,4 +1,4 @@
-package org.khasanof.springaop.config.aspc;
+package org.khasanof.springaop.pointcut;
 
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -18,7 +18,7 @@ import org.springframework.stereotype.Component;
 @Aspect
 public class EmployeeAspect {
 
-    @Before("execution(* EmployeeManager.getEmployeeById(..))")
+    @Before("execution(* org.khasanof.springaop.pointcut.EmployeeManager.getEmployeeById(..))")
     public void logBefore(JoinPoint joinPoint) {
         System.out.println("EmployeeAspect.logBefore() : " + joinPoint.getSignature().getName());
     }

@@ -77,7 +77,6 @@ Java-da dasturimiz @AspectJ qo'llab quvvatlashi uchun @Configuration va @EnableA
 qo'yishimiz kerak.
 
 ```java
-
 @Configuration
 @EnableAspectJAutoProxy
 public class AppConfig {
@@ -95,7 +94,6 @@ shows:
 XML ga asoslangan configuratsiya orqali Aspect yoqishimiz mumkin.
 
 ```xml
-
 <aop:aspectj-autoproxy/>
 ```
 
@@ -110,14 +108,12 @@ the @Aspect annotation) is automatically detected by Spring and used to configur
 aniqlanadi va Spring AOP ni sozlash uchun ishlatiladi.
 
 ```xml
-
 <bean id="myAspect" class="org.xyz.NotVeryUsefulAspect">
     <!-- configure properties of the aspect here -->
 </bean>
 ```
 
 ```java
-
 @Aspect
 public class NotVeryUsefulAspect {
 
@@ -342,3 +338,183 @@ matches a method that takes no parameters, whereas `(..)` matches any number (ze
 pattern matches a method that takes one parameter of any type. `(*,String)` matches a method that takes two parameters.
 The first can be of any type, while the second must be a `String`. Consult the Language Semantics section of the AspectJ
 Programming Guide for more information.
+
+# Declaring Advice
+
+Advice is associated with a pointcut expression and runs before, after, or around method executions matched by the
+pointcut. The pointcut expression may be either a simple reference to a named pointcut or a pointcut expression declared
+in place.
+
+<hr/>
+
+Advice - ma'lum bir qo'shilish nuqtasida aspect tomonidan amalga oshiriladigan harakat. Har xil turdagi advicelar bor
+ular "before", "after" va "around". Aspektlarning asosiy maqsadi ro'yxatga olish, profillash, keshlash va
+tranzaktsiyalarni boshqarish kabi o'zaro bog'liq muammolarni qo'llab-quvvatlashdir.
+
+Advice pointcut bilan bog'lanadi va pointcut bilan mos keladigan methodlarni bajarishdan oldin(before), keyin(after)
+yoki atrofida(around) ishlaydi.
+
+## 1. Before Advice
+
+**This advice, as the name implies, is executed before the join point**. It doesn't prevent the continued execution of
+the method it advises unless an exception is thrown.
+
+<hr/>
+
+Ushbu Advice, nomidan ko'rinib turibdiki, qo'shilish nuqtasidan oldin bajariladi. Agar exception bo'lmasa, u tavsiya
+qilingan method davom etiradi.
+
+```java
+@Component
+@Aspect
+public class LoggingAspect {
+
+    private Logger logger = Logger.getLogger(LoggingAspect.class.getName());
+
+    @Pointcut("@target(org.springframework.stereotype.Repository)")
+    public void repositoryMethods() {
+    }
+
+    @Before("repositoryMethods()")
+    public void logMethodCall(JoinPoint jp) {
+        String methodName = jp.getSignature().getName();
+        logger.info("Before " + methodName);
+    }
+}
+```
+
+The logMethodCall advice will be executed before any repository method defined by the repositoryMethods pointcut.
+// LogMethodCall advice repositoryMethods nuqtasi tomonidan belgilangan har qanday repository methodidan oldin
+bajariladi.
+
+## 2. After Advice
+
+After advice, declared by using the @After annotation, is executed after a matched method's execution, whether or not an
+exception was thrown. <br/>
+In some ways, it is similar to a finally block. In case you need advice to be triggered only after normal execution, you
+should use the returning advice declared by @AfterReturning annotation. If you want your advice to be triggered only
+when the target method throws an exception, you should use throwing advice, declared by using the @AfterThrowing
+annotation.
+
+<hr/>
+
+After advice before advice aks method bajarilgan so'ng bajariladi. After Advice method exception tashlasa yoki
+yo'qligidan qat'i nazar, mos keladigan method bajarilgan so'ng bajariladi. <br/>
+Qaysidir ma'noda, u _finally_ blockga o'xshaydi. Agar sizga method oddiy bajarilgan keyin advice kerak bo'lsa,
+@AfterReturning annotatsiyasidan foydalaning. Agar advice faqat method exception tashlaganda ishga tushishini
+istasangiz, @AfterThrowing annotatsiyasidan foydalaning.
+
+```java
+@Aspect
+public class AfterFinallyExample {
+
+    @After("com.xyz.myapp.CommonPointcuts.dataAccessOperation()")
+    public void doReleaseLock() {
+        // ...
+    }
+}
+```
+
+```java
+@Component
+@Aspect
+public class PublishingAspect {
+
+    private ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    public void setEventPublisher(ApplicationEventPublisher eventPublisher) {
+        this.eventPublisher = eventPublisher;
+    }
+
+    @Pointcut("@target(org.springframework.stereotype.Repository)")
+    public void repositoryMethods() {
+    }
+
+    @Pointcut("execution(* *..create*(Long,..))")
+    public void firstLongParamMethods() {
+    }
+
+    @Pointcut("repositoryMethods() && firstLongParamMethods()")
+    public void entityCreationMethods() {
+    }
+
+    @AfterReturning(value = "entityCreationMethods()", returning = "entity")
+    public void logMethodCall(JoinPoint jp, Object entity) throws Throwable {
+        eventPublisher.publishEvent(new FooCreationEvent(entity));
+    }
+}
+```
+
+Notice, first, that by using the @AfterReturning annotation we can access the target method's return value. Second, by
+declaring a parameter of type JoinPoint, we can access the arguments of the target method's invocation.
+
+<hr/>
+
+E'tibor bering, birinchi navbatda, @AfterReturning annotatsiyasidan foydalanib, biz target methodning qaytish qiymatiga
+kira olamiz. Ikkinchidan, JoinPoint tipidagi parametrni e'lon qilish orqali biz target methodni chaqirish argumentlariga
+kirishimiz mumkin.
+
+## 3. Around Advice
+
+The last kind of advice is around advice. Around advice runs "around" a matched method’s execution. It has the
+opportunity to do work both before and after the method runs and to determine when, how, and even if the method actually
+gets to run at all. Around advice is often used if you need to share state before and after a method execution in a
+thread-safe manner – for example, starting and stopping a timer.
+
+<hr/>
+
+Advicelarni oxirgisi around advice. Around advice mos keladigan methodning atrofida ishlaydi. U methodning ishga
+tushganga qadar ham, keyin ham ishni bajarish va qachon, qanday va hatto method umuman ishga tushishini aniqlash
+imkoniyatiga ega. Around advice ko'pincha agar siz methodning bajarilishidan oldingi va keyingi holatni thread-safe
+tarzda baham ko'rishingiz kerak bo'lsa ishlatiladi - masalan, timerni ishga tushirish va to'xtatish.
+
+```java
+@Aspect
+@Component
+public class PerformanceAspect {
+
+    private Logger logger = Logger.getLogger(getClass().getName());
+
+    @Pointcut("within(@org.springframework.stereotype.Repository *)")
+    public void repositoryClassMethods() {
+    }
+
+    ;
+
+    @Around("repositoryClassMethods()")
+    public Object measureMethodExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
+        long start = System.nanoTime();
+        Object retval = pjp.proceed();
+        long end = System.nanoTime();
+        String methodName = pjp.getSignature().getName();
+        logger.info("Execution of " + methodName + " took " +
+                TimeUnit.NANOSECONDS.toMillis(end - start) + " ms");
+        return retval;
+    }
+}
+```
+
+Around advice is declared by annotating a method with the @Around annotation. The method should declare Object as its
+return type, and the first parameter of the method must be of type ProceedingJoinPoint. Within the body of the advice
+method, you must invoke proceed() on the ProceedingJoinPoint in order for the underlying method to run. Invoking
+proceed() without arguments will result in the caller’s original arguments being supplied to the underlying method when
+it is invoked. For advanced use cases, there is an overloaded variant of the proceed() method which accepts an array of
+arguments (Object[]). The values in the array will be used as the arguments to the underlying method when it is invoked.
+
+### The JoinPoint interface provides a number of useful methods
+
+- `getArgs()`: Returns the method arguments.
+- `getThis()`: Returns the proxy object.
+- `getTarget()`: Returns the target object.
+- `getSignature()`: Returns a description of the method that is being advised.
+- `toString()`: Prints a useful description of the method being advised.
+
+
+
+
+
+
+
+
+

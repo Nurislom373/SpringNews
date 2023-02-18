@@ -1,4 +1,4 @@
-package org.khasanof.springaop.config.aspc;
+package org.khasanof.springaop.pointcut;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

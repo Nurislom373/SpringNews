@@ -597,15 +597,15 @@ Setting of a property is done by using the assignment operator. This would typic
 but can also be done inside a call to `getValue`.
 
 ```java
-Inventor inventor = new Inventor();
-StandardEvaluationContext inventorContext = new StandardEvaluationContext(inventor);
+Inventor inventor=new Inventor();
+        StandardEvaluationContext inventorContext=new StandardEvaluationContext(inventor);
 
-parser.parseExpression("Name").setValue(inventorContext, "Alexander Seovic2");
+        parser.parseExpression("Name").setValue(inventorContext,"Alexander Seovic2");
 
 // alternatively
 
-String aleks = parser.parseExpression("Name = 'Alexandar Seovic'").getValue(inventorContext,
-                                                                            String.class);
+        String aleks=parser.parseExpression("Name = 'Alexandar Seovic'").getValue(inventorContext,
+        String.class);
 ```
 
 ## Variables

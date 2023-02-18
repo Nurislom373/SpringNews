@@ -17,4 +17,8 @@ public class EmployeeManager {
     public void getEmployeeById(Integer id) {
         System.out.println("Method getEmployeeById() called");
     }
+
+    public void hiSay() {
+        System.out.println("Boom Geeks");
+    }
 }

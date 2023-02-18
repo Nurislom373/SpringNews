@@ -1,5 +1,6 @@
 package org.khasanof.springaop.config.aspc;
 
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
@@ -33,5 +34,13 @@ public class LoggingAspect {
     @Before("logPointcutWithExecution()")
     public void logMethodCallsWithExecutionAdvice() {
         System.out.println("In Aspect from execution");
+    }
+
+    @Pointcut("within(org.khasanof.springaop.config.aspc.EmployeeManager)")
+    public void logNewCut() {}
+
+    @After("logNewCut()")
+    public void afterRunning() {
+        System.out.println("AfterRunning");
     }
 }

@@ -20,6 +20,7 @@ class SpringAopApplicationTests {
 		service.stuff();
 		service.observer();
 		manager.getEmployeeById(1);
+		manager.hiSay();
 	}
 
 }

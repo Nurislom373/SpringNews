@@ -31,7 +31,7 @@
     </tr>
     <tr th:each="customer: ${customers}">
         <td th:text="${customer.id}"></td>
-        <td th:text="${customer.name}"></td>
+        <td th:text="${customer['name']}"></td>
         <td th:text="${customer.customerSince}"></td>
     </tr>
 </table>

@@ -67,16 +67,15 @@ integration.
 We'll add the following dependencies to our Maven POM file:
 
 ```xml
-
 <dependency>
     <groupId>org.thymeleaf</groupId>
     <artifactId>thymeleaf</artifactId>
     <version>3.0.11.RELEASE</version>
 </dependency>
 <dependency>
-<groupId>org.thymeleaf</groupId>
-<artifactId>thymeleaf-spring5</artifactId>
-<version>3.0.11.RELEASE</version>
+    <groupId>org.thymeleaf</groupId>
+    <artifactId>thymeleaf-spring5</artifactId>
+    <version>3.0.11.RELEASE</version>
 </dependency>
 ```
 
@@ -88,21 +87,21 @@ We can configure this class as a bean in the Java configuration file:
 @Bean
 @Description("Thymeleaf Template Resolver")
 public ServletContextTemplateResolver templateResolver(){
-        ServletContextTemplateResolver templateResolver=new ServletContextTemplateResolver();
-        templateResolver.setPrefix("/WEB-INF/views/");
-        templateResolver.setSuffix(".html");
-        templateResolver.setTemplateMode("HTML5");
-        return templateResolver;
-        }
+    ServletContextTemplateResolver templateResolver=new ServletContextTemplateResolver();
+    templateResolver.setPrefix("/WEB-INF/views/");
+    templateResolver.setSuffix(".html");
+    templateResolver.setTemplateMode("HTML5");
+    return templateResolver;
+}
 
 @Bean
 @Description("Thymeleaf Template Engine")
 public SpringTemplateEngine templateEngine(){
-        SpringTemplateEngine templateEngine=new SpringTemplateEngine();
-        templateEngine.setTemplateResolver(templateResolver());
-        templateEngine.setTemplateEngineMessageSource(messageSource());
-        return templateEngine;
-        }
+    SpringTemplateEngine templateEngine=new SpringTemplateEngine();
+    templateEngine.setTemplateResolver(templateResolver());
+    templateEngine.setTemplateEngineMessageSource(messageSource());
+    return templateEngine;
+}
 ```
 
 The templateResolver bean properties prefix and suffix indicate the location of the view pages within the webapp
@@ -116,11 +115,11 @@ given a view name.
 @Bean
 @Description("Thymeleaf View Resolver")
 public ThymeleafViewResolver viewResolver(){
-        ThymeleafViewResolver viewResolver=new ThymeleafViewResolver();
-        viewResolver.setTemplateEngine(templateEngine());
-        viewResolver.setOrder(1);
-        return viewResolver;
-        }
+    ThymeleafViewResolver viewResolver=new ThymeleafViewResolver();
+    viewResolver.setTemplateEngine(templateEngine());
+    viewResolver.setOrder(1);
+    return viewResolver;
+}
 ```
 
 ## Thymeleaf in Spring Boot
@@ -128,7 +127,6 @@ public ThymeleafViewResolver viewResolver(){
 Spring Boot provides auto-configuration for Thymeleaf by adding the spring-boot-starter-thymeleaf dependency:
 
 ```xml
-
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -159,10 +157,10 @@ Buning ishlashi uchun biz properties faylini messageSource bean sifatida sozlash
 @Bean
 @Description("Spring Message Resolver")
 public ResourceBundleMessageSource messageSource(){
-        ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
-        messageSource.setBasename("messages");
-        return messageSource;
-        }
+    ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
+    messageSource.setBasename("messages");
+    return messageSource;
+}
 ```
 
 Here is the Thymeleaf HTML code to display the value associated with the key welcome.message:
@@ -200,7 +198,6 @@ we are using in the th:* form are not allowed by the HTML5 specification. In fac
 attribute to our <html> tag, something absolutely non-HTML5-ish:
 
 ```html
-
 <html xmlns:th="http://www.thymeleaf.org">
 ```
 
@@ -380,7 +377,6 @@ List<Student> students=new ArrayList<Student>();
 Finally, we can use Thymeleaf template code to iterate over the list of students and display all field values:
 
 ```html
-
 <tbody>
 <tr th:each="student: ${students}">
     <td th:text="${student.id}"/>
@@ -453,7 +449,6 @@ And what is a selected object? The result of an expression using the th:object a
 profile (userprofile.html) page:
 
 ```html
-
 <div th:object="${session.user}">
     <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
     <p>Surname: <span th:text="*{lastName}">Pepper</span>.</p>
@@ -464,7 +459,6 @@ profile (userprofile.html) page:
 Which is exactly equivalent to:
 
 ```html
-
 <div>
     <p>Name: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
     <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>

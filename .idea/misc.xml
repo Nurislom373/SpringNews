@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
         <option value="$PROJECT_DIR$/SpringMVC6/pom.xml" />
         <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
+        <option value="$PROJECT_DIR$/Thymeleaf/pom.xml" />
       </list>
     </option>
   </component>

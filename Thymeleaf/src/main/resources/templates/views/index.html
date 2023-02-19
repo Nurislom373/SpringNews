@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+</head>
+<body>
+
+<h1>Hello World!</h1>
+
+<span th:text="|Welcome to our application, ${message}!|"></span>
+
+<!--  Which is equivalent to:   -->
+<br>
+<span th:text="'Welcome to our application, ' + ${message} + '!'"></span>
+<br>
+<a href="views.html" th:href="@{/views/Nurislom}">Home Page</a>
+<br>
+<span th:text="'Execution Mode is ' + ( (${execMode} == 'dev') ? 'Development' : 'Production')"></span>
+
+
+</body>
+</html>

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>fudusk</title>
+</head>
+<body>
+
+<h1 th:text="${text}"></h1>
+
+<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Aspernatur assumenda autem, beatae earum id in laboriosam
+    mollitia natus necessitatibus nemo nostrum placeat praesentium, quasi quisquam quod repudiandae rerum sapiente sequi
+    totam, veniam? Ab amet distinctio dolores, id incidunt ipsam laudantium maiores nihil numquam perferendis
+    praesentium ratione repellat tempore vero voluptatibus! Beatae cupiditate ipsam quibusdam ratione reiciendis sit ut.
+    Asperiores at aut commodi deleniti dolore excepturi expedita fugit ipsum labore laboriosam libero nulla numquam
+    praesentium, quis reprehenderit rerum sint temporibus ullam ut voluptatibus! Aperiam consequatur dolore incidunt
+    iure laborum mollitia neque nihil, obcaecati, qui rem repellendus reprehenderit sed sit veritatis, voluptatum!
+    Accusantium, assumenda aut autem blanditiis culpa dicta dolorum ducimus eaque earum enim ex facere impedit ipsum
+    laudantium modi molestiae odio odit officia quia quisquam reiciendis repellendus repudiandae sit tempora tempore
+    vitae voluptate voluptates? Ab aliquam commodi doloremque eum inventore possimus? Aut enim exercitationem illo ipsam
+    laboriosam modi quo veniam. Ad adipisci alias aut corporis culpa debitis delectus distinctio eaque earum esse et
+    harum labore necessitatibus nostrum numquam pariatur quaerat qui quibusdam quis recusandae, repellendus saepe vel
+    voluptas? Est quas, recusandae. A architecto, assumenda consequatur cum deserunt distinctio doloribus enim error
+    illum, impedit, incidunt iure maxime minus non repellat repudiandae unde.</p>
+
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Calendar</th>
+    </tr>
+    <tr th:each="customer: ${customers}">
+        <td th:text="${customer.id}"></td>
+        <td th:text="${customer.name}"></td>
+        <td th:text="${customer.customerSince}"></td>
+    </tr>
+</table>
+
+<p>
+    Today is: <span th:text="${#calendars.format(today, 'dd MMMM yyyy')}">13 May 2011</span>
+</p>
+
+<p th:text="*{long_text}"></p>
+
+<div th:object="${boom}">
+    <p>Id: <span th:text="*{id}"></span></p>
+    <p>Name: <span th:text="*{name}"></span></p>
+    <p>Since: <span th:text="*{customerSince}"></span></p>
+</div>
+<br>
+<div>
+    <p>Id: <span th:text="${boom.id}"></span>.</p>
+    <p>Name: <span th:text="${boom.name}"></span>.</p>
+    <p>Since: <span th:text="${boom.customerSince}"></span>.</p>
+</div>
+
+<a href="index.html" th:href="@{/}">Home Page</a>
+
+</body>
+</html>

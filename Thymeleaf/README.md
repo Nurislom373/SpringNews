@@ -67,15 +67,16 @@ integration.
 We'll add the following dependencies to our Maven POM file:
 
 ```xml
+
 <dependency>
     <groupId>org.thymeleaf</groupId>
     <artifactId>thymeleaf</artifactId>
     <version>3.0.11.RELEASE</version>
 </dependency>
 <dependency>
-    <groupId>org.thymeleaf</groupId>
-    <artifactId>thymeleaf-spring5</artifactId>
-    <version>3.0.11.RELEASE</version>
+<groupId>org.thymeleaf</groupId>
+<artifactId>thymeleaf-spring5</artifactId>
+<version>3.0.11.RELEASE</version>
 </dependency>
 ```
 
@@ -87,21 +88,21 @@ We can configure this class as a bean in the Java configuration file:
 @Bean
 @Description("Thymeleaf Template Resolver")
 public ServletContextTemplateResolver templateResolver(){
-    ServletContextTemplateResolver templateResolver=new ServletContextTemplateResolver();
-    templateResolver.setPrefix("/WEB-INF/views/");
-    templateResolver.setSuffix(".html");
-    templateResolver.setTemplateMode("HTML5");
-    return templateResolver;
-}
+        ServletContextTemplateResolver templateResolver=new ServletContextTemplateResolver();
+        templateResolver.setPrefix("/WEB-INF/views/");
+        templateResolver.setSuffix(".html");
+        templateResolver.setTemplateMode("HTML5");
+        return templateResolver;
+        }
 
 @Bean
 @Description("Thymeleaf Template Engine")
 public SpringTemplateEngine templateEngine(){
-    SpringTemplateEngine templateEngine=new SpringTemplateEngine();
-    templateEngine.setTemplateResolver(templateResolver());
-    templateEngine.setTemplateEngineMessageSource(messageSource());
-    return templateEngine;
-}
+        SpringTemplateEngine templateEngine=new SpringTemplateEngine();
+        templateEngine.setTemplateResolver(templateResolver());
+        templateEngine.setTemplateEngineMessageSource(messageSource());
+        return templateEngine;
+        }
 ```
 
 The templateResolver bean properties prefix and suffix indicate the location of the view pages within the webapp
@@ -115,11 +116,11 @@ given a view name.
 @Bean
 @Description("Thymeleaf View Resolver")
 public ThymeleafViewResolver viewResolver(){
-    ThymeleafViewResolver viewResolver=new ThymeleafViewResolver();
-    viewResolver.setTemplateEngine(templateEngine());
-    viewResolver.setOrder(1);
-    return viewResolver;
-}
+        ThymeleafViewResolver viewResolver=new ThymeleafViewResolver();
+        viewResolver.setTemplateEngine(templateEngine());
+        viewResolver.setOrder(1);
+        return viewResolver;
+        }
 ```
 
 ## Thymeleaf in Spring Boot
@@ -127,6 +128,7 @@ public ThymeleafViewResolver viewResolver(){
 Spring Boot provides auto-configuration for Thymeleaf by adding the spring-boot-starter-thymeleaf dependency:
 
 ```xml
+
 <dependency>
     <groupId>org.springframework.boot</groupId>
     <artifactId>spring-boot-starter-thymeleaf</artifactId>
@@ -157,10 +159,10 @@ Buning ishlashi uchun biz properties faylini messageSource bean sifatida sozlash
 @Bean
 @Description("Spring Message Resolver")
 public ResourceBundleMessageSource messageSource(){
-    ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
-    messageSource.setBasename("messages");
-    return messageSource;
-}
+        ResourceBundleMessageSource messageSource=new ResourceBundleMessageSource();
+        messageSource.setBasename("messages");
+        return messageSource;
+        }
 ```
 
 Here is the Thymeleaf HTML code to display the value associated with the key welcome.message:
@@ -198,6 +200,7 @@ we are using in the th:* form are not allowed by the HTML5 specification. In fac
 attribute to our <html> tag, something absolutely non-HTML5-ish:
 
 ```html
+
 <html xmlns:th="http://www.thymeleaf.org">
 ```
 
@@ -377,6 +380,7 @@ List<Student> students=new ArrayList<Student>();
 Finally, we can use Thymeleaf template code to iterate over the list of students and display all field values:
 
 ```html
+
 <tbody>
 <tr th:each="student: ${students}">
     <td th:text="${student.id}"/>
@@ -449,6 +453,7 @@ And what is a selected object? The result of an expression using the th:object a
 profile (userprofile.html) page:
 
 ```html
+
 <div th:object="${session.user}">
     <p>Name: <span th:text="*{firstName}">Sebastian</span>.</p>
     <p>Surname: <span th:text="*{lastName}">Pepper</span>.</p>
@@ -459,9 +464,120 @@ profile (userprofile.html) page:
 Which is exactly equivalent to:
 
 ```html
+
 <div>
     <p>Name: <span th:text="${session.user.firstName}">Sebastian</span>.</p>
     <p>Surname: <span th:text="${session.user.lastName}">Pepper</span>.</p>
     <p>Nationality: <span th:text="${session.user.nationality}">Saturn</span>.</p>
 </div>
+```
+
+## 4.4 Links
+
+Because of their importance, URLs are first-class citizens in web application templates, and the Thymeleaf Standard
+Dialect has a special syntax for them, the @ syntax: @{...}
+
+There are different types of URLs:
+
+- Absolute URLs: http://www.thymeleaf.org
+- Relative URLs, which can be:
+    - Page-relative: user/login.html
+    - Context-relative: /itemdetails?id=3 (context name in server will be added automatically)
+    - Server-relative: ~/billing/processInvoice (allows calling URLs in another context (= application) in the same
+      server.
+    - Protocol-relative URLs: //code.jquery.com/jquery-2.0.3.min.js
+
+```html
+<!-- Will produce 'http://localhost:8080/gtvg/order/details?orderId=3' (plus rewriting) -->
+<a href="details.html"
+   th:href="@{http://localhost:8080/gtvg/order/details(orderId=${o.id})}">view</a>
+
+<!-- Will produce '/gtvg/order/details?orderId=3' (plus rewriting) -->
+<a href="details.html" th:href="@{/order/details(orderId=${o.id})}">view</a>
+
+<!-- Will produce '/gtvg/order/3/details' (plus rewriting) -->
+<a href="details.html" th:href="@{/order/{orderId}/details(orderId=${o.id})}">view</a>
+```
+
+As was the case with the message syntax (#{...}), URL bases can also be the result of evaluating another expression:
+
+```html
+<a th:href="@{${url}(orderId=${o.id})}">view</a>
+<a th:href="@{'/details/'+${user.login}(orderId=${o.id})}">view</a>
+```
+
+## 4.6 Literals
+
+### Text Literals
+
+Text literals are just character strings specified between single quotes. They can include any character, but you should
+escape any single quotes inside them using \'.
+
+```html
+<p>
+    Now you are looking at a <span th:text="'working web application'">template file</span>.
+</p>
+```
+
+### Number Literals
+
+Numeric literals are just that: numbers.
+
+```html
+<p>The year is <span th:text="2013">1492</span>.</p>
+<p>In two years, it will be <span th:text="2013 + 2">1494</span>.</p>
+```
+
+### Boolean Literals
+
+The boolean literals are true and false. For example:
+
+```html
+
+<div th:if="${user.isAdmin()} == false"> ...
+```
+
+Literal tokens
+<hr/>
+Numeric, boolean and null literals are in fact a particular case of literal tokens.
+
+These tokens allow a little bit of simplification in Standard Expressions. They work exactly the same as text
+literals ('...'), but they only allow letters (A-Z and a-z), numbers (0-9), brackets ([ and ]), dots (.), hyphens (-)
+and underscores (_). So no whitespaces, no commas, etc.
+
+## Appending Texts
+
+Texts, no matter whether they are literals or the result of evaluating variable or message expressions, can be easily
+appended using the + operator:
+
+```html
+<span th:text="'The name of the user is ' + ${user.name}">
+```
+
+## Literal substitutions
+
+Literal substitutions allow for an easy formatting of strings containing values from variables without the need to
+append literals with '...' + '...'.
+
+These substitutions must be surrounded by vertical bars (|), like:
+
+```html
+<span th:text="|Welcome to our application, ${user.name}!|">
+```
+
+Which is equivalent to:
+
+```html
+<span th:text="'Welcome to our application, ' + ${user.name} + '!'">
+```
+
+Literal substitutions can be combined with other types of expressions:
+
+```html
+<span th:text="${onevar} + ' ' + |${twovar}, ${threevar}|">
+```
+
+```
+Only variable/message expressions (${...}, *{...}, #{...}) are allowed inside |...| literal substitutions. 
+No other literals ('...'), boolean/numeric tokens, conditional expressions etc. are.
 ```

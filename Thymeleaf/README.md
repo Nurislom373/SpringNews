@@ -581,3 +581,644 @@ Literal substitutions can be combined with other types of expressions:
 Only variable/message expressions (${...}, *{...}, #{...}) are allowed inside |...| literal substitutions. 
 No other literals ('...'), boolean/numeric tokens, conditional expressions etc. are.
 ```
+
+### Arithmetic operations
+
+Some arithmetic operations are also available: +, -, *, / and %.
+
+```html
+
+<div th:with="isEven=(${prodStat.count} % 2 == 0)">
+```
+
+### Comparators and Equality
+
+Values in expressions can be compared with the >, <, >= and <= symbols, and the == and != operators can be used to check
+for equality (or the lack of it). Note that XML establishes that the < and > symbols should not be used in attribute
+values, and so they should be substituted by &lt; and &gt;.
+
+```html
+
+<div th:if="${prodStat.count} &gt; 1">
+    <span th:text="'Execution mode is ' + ( (${execMode} == 'dev')? 'Development' : 'Production')">
+```
+
+A simpler alternative may be using textual aliases that exist for some of these operators: gt (>), lt (<), ge (>=),
+le (<=), not (!). Also eq (==), neq/ne (!=).
+
+### Conditional expressions
+
+Conditional expressions are meant to evaluate only one of two expressions depending on the result of evaluating a
+condition (which is itself another expression).
+
+Let’s have a look at an example fragment (introducing another attribute modifier, th:class):
+
+```html
+
+<tr th:class="${row.even}? 'even' : 'odd'">
+    ...
+</tr>
+```
+
+All three parts of a conditional expression (condition, then and else) are themselves expressions, which means that they
+can be variables (${...}, *{...}), messages (#{...}), URLs (@{...}) or literals ('...').
+
+Conditional expressions can also be nested using parentheses:
+
+```html
+
+<tr th:class="${row.even}? (${row.first}? 'first' : 'even') : 'odd'">
+    ...
+</tr>
+```
+
+### Default expressions (Elvis operator)
+
+A default expression is a special kind of conditional value without a then part. It is equivalent to the Elvis operator
+present in some languages like Groovy, lets you specify two expressions: the first one is used if it doesn’t evaluate to
+null, but if it does then the second one is used.
+
+Let’s see it in action in our user profile page:
+
+```html
+
+<div th:object="${session.user}">
+    ...
+    <p>Age: <span th:text="*{age}?: '(no age specified)'">27</span>.</p>
+</div>
+```
+
+As you can see, the operator is ?:, and we use it here to specify a default value for a name (a literal value, in this
+case) only if the result of evaluating *{age} is null. This is therefore equivalent to:
+
+```html
+<p>Age: <span th:text="*{age != null}? *{age} : '(no age specified)'">27</span>.</p>
+```
+
+### Data Conversion / Formatting
+
+Thymeleaf defines a double-brace syntax for variable (${...}) and selection (*{...}) expressions that allows us to apply
+data conversion by means of a configured conversion service.
+
+```html
+
+<td th:text="${{user.lastAccessDate}}">...</td>
+```
+
+Noticed the double brace there?: ${{...}}. That instructs Thymeleaf to pass the result of the user.lastAccessDate
+expression to the conversion service and asks it to perform a formatting operation (a conversion to String) before
+writing the result.
+
+Assuming that user.lastAccessDate is of type java.util.Calendar, if a conversion service (implementation of
+IStandardConversionService) has been registered and contains a valid conversion for Calendar -> String, it will be
+applied.
+
+The default implementation of IStandardConversionService (the StandardConversionService class) simply executes
+.toString() on any object converted to String.
+
+# Setting Attribute Values
+
+This chapter will explain the way in which we can set (or modify) values of attributes in our markup.
+
+### Setting the value of any attribute
+
+```html
+
+<form action="subscribe.html">
+    <fieldset>
+        <input type="text" name="email"/>
+        <input type="submit" value="Subscribe!"/>
+    </fieldset>
+</form>
+```
+
+As with Thymeleaf, this template starts off more like a static prototype than it does a template for a web application.
+First, the action attribute in our form statically links to the template file itself, so that there is no place for
+useful URL rewriting. Second, the value attribute in the submit button makes it display a text in English, but we’d like
+it to be internationalized.
+
+Enter then the th:attr attribute, and its ability to change the value of attributes of the tags it is set in:
+
+```html
+
+<form action="subscribe.html" th:attr="action=@{/subscribe}">
+    <fieldset>
+        <input type="text" name="email"/>
+        <input type="submit" value="Subscribe!" th:attr="value=#{subscribe.submit}"/>
+    </fieldset>
+</form>
+```
+
+Setting more than one value at a time
+
+```html
+<img src="../../images/gtvglogo.png"
+     th:attr="src=@{/images/gtvglogo.png},title=#{logo},alt=#{logo}"/>
+```
+
+Given the required messages files, this will output:
+
+```html
+<img src="/gtgv/images/gtvglogo.png" title="Logo de Good Thymes" alt="Logo de Good Thymes"/>
+```
+
+### Appending and prepending
+
+Thymeleaf also offers the th:attrappend and th:attrprepend attributes, which append (suffix) or prepend (prefix) the
+result of their evaluation to the existing attribute values.
+
+For example, you might want to store the name of a CSS class to be added (not set, just added) to one of your buttons in
+a context variable, because the specific CSS class to be used would depend on something that the user did before:
+
+```html
+<input type="button" value="Do it!" class="btn" th:attrappend="class=${' ' + cssStyle}"/>
+```
+
+If you process this template with the cssStyle variable set to "warning", you will get:
+
+```html
+<input type="button" value="Do it!" class="btn warning"/>
+```
+
+There are also two specific appending attributes in the Standard Dialect: the th:classappend and th:styleappend
+attributes, which are used for adding a CSS class or a fragment of style to an element without overwriting the existing
+ones:
+
+```html
+
+<tr th:each="prod : ${prods}" class="row" th:classappend="${prodStat.odd}? 'odd'">
+```
+
+# Iteration
+
+The Standard Dialect offers us an attribute for exactly that: th:each.
+
+And then we will use th:each in our template to iterate over the list of products:
+
+```html
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+    <link rel="stylesheet" type="text/css" media="all"
+          href="../../../css/gtvg.css" th:href="@{/css/gtvg.css}"/>
+</head>
+
+<body>
+
+<h1>Product list</h1>
+
+<table>
+    <tr>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
+    </tr>
+    <tr th:each="prod : ${prods}">
+        <td th:text="${prod.name}">Onions</td>
+        <td th:text="${prod.price}">2.41</td>
+        <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    </tr>
+</table>
+
+<p>
+    <a href="../home.html" th:href="@{/}">Return to home</a>
+</p>
+
+</body>
+
+</html>
+```
+
+That prod : ${prods} attribute value you see above means “for each element in the result of evaluating ${prods}, repeat
+this fragment of template, using the current element in a variable called prod”. Let’s give a name each of the things we
+see:
+
+- We will call ${prods} the iterated expression or iterated variable.
+- We will call prod the iteration variable or simply iter variable.
+
+Note that the prod iter variable is scoped to the <tr> element, which means it is available to inner tags like <td>.
+
+### Iterable values
+
+The java.util.List class isn’t the only value that can be used for iteration in Thymeleaf. There is a quite complete set
+of objects that are considered iterable by a th:each attribute:
+
+- Any object implementing java.util.Iterable
+- Any object implementing java.util.Enumeration.
+- Any object implementing java.util.Iterator, whose values will be used as they are returned by the iterator, without
+  the need to cache all values in memory.
+- Any object implementing java.util.Map. When iterating maps, iter variables will be of class java.util.Map.Entry.
+- Any object implementing java.util.stream.Stream.
+- Any array.
+- Any other object will be treated as if it were a single-valued list containing the object itself.
+
+When using th:each, Thymeleaf offers a mechanism useful for keeping track of the status of your iteration: the status
+variable.
+
+```html
+
+<table>
+    <tr>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
+    </tr>
+    <tr th:each="prod,iterStat : ${prods}" th:class="${iterStat.odd}? 'odd'">
+        <td th:text="${prod.name}">Onions</td>
+        <td th:text="${prod.price}">2.41</td>
+        <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+    </tr>
+</table>
+```
+
+The status variable (iterStat in this example) is defined in the th:each attribute by writing its name after the iter
+variable itself, separated by a comma. Just like the iter variable, the status variable is also scoped to the fragment
+of code defined by the tag holding the th:each attribute.
+
+Let’s have a look at the result of processing our template:
+
+```html
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>Good Thymes Virtual Grocery</title>
+    <meta content="text/html; charset=UTF-8" http-equiv="Content-Type"/>
+    <link rel="stylesheet" type="text/css" media="all" href="/gtvg/css/gtvg.css"/>
+</head>
+
+<body>
+
+<h1>Product list</h1>
+
+<table>
+    <tr>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
+    </tr>
+    <tr class="odd">
+        <td>Fresh Sweet Basil</td>
+        <td>4.99</td>
+        <td>yes</td>
+    </tr>
+    <tr>
+        <td>Italian Tomato</td>
+        <td>1.25</td>
+        <td>no</td>
+    </tr>
+    <tr class="odd">
+        <td>Yellow Bell Pepper</td>
+        <td>2.50</td>
+        <td>yes</td>
+    </tr>
+    <tr>
+        <td>Old Cheddar</td>
+        <td>18.75</td>
+        <td>yes</td>
+    </tr>
+</table>
+
+<p>
+    <a href="/gtvg/" shape="rect">Return to home</a>
+</p>
+
+</body>
+
+</html>
+```
+
+# Conditional Evaluation
+
+### Simple conditionals: “if” and “unless”
+
+Sometimes you will need a fragment of your template to only appear in the result if a certain condition is met.
+
+For example, imagine we want to show in our product table a column with the number of comments that exist for each
+product and, if there are any comments, a link to the comment detail page for that product.
+
+In order to do this, we would use the th:if attribute:
+
+```html
+
+<table>
+    <tr>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
+        <th>COMMENTS</th>
+    </tr>
+    <tr th:each="prod : ${prods}" th:class="${prodStat.odd}? 'odd'">
+        <td th:text="${prod.name}">Onions</td>
+        <td th:text="${prod.price}">2.41</td>
+        <td th:text="${prod.inStock}? #{true} : #{false}">yes</td>
+        <td>
+            <span th:text="${#lists.size(prod.comments)}">2</span> comment/s
+            <a href="comments.html"
+               th:href="@{/product/comments(prodId=${prod.id})}"
+               th:if="${not #lists.isEmpty(prod.comments)}">view</a>
+        </td>
+    </tr>
+</table>
+```
+
+Let’s have a look at the resulting markup:
+
+```html
+
+<table>
+    <tr>
+        <th>NAME</th>
+        <th>PRICE</th>
+        <th>IN STOCK</th>
+        <th>COMMENTS</th>
+    </tr>
+    <tr>
+        <td>Fresh Sweet Basil</td>
+        <td>4.99</td>
+        <td>yes</td>
+        <td>
+            <span>0</span> comment/s
+        </td>
+    </tr>
+    <tr class="odd">
+        <td>Italian Tomato</td>
+        <td>1.25</td>
+        <td>no</td>
+        <td>
+            <span>2</span> comment/s
+            <a href="/gtvg/product/comments?prodId=2">view</a>
+        </td>
+    </tr>
+    <tr>
+        <td>Yellow Bell Pepper</td>
+        <td>2.50</td>
+        <td>yes</td>
+        <td>
+            <span>0</span> comment/s
+        </td>
+    </tr>
+    <tr class="odd">
+        <td>Old Cheddar</td>
+        <td>18.75</td>
+        <td>yes</td>
+        <td>
+            <span>1</span> comment/s
+            <a href="/gtvg/product/comments?prodId=4">view</a>
+        </td>
+    </tr>
+</table>
+```
+
+### Switch statements
+
+There is also a way to display content conditionally using the equivalent of a switch structure in Java: the th:switch /
+th:case attribute set.
+
+```html
+
+<div th:switch="${user.role}">
+    <p th:case="'admin'">User is an administrator</p>
+    <p th:case="#{roles.manager}">User is a manager</p>
+</div>
+```
+
+# Template Layout
+
+### Including template fragments
+
+In our templates, we will often want to include parts from other templates, parts like footers, headers, menus…
+
+In order to do this, Thymeleaf needs us to define these parts, “fragments”, for inclusion, which can be done using the
+th:fragment attribute.
+
+Say we want to add a standard copyright footer to all our grocery pages, so we create a /WEB-INF/templates/footer.html
+file containing this code:
+
+```html
+<!DOCTYPE html>
+
+<html xmlns:th="http://www.thymeleaf.org">
+
+<body>
+
+<div th:fragment="copy">
+    &copy; 2011 The Good Thymes Virtual Grocery
+</div>
+
+</body>
+
+</html>
+```
+
+The code above defines a fragment called copy that we can easily include in our home page using one of the th:insert or
+th:replace attributes:
+
+```html
+
+<body>
+
+...
+
+<div th:insert="~{footer :: copy}"></div>
+
+</body>
+```
+
+```html
+
+<div th:insert="~{ footer :: (${user.isAdmin}? #{footer.admin} : #{footer.normaluser}) }"></div>
+```
+
+### Difference between th:insert and th:replace
+
+- th:insert will simply insert the specified fragment as the body of its host tag.
+- th:replace actually replaces its host tag with the specified fragment.
+
+```html
+
+<footer th:fragment="copy">
+    &copy; 2011 The Good Thymes Virtual Grocery
+</footer>
+```
+
+…included twice in host <div> tags, like this:
+
+```html
+
+<body>
+
+...
+
+<div th:insert="~{footer :: copy}"></div>
+
+<div th:replace="~{footer :: copy}"></div>
+
+</body>
+```
+
+…will result in:
+
+```html
+
+<body>
+
+...
+
+<div>
+    <footer>
+        &copy; 2011 The Good Thymes Virtual Grocery
+    </footer>
+</div>
+
+<footer>
+    &copy; 2011 The Good Thymes Virtual Grocery
+</footer>
+
+</body>
+```
+
+### Parameterizable fragment signatures
+
+In order to create a more function-like mechanism for template fragments, fragments defined with th:fragment can specify
+a set of parameters:
+
+```html
+
+<div th:fragment="frag (onevar,twovar)">
+    <p th:text="${onevar} + ' - ' + ${twovar}">...</p>
+</div>
+```
+
+This requires the use of one of these two syntaxes to call the fragment from th:insert or th:replace:
+
+```html
+
+<div th:replace="~{ ::frag (${value1},${value2}) }">...</div>
+<div th:replace="~{ ::frag (onevar=${value1},twovar=${value2}) }">...</div>
+```
+
+Note that order is not important in the last option:
+
+```html
+
+<div th:replace="~{ ::frag (twovar=${value2},onevar=${value1}) }">...</div>
+```
+
+### Flexible layouts: beyond mere fragment insertion
+
+Thanks to fragment expressions, we can specify parameters for fragments that are not texts, numbers, bean objects… but
+instead fragments of markup.
+
+This allows us to create our fragments in a way such that they can be enriched with markup coming from the calling
+templates, resulting in a very flexible template layout mechanism.
+
+Note the use of the title and links variables in the fragment below:
+
+```html
+
+<head th:fragment="common_header(title,links)">
+
+    <title th:replace="${title}">The awesome application</title>
+
+    <!-- Common styles and scripts -->
+    <link rel="stylesheet" type="text/css" media="all" th:href="@{/css/awesomeapp.css}">
+    <link rel="shortcut icon" th:href="@{/images/favicon.ico}">
+    <script type="text/javascript" th:src="@{/sh/scripts/codebase.js}"></script>
+
+    <!--/* Per-page placeholder for additional links */-->
+    <th:block th:replace="${links}"/>
+
+</head>
+```
+
+We can now call this fragment like:
+
+```html
+...
+<head th:replace="~{ base :: common_header(~{::title},~{::link}) }">
+
+    <title>Awesome - Main</title>
+
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+    <link rel="stylesheet" th:href="@{/themes/smoothness/jquery-ui.css}">
+
+</head>
+...
+```
+
+…and the result will use the actual <title> and <link> tags from our calling template as the values of the title and
+links variables, resulting in our fragment being customized during insertion:
+
+```html
+...
+<head>
+
+    <title>Awesome - Main</title>
+
+    <!-- Common styles and scripts -->
+    <link rel="stylesheet" type="text/css" media="all" href="/awe/css/awesomeapp.css">
+    <link rel="shortcut icon" href="/awe/images/favicon.ico">
+    <script type="text/javascript" src="/awe/sh/scripts/codebase.js"></script>
+
+    <link rel="stylesheet" href="/awe/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/awe/themes/smoothness/jquery-ui.css">
+
+</head>
+...
+```
+
+# Local Variables
+
+Thymeleaf calls local variables the variables that are defined for a specific fragment of a template, and are only
+available for evaluation inside that fragment.
+
+An example we have already seen is the prod iter variable in our product list page:
+
+```html
+
+<tr th:each="prod : ${prods}">
+    ...
+</tr>
+```
+
+Thymeleaf offers you a way to declare local variables without iteration, using the th:with attribute, and its syntax is
+like that of attribute value assignments:
+
+```html
+
+<div th:with="firstPer=${persons[0]}">
+    <p>
+        The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+    </p>
+</div>
+```
+
+When th:with is processed, that firstPer variable is created as a local variable and added to the variables map coming
+from the context, so that it is available for evaluation along with any other variables declared in the context, but
+only within the bounds of the containing <div> tag.
+
+You can define several variables at the same time using the usual multiple assignment syntax:
+
+```html
+<div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
+  <p>
+    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+  </p>
+  <p>
+    But the name of the second person is 
+    <span th:text="${secondPer.name}">Marcus Antonius</span>.
+  </p>
+</div>
+```
+
+# Attribute Precedence
+
+![img](static/images/img.png)
+
+

@@ -676,6 +676,24 @@ applied.
 The default implementation of IStandardConversionService (the StandardConversionService class) simply executes
 .toString() on any object converted to String.
 
+```html
+
+<tr th:each="student: ${students}">
+    <td th:text="${{student.name}}"/>
+</tr>
+```
+
+We can also use the #conversions utility to convert objects for display. The syntax for the utility function is
+#conversions.convert(Object, Class) where Object is converted to Class type.
+
+Here's how to display student object percentage field with the fractional part removed:
+
+```html
+<tr th:each="student: ${students}">
+    <td th:text="${#conversions.convert(student.percentage, 'Integer')}" />
+</tr>
+```
+
 # Setting Attribute Values
 
 This chapter will explain the way in which we can set (or modify) values of attributes in our markup.
@@ -903,6 +921,14 @@ For example, imagine we want to show in our product table a column with the numb
 product and, if there are any comments, a link to the comment detail page for that product.
 
 In order to do this, we would use the th:if attribute:
+
+```html
+
+<td>
+    <span th:if="${student.gender} == 'M'" th:text="Male"/>
+    <span th:unless="${student.gender} == 'M'" th:text="Female"/>
+</td>
+```
 
 ```html
 
@@ -1206,19 +1232,80 @@ only within the bounds of the containing <div> tag.
 You can define several variables at the same time using the usual multiple assignment syntax:
 
 ```html
+
 <div th:with="firstPer=${persons[0]},secondPer=${persons[1]}">
-  <p>
-    The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
-  </p>
-  <p>
-    But the name of the second person is 
-    <span th:text="${secondPer.name}">Marcus Antonius</span>.
-  </p>
+    <p>
+        The name of the first person is <span th:text="${firstPer.name}">Julius Caesar</span>.
+    </p>
+    <p>
+        But the name of the second person is
+        <span th:text="${secondPer.name}">Marcus Antonius</span>.
+    </p>
 </div>
 ```
 
 # Attribute Precedence
 
 ![img](static/images/img.png)
+
+# Displaying Validation Errors
+
+We can use the #fields.hasErrors() function to check if a field has any validation errors. And we use the
+#fields.errors() function to display errors for a particular field. The field name is the input parameter for both these
+functions.
+
+Let's take a look at the HTML code to iterate and display the errors for each of the fields in the form:
+
+```html
+
+<ul>
+    <li th:each="err : ${#fields.errors('id')}" th:text="${err}"/>
+    <li th:each="err : ${#fields.errors('name')}" th:text="${err}"/>
+</ul>
+```
+
+Instead of field name, the above functions accept the wild card character * or the constant all to indicate all fields.
+We used the th:each attribute to iterate the multiple errors that may be present for each of the fields.
+
+Here's the previous HTML code rewritten using the wildcard *:
+
+```html
+
+<ul>
+    <li th:each="err : ${#fields.errors('*')}" th:text="${err}"/>
+</ul>
+```
+
+And here we're using the constant all:
+
+```html
+
+<ul>
+    <li th:each="err : ${#fields.errors('all')}" th:text="${err}"/>
+</ul>
+```
+
+Similarly, we can display global errors in Spring using the global constant.
+
+Here's the HTML code to display global errors:
+
+```html
+
+<ul>
+    <li th:each="err : ${#fields.errors('global')}" th:text="${err}"/>
+</ul>
+```
+
+Also, we can use the th:errors attribute to display error messages.
+
+The previous code to display errors in the form can be rewritten using th:errors attribute:
+
+```html
+
+<ul>
+    <li th:errors="*{id}"/>
+    <li th:errors="*{name}"/>
+</ul>
+```
 
 

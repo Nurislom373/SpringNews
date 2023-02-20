@@ -10,6 +10,8 @@
 
 <span th:text="|Welcome to our application, ${message}!|"></span>
 
+<span th:text="|Welcome to our application, ${#fields.errors()}!|"></span>
+
 <!--  Which is equivalent to:   -->
 <br>
 <span th:text="'Welcome to our application, ' + ${message} + '!'"></span>

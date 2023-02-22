@@ -18,6 +18,7 @@
         <module name="Thymeleaf" />
         <module name="SpringBootResilience4j" />
         <module name="SpringExpressionLanguage" />
+        <module name="SpringJdbcTemplate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -33,6 +34,7 @@
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
       <module name="SpringExpressionLanguage" options="-parameters" />
+      <module name="SpringJdbcTemplate" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />

@@ -22,16 +22,16 @@ Let's start with some simple configuration of the data source.
 @Configuration
 @ComponentScan("com.baeldung.jdbc")
 public class SpringJdbcConfig {
-    @Bean
-    public DataSource mysqlDataSource() {
-        DriverManagerDataSource dataSource = new DriverManagerDataSource();
-        dataSource.setDriverClassName("com.mysql.jdbc.Driver");
-        dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
-        dataSource.setUsername("guest_user");
-        dataSource.setPassword("guest_password");
+  @Bean
+  public DataSource mysqlDataSource() {
+    DriverManagerDataSource dataSource = new DriverManagerDataSource();
+    dataSource.setDriverClassName("com.mysql.jdbc.Driver");
+    dataSource.setUrl("jdbc:mysql://localhost:3306/springjdbc");
+    dataSource.setUsername("guest_user");
+    dataSource.setPassword("guest_password");
 
-        return dataSource;
-    }
+    return dataSource;
+  }
 }
 ```
 
@@ -74,9 +74,9 @@ As with every Spring Boot starter, this one helps us get our application up and 
     <artifactId>spring-boot-starter-jdbc</artifactId>
 </dependency>
 <dependency>
-<groupId>mysql</groupId>
-<artifactId>mysql-connector-java</artifactId>
-<scope>runtime</scope>
+    <groupId>mysql</groupId>
+    <artifactId>mysql-connector-java</artifactId>
+    <scope>runtime</scope>
 </dependency>
 ```
 
@@ -111,9 +111,8 @@ int result=jdbcTemplate.queryForObject(
 
 ```java
 public int addEmplyee(int id){
-        return jdbcTemplate.update(
-        "INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?)",id,"Bill","Gates","USA");
-        }
+    return jdbcTemplate.update("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?)",id,"Bill","Gates","USA");
+}
 ```
 
 Notice the standard syntax of providing parameters using the ? character.
@@ -131,8 +130,7 @@ run the queries:
 
 ```java
 SqlParameterSource namedParameters=new MapSqlParameterSource().addValue("id",1);
-        return namedParameterJdbcTemplate.queryForObject(
-        "SELECT FIRST_NAME FROM EMPLOYEE WHERE ID = :id",namedParameters,String.class);
+return namedParameterJdbcTemplate.queryForObject("SELECT FIRST_NAME FROM EMPLOYEE WHERE ID = :id",namedParameters,String.class);
 ```
 
 Notice how we are using the MapSqlParameterSource to provide the values for the named parameters.
@@ -141,13 +139,12 @@ Let's look at using properties from a bean to determine the named parameters:
 
 ```java
 Employee employee=new Employee();
-        employee.setFirstName("James");
+employee.setFirstName("James");
 
-        String SELECT_BY_ID="SELECT COUNT(*) FROM EMPLOYEE WHERE FIRST_NAME = :firstName";
+String SELECT_BY_ID="SELECT COUNT(*) FROM EMPLOYEE WHERE FIRST_NAME = :firstName";
 
-        SqlParameterSource namedParameters=new BeanPropertySqlParameterSource(employee);
-        return namedParameterJdbcTemplate.queryForObject(
-        SELECT_BY_ID,namedParameters,Integer.class);
+SqlParameterSource namedParameters=new BeanPropertySqlParameterSource(employee);
+return namedParameterJdbcTemplate.queryForObject(SELECT_BY_ID,namedParameters,Integer.class);
 ```
 
 ## Mapping Query Results to Java Object
@@ -176,8 +173,7 @@ Subsequently, we can now pass the row mapper to the query API and get fully popu
 
 ```java
 String query="SELECT * FROM EMPLOYEE WHERE ID = ?";
-        Employee employee=jdbcTemplate.queryForObject(
-        query,new Object[]{id},new EmployeeRowMapper());
+Employee employee=jdbcTemplate.queryForObject(query,new Object[]{id},new EmployeeRowMapper());
 ```
 
 # JDBC Operations Using SimpleJdbc Classes
@@ -206,34 +202,33 @@ statementi SimpleJdbcInsert asosida yaratilgan. Bizga kerak bo'ladigan yagona na
 ko'rsatish.
 
 ```java
-SimpleJdbcInsert simpleJdbcInsert=
-        new SimpleJdbcInsert(dataSource).withTableName("EMPLOYEE");
+SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(dataSource).withTableName("EMPLOYEE");
 ```
 
 Columns va values
 
 ```java
-public int addEmplyee(Employee emp){
-        Map<String, Object> parameters=new HashMap<String, Object>();
-        parameters.put("ID",emp.getId());
-        parameters.put("FIRST_NAME",emp.getFirstName());
-        parameters.put("LAST_NAME",emp.getLastName());
-        parameters.put("ADDRESS",emp.getAddress());
+public int addEmplyee(Employee emp) {
+    Map<String, Object> parameters=new HashMap<String, Object>();
+    parameters.put("ID",emp.getId());
+    parameters.put("FIRST_NAME",emp.getFirstName());
+    parameters.put("LAST_NAME",emp.getLastName());
+    parameters.put("ADDRESS",emp.getAddress());
 
-        return simpleJdbcInsert.execute(parameters);
-        }
+    return simpleJdbcInsert.execute(parameters);
+}
 ```
 
 Further, we can use the executeAndReturnKey() API to allow the database to generate the primary key. We'll also need to
 configure the actual auto-generated column:
 
 ```java
-SimpleJdbcInsert simpleJdbcInsert=new SimpleJdbcInsert(dataSource)
+SimpleJdbcInsert simpleJdbcInsert = new SimpleJdbcInsert(dataSource)
         .withTableName("EMPLOYEE")
         .usingGeneratedKeyColumns("ID");
 
-        Number id=simpleJdbcInsert.executeAndReturnKey(parameters);
-        System.out.println("Generated id - "+id.longValue());
+Number id = simpleJdbcInsert.executeAndReturnKey(parameters);
+System.out.println("Generated id - "+id.longValue());
 ```
 
 ## SimpleJdbcCall
@@ -243,21 +238,21 @@ Let's also take a look at running stored procedures.
 We'll make use of the SimpleJdbcCall abstraction:
 
 ```java
-SimpleJdbcCall simpleJdbcCall=new SimpleJdbcCall(dataSource)
+SimpleJdbcCall simpleJdbcCall = new SimpleJdbcCall(dataSource)
         .withProcedureName("READ_EMPLOYEE");
 ```
 
 ```java
 public Employee getEmployeeUsingSimpleJdbcCall(int id){
-        SqlParameterSource in=new MapSqlParameterSource().addValue("in_id",id);
-        Map<String, Object> out=simpleJdbcCall.execute(in);
+    SqlParameterSource in=new MapSqlParameterSource().addValue("in_id",id);
+    Map<String, Object> out=simpleJdbcCall.execute(in);
 
-        Employee emp=new Employee();
-        emp.setFirstName((String)out.get("FIRST_NAME"));
-        emp.setLastName((String)out.get("LAST_NAME"));
+    Employee emp=new Employee();
+    emp.setFirstName((String)out.get("FIRST_NAME"));
+    emp.setLastName((String)out.get("LAST_NAME"));
 
-        return emp;
-        }
+    return emp;
+}
 ```
 
 # JDBC Batch Operations
@@ -273,20 +268,20 @@ The interesting part here is the concise but highly useful BatchPreparedStatemen
 ```java
 public int[]batchUpdateUsingJdbcTemplate(List<Employee> employees){
         return jdbcTemplate.batchUpdate("INSERT INTO EMPLOYEE VALUES (?, ?, ?, ?)",
-        new BatchPreparedStatementSetter(){
-@Override
-public void setValues(PreparedStatement ps,int i)throws SQLException{
-        ps.setInt(1,employees.get(i).getId());
-        ps.setString(2,employees.get(i).getFirstName());
-        ps.setString(3,employees.get(i).getLastName());
-        ps.setString(4,employees.get(i).getAddress();
-        }
-@Override
-public int getBatchSize(){
-        return 50;
-        }
+            new BatchPreparedStatementSetter(){
+                @Override
+                public void setValues(PreparedStatement ps,int i)throws SQLException{
+                    ps.setInt(1,employees.get(i).getId());
+                    ps.setString(2,employees.get(i).getFirstName());
+                    ps.setString(3,employees.get(i).getLastName());
+                    ps.setString(4,employees.get(i).getAddress();
+                }
+                @Override
+                public int getBatchSize(){
+                    return 50; 
+                }
         });
-        }
+}
 ```
 
 ## Batch Operations Using NamedParameterJdbcTemplate
@@ -299,8 +294,8 @@ as it has an internal prepared statement setter to set the parameter values.
 Instead, the parameter values can be passed to the batchUpdate() method as an array of SqlParameterSource.
 
 ```java
-SqlParameterSource[]batch=SqlParameterSourceUtils.createBatch(employees.toArray());
-        int[]updateCounts=namedParameterJdbcTemplate.batchUpdate(
-        "INSERT INTO EMPLOYEE VALUES (:id, :firstName, :lastName, :address)",batch);
-        return updateCounts;
+SqlParameterSource[] batch = SqlParameterSourceUtils.createBatch(employees.toArray());
+int[] updateCounts = namedParameterJdbcTemplate.batchUpdate("INSERT INTO EMPLOYEE VALUES " +
+        "(:id, :firstName, :lastName, :address)",batch);
+return updateCounts;
 ```

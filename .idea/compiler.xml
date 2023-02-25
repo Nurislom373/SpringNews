@@ -7,18 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SpringBootNew" />
+        <module name="SpringReactiveR2DBC" />
+        <module name="SpringExpressionLanguage" />
+        <module name="SpringJdbcTemplate" />
+        <module name="JacksonBoot" />
         <module name="SpringMVC6" />
         <module name="SpringAOP" />
         <module name="ServiceOne" />
-        <module name="SpringBootNew" />
         <module name="JpaSpecification" />
         <module name="Spring-Batch" />
         <module name="ServiceTwo" />
-        <module name="SpringReactiveR2DBC" />
         <module name="Thymeleaf" />
         <module name="SpringBootResilience4j" />
-        <module name="SpringExpressionLanguage" />
-        <module name="SpringJdbcTemplate" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -27,6 +28,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />

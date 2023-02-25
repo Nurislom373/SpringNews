@@ -19,6 +19,7 @@
         <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
         <option value="$PROJECT_DIR$/Thymeleaf/pom.xml" />
         <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
+        <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
       </list>
     </option>
   </component>

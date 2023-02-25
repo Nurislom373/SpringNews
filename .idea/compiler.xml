@@ -21,6 +21,14 @@
         <module name="Thymeleaf" />
         <module name="SpringBootResilience4j" />
       </profile>
+      <profile name="Gradle Imported" enabled="true">
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.springframework.boot/spring-boot-configuration-processor/3.0.2/9a921dedf1930388289f0e68f7e7808f3389dcae/spring-boot-configuration-processor-3.0.2.jar" />
+          <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
+        </processorPath>
+        <module name="JDBCTemplate.main" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="SpringQueryDSL" target="17" />

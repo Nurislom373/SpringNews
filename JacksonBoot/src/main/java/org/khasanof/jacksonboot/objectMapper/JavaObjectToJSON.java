@@ -20,7 +20,7 @@ import java.net.URL;
  * <br/>
  * Package: org.khasanof.jacksonboot.objectMapper
  */
-@Component
+//@Component
 @Slf4j
 public class JavaObjectToJSON implements CommandLineRunner {
 

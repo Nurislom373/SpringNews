@@ -26,11 +26,13 @@ We can configure this class as a bean in the Java configuration file:
 ```java
 @Bean
 @Description("Thymeleaf Template Resolver")
-public ServletContextTemplateResolver templateResolver() {
-    ServletContextTemplateResolver templateResolver = new ServletContextTemplateResolver();
+public ClassLoaderTemplateResolver templateResolver() {
+    ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
     templateResolver.setPrefix("/WEB-INF/views/");
+    templateResolver.setCacheable(false);
     templateResolver.setSuffix(".html");
     templateResolver.setTemplateMode("HTML5");
+    templateResolver.setCharacterEncoding("UTF-8");
     return templateResolver;
 }
 

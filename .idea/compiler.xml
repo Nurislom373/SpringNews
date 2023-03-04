@@ -7,19 +7,16 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringBootNew" />
         <module name="SpringReactiveR2DBC" />
         <module name="SpringExpressionLanguage" />
         <module name="SpringJdbcTemplate" />
         <module name="JacksonBoot" />
         <module name="SpringMVC6" />
         <module name="SpringAOP" />
-        <module name="ServiceOne" />
         <module name="JpaSpecification" />
         <module name="Spring-Batch" />
-        <module name="ServiceTwo" />
+        <module name="Spring6Thymeleaf" />
         <module name="Thymeleaf" />
-        <module name="SpringBootResilience4j" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -31,6 +28,9 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="ServiceOne" target="17" />
+      <module name="ServiceTwo" target="17" />
+      <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringQueryDSL" target="17" />
     </bytecodeTargetLevel>
   </component>
@@ -41,6 +41,7 @@
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
+      <module name="Spring6Thymeleaf" options="" />
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
       <module name="SpringExpressionLanguage" options="-parameters" />

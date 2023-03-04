@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/JDBCTemplate" />
+    <file type="web" url="file://$PROJECT_DIR$/Spring6Thymeleaf" />
     <file type="web" url="file://$PROJECT_DIR$/SpringSecurityOAuth2" />
   </component>
   <component name="MavenProjectsManager">
@@ -11,8 +12,6 @@
         <option value="$PROJECT_DIR$/pom.xml" />
         <option value="$PROJECT_DIR$/JpaSpecification/pom.xml" />
         <option value="$PROJECT_DIR$/SpringBatch/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringBootResilience4j/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringBootResilience4j/ServiceTwo/pom.xml" />
         <option value="$PROJECT_DIR$/SpringReactiveR2DBC/pom.xml" />
         <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
         <option value="$PROJECT_DIR$/SpringMVC6/pom.xml" />

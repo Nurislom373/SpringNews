@@ -7,6 +7,10 @@
     <groupId>org.khasanof</groupId>
     <artifactId>SpringBootNew</artifactId>
     <version>1.0-SNAPSHOT</version>
+    <packaging>pom</packaging>
+    <modules>
+        <module>Spring6Thymeleaf</module>
+    </modules>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

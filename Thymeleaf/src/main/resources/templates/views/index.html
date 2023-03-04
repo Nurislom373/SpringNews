@@ -12,6 +12,8 @@
 
 <span th:text="|Welcome to our application, ${#fields.errors()}!|"></span>
 
+<span th:text="|Welcome to our application, ${#conversions.convert()}!|"></span>
+
 <!--  Which is equivalent to:   -->
 <br>
 <span th:text="'Welcome to our application, ' + ${message} + '!'"></span>

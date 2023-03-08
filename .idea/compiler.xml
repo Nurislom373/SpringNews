@@ -7,16 +7,17 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringReactiveR2DBC" />
-        <module name="SpringExpressionLanguage" />
-        <module name="SpringJdbcTemplate" />
-        <module name="JacksonBoot" />
         <module name="SpringMVC6" />
         <module name="SpringAOP" />
         <module name="JpaSpecification" />
         <module name="Spring-Batch" />
+        <module name="SpringReactiveR2DBC" />
         <module name="Spring6Thymeleaf" />
         <module name="Thymeleaf" />
+        <module name="MapStruct" />
+        <module name="SpringExpressionLanguage" />
+        <module name="SpringJdbcTemplate" />
+        <module name="JacksonBoot" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />

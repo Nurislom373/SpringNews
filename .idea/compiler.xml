@@ -8,14 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SpringMVC6" />
-        <module name="SpringAOP" />
-        <module name="JpaSpecification" />
-        <module name="Spring-Batch" />
-        <module name="SpringReactiveR2DBC" />
+        <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
-        <module name="Thymeleaf" />
         <module name="MapStruct" />
-        <module name="SpringExpressionLanguage" />
         <module name="SpringJdbcTemplate" />
         <module name="JacksonBoot" />
       </profile>
@@ -29,10 +24,16 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JpaSpecification" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
+      <module name="Spring-Batch" target="17" />
+      <module name="SpringAOP" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
+      <module name="SpringExpressionLanguage" target="17" />
       <module name="SpringQueryDSL" target="17" />
+      <module name="SpringReactiveR2DBC" target="17" />
+      <module name="Thymeleaf" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -50,6 +51,7 @@
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
+      <module name="WebFlux" options="-parameters" />
     </option>
   </component>
 </project>

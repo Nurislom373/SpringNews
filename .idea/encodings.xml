@@ -24,5 +24,6 @@
     <file url="file://$PROJECT_DIR$/SpringReactiveR2DBC/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Thymeleaf/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Thymeleaf/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebFlux/src/main/java" charset="UTF-8" />
   </component>
 </project>

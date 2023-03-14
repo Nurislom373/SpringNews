@@ -10,15 +10,10 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/JpaSpecification/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringBatch/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringReactiveR2DBC/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
         <option value="$PROJECT_DIR$/SpringMVC6/pom.xml" />
-        <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
-        <option value="$PROJECT_DIR$/Thymeleaf/pom.xml" />
         <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
       </list>
     </option>
   </component>

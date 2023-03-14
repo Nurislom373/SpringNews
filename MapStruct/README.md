@@ -19,7 +19,6 @@ To create a mapper simply define a Java interface with the required mapping meth
 `org.mapstruct.Mapper` annotation:
 
 ```java
-
 @Mapper
 public interface CarMapper {
 
@@ -115,7 +114,6 @@ ElementType#ANNOTATION_TYPE in addition to ElementType#METHOD. This allows @Mapp
 annotations for re-use purposes. For example:
 
 ```java
-
 @Retention(RetentionPolicy.CLASS)
 @Mapping(target = "id", ignore = true)
 @Mapping(target = "creationDate", expression = "java(new java.util.Date())")
@@ -128,7 +126,6 @@ Can be used to characterise an Entity without the need to have a common base typ
 BoxEntity do not share a common base type in the StorageMapper below.
 
 ```java
-
 @Mapper
 public interface StorageMapper {
 
@@ -167,7 +164,6 @@ As an example let’s assume the mapping from Person to PersonDto requires some 
 MapStruct. You could then define the mapper from the previous example like this:
 
 ```java
-
 @Mapper
 public interface CarMapper {
 
@@ -188,7 +184,6 @@ MapStruct also supports mapping methods with several source parameters. This is 
 entities into one data transfer object.
 
 ```java
-
 @Mapper
 public interface AddressMapper {
 
@@ -207,7 +202,6 @@ If you don’t want explicitly name all properties from nested source bean, you 
 MapStruct to map every property from source bean to target object.
 
 ```java
-
 @Mapper
 public interface CustomerMapper {
 
@@ -228,7 +222,6 @@ instance of that type. This sort of mapping can be realized by adding a paramete
 parameter with `@MappingTarget`.
 
 ```java
-
 @Mapper
 public interface CarMapper {
 
@@ -340,7 +333,6 @@ source bean but of type String in the target bean, the generated code will trans
 String#valueOf(int) and Integer#parseInt(String), respectively.
 
 ```java
-
 @Mapper
 public interface CarMapper {
 
@@ -353,7 +345,6 @@ public interface CarMapper {
 ```
 
 ```java
-
 @Mapper
 public interface CarMapper {
 
@@ -371,7 +362,6 @@ As explained above, MapStruct will generate a method based on the name of the so
 in many occasions these names do not match.
 
 ```java
-
 @Mapper
 public interface FishTankMapper {
 
@@ -475,7 +465,7 @@ When generating code for the implementation of the carToCarDto() method, MapStru
 Date object into a String, find it on the DateMapper class and generate an invocation of asString() for mapping the
 manufacturingDate attribute.
 
-## Passing the mapping target type to custom mappers 
+## Passing the mapping target type to custom mappers
 
 When having a custom mapper hooked into the generated mapper with @Mapper#uses(), an additional parameter of type
 Class (or a super-type of it) can be defined in the custom mapping method in order to perform general mapping tasks for
@@ -494,17 +484,764 @@ public class ReferenceMapper {
     private EntityManager entityManager;
 
     public <T extends BaseEntity> T resolve(Reference reference, @TargetType Class<T> entityClass) {
-        return reference != null ? entityManager.find( entityClass, reference.getPk() ) : null;
+        return reference != null ? entityManager.find(entityClass, reference.getPk()) : null;
     }
 
     public Reference toReference(BaseEntity entity) {
-        return entity != null ? new Reference( entity.getPk() ) : null;
+        return entity != null ? new Reference(entity.getPk()) : null;
     }
 }
 
-@Mapper(componentModel = MappingConstants.ComponentModel.CDI, uses = ReferenceMapper.class )
+@Mapper(componentModel = MappingConstants.ComponentModel.CDI, uses = ReferenceMapper.class)
 public interface CarMapper {
 
     Car carDtoToCar(CarDto carDto);
 }
 ```
+
+# Mapping collections
+
+The mapping of collection types (List, Set etc.) is done in the same way as mapping bean types, i.e. by defining mapping
+methods with the required source and target types in a mapper interface. MapStruct supports a wide range of iterable
+types from the Java Collection Framework.
+
+```java
+@Mapper
+public interface CarMapper {
+
+    Set<String> integerSetToStringSet(Set<Integer> integers);
+
+    List<CarDto> carsToCarDtos(List<Car> cars);
+
+    CarDto carToCarDto(Car car);
+}
+```
+
+The generated implementation of the integerSetToStringSet performs the conversion from Integer to String for each
+element, while the generated carsToCarDtos() method invokes the carToCarDto() method for each contained element as shown
+in the following:
+
+```java
+//GENERATED CODE
+@Override
+public Set<String> integerSetToStringSet(Set<Integer> integers) {
+    if(integers==null){
+        return null;
+    }
+
+    Set<String> set=new LinkedHashSet<String>();
+
+    for(Integer integer : integers) {
+        set.add(String.valueOf(integer));
+    }
+
+    return set;
+}
+
+@Override
+public List<CarDto> carsToCarDtos(List<Car> cars) {
+    if(cars == null){
+        return null;
+    }
+
+    List<CarDto> list=new ArrayList<CarDto>();
+
+    for(Car car : cars) {
+        list.add(carToCarDto(car));
+    }
+
+    return list;
+}
+```
+
+## Mapping maps
+
+Also map-based mapping methods are supported.
+
+```java
+public interface SourceTargetMapper {
+
+    @MapMapping(valueDateFormat = "dd.MM.yyyy")
+    Map<String, String> longDateMapToStringStringMap(Map<Long, Date> source);
+}
+```
+
+Similar to iterable mappings, the generated code will iterate through the source map, convert each value and key (either
+by means of an implicit conversion or by invoking another mapping method) and put them into the target map:
+
+```java
+//GENERATED CODE
+@Override
+public Map<Long, Date> stringStringMapToLongDateMap(Map<String, String> source) {
+    if ( source == null ) {
+        return null;
+    }
+
+    Map<Long, Date> map = new LinkedHashMap<Long, Date>();
+
+    for ( Map.Entry<String, String> entry : source.entrySet() ) {
+
+        Long key = Long.parseLong( entry.getKey() );
+        Date value;
+    try {
+        value = new SimpleDateFormat( "dd.MM.yyyy" ).parse( entry.getValue() );
+    } catch( ParseException e ) {
+        throw new RuntimeException( e );
+    }
+
+        map.put( key, value );
+    }
+    
+    return map;
+}
+```
+
+## Implementation types used for collection mappings
+
+When an iterable or map mapping method declares an interface type as return type, one of its implementation types will
+be instantiated in the generated code. The following table shows the supported interface types and their corresponding
+implementation types as instantiated in the generated code:
+
+<table>
+  <tr>
+    <th>Interface Type</th>
+    <th>Implementation Type</th>
+  </tr>
+  <tr>
+    <td>Iterable</td>
+    <td>ArrayList</td>
+  </tr>
+  <tr>
+    <td>Collection</td>
+    <td>ArrayList</td>
+  </tr>
+  <tr>
+    <td>List</td>
+    <td>ArrayList</td>
+  </tr>
+  <tr>
+    <td>Set</td>
+    <td>LinkedHashSet</td>
+  </tr>
+  <tr>
+    <td>SortedSet</td>
+    <td>TreeSet</td>
+  </tr>
+  <tr>
+    <td>NavigableSet</td>
+    <td>TreeSet</td>
+  </tr>
+  <tr>
+    <td>Map</td>
+    <td>LinkedHashMap</td>
+  </tr>
+  <tr>
+    <td>ConcurrentMap</td>
+    <td>ConcurrentHashMap</td>
+  </tr>
+  <tr>
+    <td>ConcurrentNavigableMap</td>
+    <td>ConcurrentSkipListMap</td>
+  </tr>
+</table>
+
+# Mapping Streams
+
+The mapping of java.util.Stream is done in a similar way as the mapping of collection types, i.e. by defining mapping
+methods with the required source and target types in a mapper interface.
+
+```java
+@Mapper
+public interface CarMapper {
+
+    Set<String> integerStreamToStringSet(Stream<Integer> integers);
+
+    List<CarDto> carsToCarDtos(Stream<Car> cars);
+
+    CarDto carToCarDto(Car car);
+}
+```
+
+The generated implementation of the integerStreamToStringSet() performs the conversion from Integer to String for each
+element, while the generated carsToCarDtos() method invokes the carToCarDto() method for each contained element as shown
+in the following:
+
+```java
+//GENERATED CODE
+@Override
+public Set<String> integerStreamToStringSet(Stream<Integer> integers){
+    if (integers == null) {
+        return null;
+    }
+
+    return integers.map(integer -> String.valueOf(integer))
+        .collect(Collectors.toCollection(LinkedHashSet<String>::new));
+    }
+
+@Override
+public List<CarDto> carsToCarDtos(Stream<Car> cars){
+    if(cars == null) {
+        return null;
+    }
+
+    return cars.map(car -> carToCarDto(car))
+        .collect(Collectors.toCollection(ArrayList<CarDto>::new));
+    }
+```
+
+# Mapping Values
+
+MapStruct supports the generation of methods which map one Java enum type into another.
+
+By default, each constant from the source enum is mapped to a constant with the same name in the target enum type. If
+required, a constant from the source enum may be mapped to a constant with another name with help of the @ValueMapping
+annotation. Several constants from the source enum can be mapped to the same constant in the target type.
+
+```java
+@Mapper
+public interface OrderMapper {
+
+    OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
+
+    @ValueMappings({
+            @ValueMapping(target = "SPECIAL", source = "EXTRA"),
+            @ValueMapping(target = "DEFAULT", source = "STANDARD"),
+            @ValueMapping(target = "DEFAULT", source = "NORMAL")
+    })
+    ExternalOrderType orderTypeToExternalOrderType(OrderType orderType);
+}
+```
+
+```java
+// GENERATED CODE
+public class OrderMapperImpl implements OrderMapper {
+
+    @Override
+    public ExternalOrderType orderTypeToExternalOrderType(OrderType orderType) {
+        if (orderType == null) {
+            return null;
+        }
+
+        ExternalOrderType externalOrderType_;
+
+        switch (orderType) {
+            case EXTRA:
+                externalOrderType_ = ExternalOrderType.SPECIAL;
+                break;
+            case STANDARD:
+                externalOrderType_ = ExternalOrderType.DEFAULT;
+                break;
+            case NORMAL:
+                externalOrderType_ = ExternalOrderType.DEFAULT;
+                break;
+            case RETAIL:
+                externalOrderType_ = ExternalOrderType.RETAIL;
+                break;
+            case B2B:
+                externalOrderType_ = ExternalOrderType.B2B;
+                break;
+            default:
+                throw new IllegalArgumentException("Unexpected enum constant: " + orderType);
+        }
+
+        return externalOrderType_;
+    }
+}
+```
+
+MapStruct also has a mechanism for mapping any remaining (unspecified) mappings to a default. This can be used only once
+in a set of value mappings and only applies to the source. It comes in two flavors: `<ANY_REMAINING>`
+and `<ANY_UNMAPPED>`.
+They cannot be used at the same time.
+
+In case of source `<ANY_REMAINING>` MapStruct will continue to map a source enum constant to a target enum constant with
+the same name. The remainder of the source enum constants will be mapped to the target specified in the `@ValueMapping`
+with `<ANY_REMAINING>` source.
+
+MapStruct will not attempt such name based mapping for `<ANY_UNMAPPED>` and directly apply the target specified in the
+@ValueMapping with `<ANY_UNMAPPED>` source to the remainder.
+
+MapStruct is able to handle null sources and null targets by means of the `<NULL>` keyword.
+
+```java
+@Mapper
+public interface SpecialOrderMapper {
+
+    SpecialOrderMapper INSTANCE = Mappers.getMapper(SpecialOrderMapper.class);
+
+    @ValueMappings({
+            @ValueMapping(source = MappingConstants.NULL, target = "DEFAULT"),
+            @ValueMapping(source = "STANDARD", target = MappingConstants.NULL),
+            @ValueMapping(source = MappingConstants.ANY_REMAINING, target = "SPECIAL")
+    })
+    ExternalOrderType orderTypeToExternalOrderType(OrderType orderType);
+}
+```
+
+# Object Factories
+
+By default, the generated code for mapping one bean type into another or updating a bean will call the default
+constructor to instantiate the target type.
+
+Alternatively you can plug in custom object factories which will be invoked to obtain instances of the target type. One
+use case for this is JAXB which creates ObjectFactory classes for obtaining new instances of schema types.
+
+To make use of custom factories register them via @Mapper#uses() as described in Invoking other mappers, or implement
+them directly in your mapper. When creating the target object of a bean mapping, MapStruct will look for a parameterless
+method, a method annotated with @ObjectFactory, or a method with only one @TargetType parameter that returns the
+required target type and invoke this method instead of calling the default constructor:
+
+```java
+public class DtoFactory {
+
+    public CarDto createCarDto() {
+        return // ... custom factory logic
+    }
+}
+
+public class EntityFactory {
+
+    public <T extends BaseEntity> T createEntity(@TargetType Class<T> entityClass) {
+        return // ... custom factory logic
+    }
+}
+```
+
+```java
+@Mapper(uses = {DtoFactory.class, EntityFactory.class})
+public interface CarMapper {
+
+    CarMapper INSTANCE = Mappers.getMapper(CarMapper.class);
+
+    CarDto carToCarDto(Car car);
+
+    Car carDtoToCar(CarDto carDto);
+}
+```
+
+```java
+//GENERATED CODE
+public class CarMapperImpl implements CarMapper {
+
+    private final DtoFactory dtoFactory = new DtoFactory();
+
+    private final EntityFactory entityFactory = new EntityFactory();
+
+    @Override
+    public CarDto carToCarDto(Car car) {
+        if (car == null) {
+            return null;
+        }
+
+        CarDto carDto = dtoFactory.createCarDto();
+
+        //map properties...
+
+        return carDto;
+    }
+
+    @Override
+    public Car carDtoToCar(CarDto carDto) {
+        if (carDto == null) {
+            return null;
+        }
+
+        Car car = entityFactory.createEntity(Car.class);
+
+        //map properties...
+
+        return car;
+    }
+}
+```
+
+```java
+@Mapper(uses = {DtoFactory.class, EntityFactory.class, CarMapper.class})
+public interface OwnerMapper {
+
+    OwnerMapper INSTANCE = Mappers.getMapper(OwnerMapper.class);
+
+    void updateOwnerDto(Owner owner, @MappingTarget OwnerDto ownerDto);
+
+    void updateOwner(OwnerDto ownerDto, @MappingTarget Owner owner);
+}
+```
+
+```java
+//GENERATED CODE
+public class OwnerMapperImpl implements OwnerMapper {
+
+    private final DtoFactory dtoFactory = new DtoFactory();
+
+    private final EntityFactory entityFactory = new EntityFactory();
+
+    private final OwnerMapper ownerMapper = Mappers.getMapper(OwnerMapper.class);
+
+    @Override
+    public void updateOwnerDto(Owner owner, @MappingTarget OwnerDto ownerDto) {
+        if (owner == null) {
+            return;
+        }
+
+        if (owner.getCar() != null) {
+            if (ownerDto.getCar() == null) {
+                ownerDto.setCar(dtoFactory.createCarDto());
+            }
+            // update car within ownerDto
+        } else {
+            ownerDto.setCar(null);
+        }
+
+        // updating other properties
+    }
+
+    @Override
+    public void updateOwner(OwnerDto ownerDto, @MappingTarget Owner owner) {
+        if (ownerDto == null) {
+            return;
+        }
+
+        if (ownerDto.getCar() != null) {
+            if (owner.getCar() == null) {
+                owner.setCar(entityFactory.createEntity(Car.class));
+            }
+            // update car within owner
+        } else {
+            owner.setCar(null);
+        }
+
+        // updating other properties
+    }
+}
+```
+
+In addition, annotating a factory method with @ObjectFactory lets you gain access to the mapping sources. Source objects
+can be added as parameters in the same way as for mapping method. The @ObjectFactory annotation is necessary to let
+MapStruct know that the given method is only a factory method.
+
+```java
+public class DtoFactory {
+
+    @ObjectFactory
+    public CarDto createCarDto(Car car) {
+        return // ... custom factory logic
+    }
+}
+```
+
+# Advanced mapping options
+
+## Default values and constants
+
+Default values can be specified to set a predefined value to a target property if the corresponding source property is
+`null`. Constants can be specified to set such a predefined value in any case. Default values and constants are
+specified
+as String values. When the target type is a primitive or a boxed type, the String value is taken literal. Bit / octal /
+decimal / hex patterns are allowed in such a case as long as they are a valid literal. In all other cases, constant or
+default values are subject to type conversion either via built-in conversions or the invocation of other mapping methods
+in order to match the type required by the target property.
+
+```java
+@Mapper(uses = StringListMapper.class)
+public interface SourceTargetMapper {
+
+    SourceTargetMapper INSTANCE = Mappers.getMapper(SourceTargetMapper.class);
+
+    @Mapping(target = "stringProperty", source = "stringProp", defaultValue = "undefined")
+    @Mapping(target = "longProperty", source = "longProp", defaultValue = "-1")
+    @Mapping(target = "stringConstant", constant = "Constant Value")
+    @Mapping(target = "integerConstant", constant = "14")
+    @Mapping(target = "longWrapperConstant", constant = "3001")
+    @Mapping(target = "dateConstant", dateFormat = "dd-MM-yyyy", constant = "09-01-2014")
+    @Mapping(target = "stringListConstants", constant = "jack-jill-tom")
+    Target sourceToTarget(Source s);
+}
+```
+
+If `s.getStringProp() == null`, then the target property `stringProperty` will be set to `"undefined"` instead of
+applying the value from `s.getStringProp()`. If `s.getLongProperty() == null`, then the target property `longProperty`
+will be set to -1. The String `Constant Value` is set as is to the target property `stringConstant`. The value `"3001"`
+is type-converted to the `Long` (wrapper) class of target property `longWrapperConstant`. Date properties also require a
+date format. The constant `"jack-jill-tom"` demonstrates how the hand-written class StringListMapper is invoked to map
+the dash-separated list into a `List<String>`.
+
+## Expressions
+
+By means of Expressions it will be possible to include constructs from a number of languages.
+
+Currently only Java is supported as a language. This feature is e.g. useful to invoke constructors. The entire source
+object is available for usage in the expression. Care should be taken to insert only valid Java code: MapStruct will not
+validate the expression at generation-time, but errors will show up in the generated classes during compilation.
+
+```java
+@Mapper
+public interface SourceTargetMapper {
+
+    SourceTargetMapper INSTANCE = Mappers.getMapper(SourceTargetMapper.class);
+
+    @Mapping(target = "timeAndFormat",
+            expression = "java( new org.sample.TimeAndFormat( s.getTime(), s.getFormat() ) )")
+    Target sourceToTarget(Source s);
+}
+```
+
+The example demonstrates how the source properties time and format are composed into one target property TimeAndFormat.
+Please note that the fully qualified package name is specified because MapStruct does not take care of the import of the
+TimeAndFormat class (unless it’s used otherwise explicitly in the SourceTargetMapper). This can be resolved by defining
+imports on the @Mapper annotation.
+
+## Default Expressions
+
+Default expressions are a combination of default values and expressions. They will only be used when the source
+attribute is null.
+
+The same warnings and restrictions apply to default expressions that apply to expressions. Only Java is supported, and
+MapStruct will not validate the expression at generation-time.
+
+```java
+@Mapper(imports = UUID.class)
+public interface SourceTargetMapper {
+
+    SourceTargetMapper INSTANCE = Mappers.getMapper(SourceTargetMapper.class);
+
+    @Mapping(target = "id", source = "sourceId", defaultExpression = "java( UUID.randomUUID().toString() )")
+    Target sourceToTarget(Source s);
+}
+```
+
+## Conditional Mapping
+
+Conditional Mapping is a type of Source presence checking. The difference is that it allows users to write custom
+condition methods that will be invoked to check if a property needs to be mapped or not.
+
+A custom condition method is a method that is annotated with org.mapstruct.Condition and returns boolean.
+
+e.g. if you only want to map a String property when it is not `null, and it is not empty then you can do something like:
+
+```java
+@Mapper
+public interface CarMapper {
+
+    CarDto carToCarDto(Car car);
+
+    @Condition
+    default boolean isNotEmpty(String value) {
+        return value != null && !value.isEmpty();
+    }
+}
+```
+
+```java
+// GENERATED CODE
+public class CarMapperImpl implements CarMapper {
+
+    @Override
+    public CarDto carToCarDto(Car car) {
+        if (car == null) {
+            return null;
+        }
+
+        CarDto carDto = new CarDto();
+
+        if (isNotEmpty(car.getOwner())) {
+            carDto.setOwner(car.getOwner());
+        }
+
+        // Mapping of other properties
+
+        return carDto;
+    }
+}
+```
+
+## Exceptions
+
+Calling applications may require handling of exceptions when calling a mapping method. These exceptions could be thrown
+by hand-written logic and by the generated built-in mapping methods or type-conversions of MapStruct. When the calling
+application requires handling of exceptions, a throws clause can be defined in the mapping method:
+
+```java
+@Mapper(uses = HandWritten.class)
+public interface CarMapper {
+
+    CarDto carToCarDto(Car car) throws GearException;
+}
+```
+
+```java
+public class HandWritten {
+
+    private static final String[] GEAR = {"ONE", "TWO", "THREE", "OVERDRIVE", "REVERSE"};
+
+    public String toGear(Integer gear) throws GearException, FatalException {
+        if (gear == null) {
+            throw new FatalException("null is not a valid gear");
+        }
+
+        if (gear < 0 && gear > GEAR.length) {
+            throw new GearException("invalid gear");
+        }
+        return GEAR[gear];
+    }
+}
+```
+
+MapStruct now, wraps the FatalException in a try-catch block and rethrows an unchecked RuntimeException. MapStruct
+delegates handling of the GearException to the application logic because it is defined as throws clause in the
+carToCarDto method:
+
+# Reusing mapping configurations
+
+## Mapping configuration inheritance
+
+Method-level configuration annotations such as @Mapping, @BeanMapping, @IterableMapping, etc., can be inherited from one
+mapping method to a similar method using the annotation @InheritConfiguration:
+
+```java
+@Mapper
+public interface CarMapper {
+
+    @Mapping(target = "numberOfSeats", source = "seatCount")
+    Car carDtoToCar(CarDto car);
+
+    @InheritConfiguration
+    void carDtoIntoCar(CarDto carDto, @MappingTarget Car car);
+}
+```
+
+## Inverse mappings
+
+In case of bi-directional mappings, e.g. from entity to DTO and from DTO to entity, the mapping rules for the forward
+method and the reverse method are often similar and can simply be inversed by switching source and target.
+
+Use the annotation @InheritInverseConfiguration to indicate that a method shall inherit the inverse configuration of the
+corresponding reverse method.
+
+```java
+@Mapper
+public interface CarMapper {
+
+    @Mapping(target = "seatCount", source = "numberOfSeats")
+    CarDto carToDto(Car car);
+
+    @InheritInverseConfiguration
+    @Mapping(target = "numberOfSeats", ignore = true)
+    Car carDtoToCar(CarDto carDto);
+}
+```
+
+Here the carDtoToCar() method is the reverse mapping method for carToDto(). Note that any attribute mappings from
+carToDto() will be applied to the corresponding reverse mapping method as well. They are automatically reversed and
+copied to the method with the @InheritInverseConfiguration annotation.
+
+# Customizing mappings
+
+## Mapping customization with decorators
+
+In certain cases it may be required to customize a generated mapping method, e.g. to set an additional property in the
+target object which can’t be set by a generated method implementation. MapStruct supports this requirement using
+decorators.
+
+```java
+@Mapper
+@DecoratedWith(PersonMapperDecorator.class)
+public interface PersonMapper {
+
+    PersonMapper INSTANCE = Mappers.getMapper(PersonMapper.class);
+
+    PersonDto personToPersonDto(Person person);
+
+    AddressDto addressToAddressDto(Address address);
+}
+```
+
+The decorator must be a sub-type of the decorated mapper type. You can make it an abstract class which allows to only
+implement those methods of the mapper interface which you want to customize. For all non-implemented methods, a simple
+delegation to the original mapper will be generated using the default generation routine.
+
+```java
+public abstract class PersonMapperDecorator implements PersonMapper {
+
+    private final PersonMapper delegate;
+
+    public PersonMapperDecorator(PersonMapper delegate) {
+        this.delegate = delegate;
+    }
+
+    @Override
+    public PersonDto personToPersonDto(Person person) {
+        PersonDto dto = delegate.personToPersonDto(person);
+        dto.setFullName(person.getFirstName() + " " + person.getLastName());
+        return dto;
+    }
+}
+```
+
+## Decorators with the Spring component model
+
+When using @DecoratedWith on a mapper with component model spring, the generated implementation of the original mapper
+is annotated with the Spring annotation @Qualifier("delegate"). To autowire that bean in your decorator, add that
+qualifier annotation as well:
+
+```java
+public abstract class PersonMapperDecorator implements PersonMapper {
+
+    @Autowired
+    @Qualifier("delegate")
+    private PersonMapper delegate;
+
+    @Override
+    public PersonDto personToPersonDto(Person person) {
+        PersonDto dto = delegate.personToPersonDto(person);
+        dto.setName(person.getFirstName() + " " + person.getLastName());
+
+        return dto;
+    }
+}
+```
+
+## Mapping customization with before-mapping and after-mapping methods
+
+Decorators may not always fit the needs when it comes to customizing mappers. For example, if you need to perform the
+customization not only for a few selected methods, but for all methods that map specific super-types: in that case, you
+can use callback methods that are invoked before the mapping starts or after the mapping finished.
+
+```java
+@Mapper
+public abstract class VehicleMapper {
+
+    @BeforeMapping
+    protected void flushEntity(AbstractVehicle vehicle) {
+        // I would call my entity manager's flush() method here to make sure my entity
+        // is populated with the right @Version before I let it map into the DTO
+    }
+
+    @AfterMapping
+    protected void fillTank(AbstractVehicle vehicle, @MappingTarget AbstractVehicleDto result) {
+        result.fuelUp(new Fuel(vehicle.getTankCapacity(), vehicle.getFuelType()));
+    }
+
+    public abstract CarDto toCarDto(Car car);
+}
+
+// Generates something like this:
+public class VehicleMapperImpl extends VehicleMapper {
+
+    public CarDto toCarDto(Car car) {
+        flushEntity(car);
+
+        if (car == null) {
+            return null;
+        }
+
+        CarDto carDto = new CarDto();
+        // attributes mapping ...
+
+        fillTank(car, carDto);
+
+        return carDto;
+    }
+}
+```
+
+

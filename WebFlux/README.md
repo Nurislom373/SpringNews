@@ -15,6 +15,24 @@ data access technologies like MongoDB Reactive Streams, Reactive Cassandra, and 
 Overall, Spring WebFlux is a powerful and flexible framework that enables developers to build highly scalable,
 responsive, and resilient web applications using a reactive programming model.
 
+<hr/>
+
+Spring WebFlux - Bu Spring Frameworkning bir qismi bo'lgan Reactive web-framework. WebFlux bloklanmaydigan
+dasturlash modelidan foydalangan holda Reactive web ilovalarni yaratishni qo'llab quvvatlaydi. Reactiev Dasturlash 
+modeli blokirovka qiluvchi I/O operatsiyalarni o'rniga asinxron, bloklanmaydigan I/O operatsiyalaridan foydalangan 
+holda bir vaqtning o'zida katta hajmdagi requestlarni bajarish uchun mo'ljallangan.
+
+WebFlux 2ta dasturlash modelini taqdim etadi:
+- Annotated Controller Model
+- Functional Endpoint Model
+
+Annotated Controller Modeli Spring MVC dasturlash modeliga o'xshaydi. Functional Endpoint Model esa Reactive dasturlash
+uchun optimallashtirilgan yangi dasturlash modeli.
+
+Umuman olganda, Spring WebFlux kuchli(powerful) va moslashuvchan(flexible) framework bo'lib, dasturchilarga Reactive
+dasturlash modeldan foydalangan holda yuqori darajada kengaytiriladigan, sezgir va moslashuvchan web-ilovalarni 
+yaratishga imkon beradi.
+
 ![img](etc/spring-mvc-and-webflux.png)
 
 # Publisher and Subscriber

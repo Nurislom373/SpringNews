@@ -1,4 +1,4 @@
-package org.khasanof.jacksonboot.request;
+package org.khasanof.jacksonboot.dateFormats;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;

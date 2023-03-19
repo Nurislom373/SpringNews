@@ -11,8 +11,10 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
 
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 
 class WebFluxApplicationTests {
 
@@ -125,10 +127,57 @@ class WebFluxApplicationTests {
 
                     @Override
                     protected void hookOnNext(Integer value) {
-                        System.out.println("Cancelling after having received " + value );
+                        System.out.println("Cancelling after having received " + value);
                         cancel();
                     }
                 });
+    }
+
+    @Test
+    void test_PrefetchInt() {
+        List<String> list = List.of("message 1", "message 2", "message 3", "message 4");
+        Flux<String> stringFlux = Flux.fromIterable(list)
+                .limitRate(2, 2);
+
+        stringFlux.subscribe(System.out::println);
+    }
+
+    /*
+        This is for synchronous and one-by-one emissions, meaning that the sink is a SynchronousSink and that its next()
+        method can only be called at most once per callback invocation. You can then additionally call error(Throwable)
+        or complete(), but this is optional.
+     */
+    @Test
+    void test_FluxGenerateExample() {
+
+        //
+        Flux.generate(() -> 0, (state, sink) -> {
+            sink.next("3 x " + state + " = " + 3 * state);
+            if (state == 10) sink.complete();
+            return state + 1;
+        }).subscribe(System.out::println);
+
+        //
+        Flux.generate(
+                AtomicLong::new,
+                (state, sink) -> {
+                    long i = state.getAndIncrement();
+                    sink.next("3 x " + i + " = " + 3 * i);
+                    if (i == 10) sink.complete();
+                    return state;
+                }
+        ).subscribe(System.out::println);
+
+        //
+        Flux.generate(
+                AtomicLong::new,
+                (state, sink) -> {
+                    long i = state.getAndIncrement();
+                    sink.next("3 x " + i + " = " + 3 * i);
+                    if (i == 10) sink.complete();
+                    return state;
+                }, (state) -> System.out.println("state: " + state)
+        ).subscribe(System.out::println);
     }
 
 

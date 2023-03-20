@@ -1,7 +1,10 @@
 package org.khasanof.springdatajpa.config;
 
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 /**
  * Author: Nurislom
@@ -13,6 +16,9 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
  * Package: org.khasanof.springdatajpa.config
  */
 @Configuration
+@EnableJpaAuditing
+@EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "org.khasanof.springdatajpa.repository")
 public class JpaConfig {
+
 }

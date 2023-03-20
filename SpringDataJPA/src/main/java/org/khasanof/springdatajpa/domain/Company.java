@@ -59,4 +59,14 @@ public class Company {
     protected void onPrePersist() {
         System.out.println("INSERT");
     }
+
+    @PreUpdate
+    protected void onPreUpdate() {
+        System.out.println("UPDATE");
+    }
+
+    @PreRemove
+    protected void onPreRemove() {
+        System.out.println("REMOVE");
+    }
 }

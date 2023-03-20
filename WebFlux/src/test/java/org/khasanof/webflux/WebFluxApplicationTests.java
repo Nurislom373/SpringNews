@@ -181,4 +181,32 @@ class WebFluxApplicationTests {
     }
 
 
+    @Test
+    void test_FluxCreateMethod() {
+        Flux.just(1, 2, 3, 4, 5)
+                .map(this::convertNum)
+                .onErrorReturn(error -> error instanceof RuntimeException,
+                        "On Error")
+                .subscribe(System.out::println);
+    }
+
+    @Test
+    void test_FluxInterval() throws InterruptedException {
+        Flux.interval(Duration.ofMillis(250))
+                .map(input -> {
+                    if (input < 3) return "tick " + input;
+                    throw new RuntimeException("Boom");
+                })
+                .onErrorReturn("Uh Oh")
+                .subscribe(System.out::println);
+        Thread.sleep(2100);
+    }
+
+    private String convertNum(Integer id) {
+        if (id == 5)
+            throw new RuntimeException();
+        return id.toString();
+    }
+
+
 }

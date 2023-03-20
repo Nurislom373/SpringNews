@@ -8,8 +8,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Meta;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.querydsl.QuerydslPredicateExecutor;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
@@ -27,7 +29,7 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public interface CompanyRepository extends JpaRepository<Company, Long> {
+public interface CompanyRepository extends JpaRepository<Company, Long>, QuerydslPredicateExecutor<Company> {
 
     @Nullable
     Company findByEmail(@Nullable String email);
@@ -37,7 +39,12 @@ public interface CompanyRepository extends JpaRepository<Company, Long> {
     @Modifying
     void deleteByEmail(String email);
 
+    /*
+        To make this process easier, you can insert custom comments into almost any JPA operation, whether its a query
+        or other operation by applying the @Meta annotation.
+     */
     @Modifying
+    @Meta(comment = "This Method Delete All Company With CreatedAt Between")
     void deleteAllByCreatedAtBetween(LocalDateTime createdAt, LocalDateTime createdAt2);
 
     List<Company> findAllByEmployeeCountEquals(Long employeeCount);

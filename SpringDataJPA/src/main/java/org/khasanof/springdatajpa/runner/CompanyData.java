@@ -1,5 +1,7 @@
 package org.khasanof.springdatajpa.runner;
 
+import org.khasanof.springdatajpa.criteria.CompanyCriteria;
+import org.khasanof.springdatajpa.criteria.CompanyPredicate;
 import org.khasanof.springdatajpa.domain.Company;
 import org.khasanof.springdatajpa.repository.CompanyRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +25,7 @@ public class CompanyData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        Company pdp = new Company("Microsoft", "fghuij@gmail.com", 45678990L);
+        Company pdp = new Company("CV", "nfjkdsb@gmail.com", 56789L);
         repository.save(pdp);
     }
 }

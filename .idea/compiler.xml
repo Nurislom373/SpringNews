@@ -12,6 +12,7 @@
         <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
         <module name="SpringJdbcTemplate" />
+        <module name="SpringDataJPA" />
         <module name="JacksonBoot" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
@@ -46,6 +47,7 @@
       <module name="Spring6Thymeleaf" options="" />
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
+      <module name="SpringDataJPA" options="-parameters" />
       <module name="SpringExpressionLanguage" options="-parameters" />
       <module name="SpringJdbcTemplate" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />

@@ -14,6 +14,7 @@
         <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringDataJPA/pom.xml" />
       </list>
     </option>
   </component>

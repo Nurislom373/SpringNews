@@ -19,6 +19,7 @@ Must Be Add This Annotation
 class Config { … }
 ```
 
-[Spring Doc](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/)
-[Baeldung Series](https://www.baeldung.com/spring-data)
-[Spring Blog](https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl)
+[Spring Doc](https://docs.spring.io/spring-data/jpa/docs/current/reference/html/) <br/>
+[Baeldung Series](https://www.baeldung.com/spring-data) <br/>
+[Spring Blog](https://spring.io/blog/2011/04/26/advanced-spring-data-jpa-specifications-and-querydsl) <br/>
+[Cheatsheet](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet) <br/>

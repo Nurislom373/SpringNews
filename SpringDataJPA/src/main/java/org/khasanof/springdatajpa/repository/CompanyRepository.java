@@ -7,12 +7,9 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Slice;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Meta;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.querydsl.QuerydslPredicateExecutor;
+import org.springframework.data.jpa.repository.*;
 import org.springframework.data.repository.query.Param;
+import org.springframework.data.repository.query.QueryByExampleExecutor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
@@ -29,7 +26,8 @@ import java.util.List;
  */
 @Repository
 @Transactional
-public interface CompanyRepository extends JpaRepository<Company, Long>, QuerydslPredicateExecutor<Company> {
+public interface CompanyRepository extends JpaRepository<Company, Long>,
+        JpaSpecificationExecutor<Company>, QueryByExampleExecutor<Company> {
 
     @Nullable
     Company findByEmail(@Nullable String email);
@@ -72,5 +70,9 @@ public interface CompanyRepository extends JpaRepository<Company, Long>, Queryds
 
     @Query(value = "select c from company c where lower(c.name) = lower(?1)", nativeQuery = true)
     Company findByNameSecond(String name);
+
+    @Query(value = "select * from company order by id",
+            countQuery = "select count(*) from company", nativeQuery = true)
+    Page<Company> findAllByCompanyWithPagination(Pageable pageable);
 
 }

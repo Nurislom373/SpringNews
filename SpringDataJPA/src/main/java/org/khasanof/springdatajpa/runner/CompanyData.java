@@ -4,9 +4,12 @@ import org.khasanof.springdatajpa.criteria.CompanyCriteria;
 import org.khasanof.springdatajpa.criteria.CompanyPredicate;
 import org.khasanof.springdatajpa.domain.Company;
 import org.khasanof.springdatajpa.repository.CompanyRepository;
+import org.khasanof.springdatajpa.specifications.CompanySpecification;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * Author: Nurislom
@@ -17,15 +20,16 @@ import org.springframework.stereotype.Component;
  * <br/>
  * Package: org.khasanof.springdatajpa.runner
  */
-@Component
+//@Component
 public class CompanyData implements CommandLineRunner {
 
-    @Autowired
+//    @Autowired
     private CompanyRepository repository;
 
     @Override
     public void run(String... args) throws Exception {
-        Company pdp = new Company("CV", "nfjkdsb@gmail.com", 56789L);
-        repository.save(pdp);
+        CompanySpecification specification = new CompanySpecification(new CompanyCriteria("id", ":", "1"));
+        List<Company> all = repository.findAll(specification);
+        System.out.println("all = " + all);
     }
 }

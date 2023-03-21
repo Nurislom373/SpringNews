@@ -20,7 +20,7 @@ import java.util.Optional;
  * <br/>
  * Package: org.khasanof.springdatajpa.queryExample
  */
-@Component
+//@Component
 @RequiredArgsConstructor
 public class QueryExampleData implements CommandLineRunner {
 

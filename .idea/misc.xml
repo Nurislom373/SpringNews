@@ -15,6 +15,7 @@
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
         <option value="$PROJECT_DIR$/SpringDataJPA/pom.xml" />
+        <option value="$PROJECT_DIR$/SwaggerUI2/pom.xml" />
       </list>
     </option>
   </component>

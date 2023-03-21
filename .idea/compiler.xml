@@ -14,6 +14,7 @@
         <module name="SpringJdbcTemplate" />
         <module name="SpringDataJPA" />
         <module name="JacksonBoot" />
+        <module name="SwaggerUI2" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -52,6 +53,7 @@
       <module name="SpringJdbcTemplate" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
+      <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="-parameters" />
     </option>

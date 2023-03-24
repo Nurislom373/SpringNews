@@ -1,3 +1,7 @@
 urls:
-  url: "http://localhost:8080/v3/api-docs",
-  name: "members"
+- url: http://localhost:8080/v3/api-docs
+  name: annotation
+- url: http://localhost:8080/config/json
+  name: json
+- url: http://localhost:8080/config/yaml
+  name: yaml

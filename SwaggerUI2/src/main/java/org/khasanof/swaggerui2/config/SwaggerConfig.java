@@ -4,16 +4,11 @@ import io.swagger.v3.oas.models.ExternalDocumentation;
 import io.swagger.v3.oas.models.OpenAPI;
 import io.swagger.v3.oas.models.info.Info;
 import io.swagger.v3.oas.models.info.License;
-import org.springdoc.core.properties.AbstractSwaggerUiConfigProperties;
-import org.springdoc.core.properties.SwaggerUiConfigProperties;
+import org.springdoc.core.models.GroupedOpenApi;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * Author: Nurislom
@@ -37,6 +32,14 @@ public class SwaggerConfig {
                 .externalDocs(new ExternalDocumentation()
                         .description("SpringShop Wiki Documentation")
                         .url("https://springshop.wiki.github.org/docs"));
+    }
+
+    @Bean
+    public GroupedOpenApi annotationGroupAPI() {
+        return GroupedOpenApi.builder()
+                .group("annotation")
+                .pathsToMatch("/store/**", "/config/**")
+                .build();
     }
 
     @Bean

@@ -2,7 +2,8 @@
   "urls": [
     {
       "url": "http://localhost:8080/v3/api-docs",
-      "name": "members"
+      "name": "annotation",
+      "showCommonExtensions": true
     },
     {
       "url": "http://localhost:8080/config/json",

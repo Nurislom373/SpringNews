@@ -73,7 +73,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/item/update": {
@@ -129,7 +134,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/item/get/{id}": {
@@ -160,7 +170,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     },
     "/item/delete/{id}": {
@@ -191,7 +206,12 @@
               }
             }
           }
-        }
+        },
+        "security": [
+          {
+            "api_key": []
+          }
+        ]
       }
     }
   },
@@ -205,16 +225,25 @@
             "format": "int64"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "example": "Nurislom"
           },
           "description": {
-            "type": "string"
+            "type": "string",
+            "example": "Lorem Ipsum"
           },
           "price": {
             "type": "number",
             "format": "double"
           }
         }
+      }
+    },
+    "securitySchemes": {
+      "api_key": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

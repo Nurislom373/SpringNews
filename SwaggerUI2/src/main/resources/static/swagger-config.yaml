@@ -1,17 +1,164 @@
 openapi: 3.0.2
 info:
   title: Spring 6 Swagger 2 YAML Example
-  description: 'Spring 6 Swagger Simple Application'
-  termsOfService: 'http://swagger.io/terms/'
+  description: Spring 6 Swagger Simple Application
+  termsOfService: http://swagger.io/terms/
   contact:
     email: apiteam@swagger.io
   license:
     name: Apache 2.0
-    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
   version: 1.0.4
 externalDocs:
   description: Find out more about Swagger
-  url: 'http://swagger.io'
+  url: http://swagger.io
 servers:
-  - url: 'http://localhost:8081'
+  - url: http://localhost:8080
     description: Generated server url
+paths:
+  /category/create:
+    post:
+      summary: Create Category Entity
+      description: Create Category Entity
+      requestBody:
+        description: Category Fill to All Fields
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        201:
+          description: Successfully Created Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Invalid Validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InvalidValidationException'
+      security:
+        - api_key: []
+  /category/update:
+    put:
+      summary: Update Category Entity
+      description: Update Category Entity
+      requestBody:
+        description: Category Fill to All Fields
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Category'
+      responses:
+        200:
+          description: Successfully Updated Entity
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Invalid Validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InvalidValidationException'
+        404:
+          description: Category Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+      security:
+        - api_key: []
+  /category/delete/{id}:
+    delete:
+      summary: Deleted Category Entity
+      description: Deleted Category Entity
+      parameters:
+        - name: id
+          in: query
+          description: Must Be Enter Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        204:
+          description: Successfully Deleted - Category
+        400:
+          description: Invalid Validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InvalidValidationException'
+        404:
+          description: Category Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+      security:
+        - api_key: []
+  /category/get/{id}:
+    get:
+      summary: Get Category Entity
+      description: Get Category Entity
+      parameters:
+        - name: id
+          in: query
+          description: Must Be Enter Id
+          required: true
+          schema:
+            type: integer
+      responses:
+        200:
+          description: Successfully Get - Category
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Category'
+        400:
+          description: Invalid Validation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/InvalidValidationException'
+        404:
+          description: Category Not Found
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/responses/NotFound'
+      security:
+        - api_key: []
+components:
+  schemas:
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int32
+          example: 1
+        name:
+          type: string
+          example: Swamp
+        code:
+          type: string
+          example: SWAMP
+  responses:
+    NotFound:
+      description: Entity not found
+    InvalidValidationException:
+      description: Invalid Validation
+    RuntimeException:
+      description: Entity Created Exception
+  securitySchemes:
+    api_key:
+      name: Bearer Authentication
+      description: A JWT token is required to access this API. JWT token can be obtained by providing correct username 
+        and password in the API
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

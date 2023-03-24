@@ -5,7 +5,11 @@
       "name": "members"
     },
     {
-      "url": "http://localhost:8080/item/get/yaml",
+      "url": "http://localhost:8080/config/json",
+      "name": "json"
+    },
+    {
+      "url": "http://localhost:8080/config/yaml",
       "name": "yaml"
     }
   ]

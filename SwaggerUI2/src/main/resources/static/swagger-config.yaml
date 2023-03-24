@@ -1,0 +1,17 @@
+openapi: 3.0.2
+info:
+  title: Spring 6 Swagger 2 YAML Example
+  description: 'Spring 6 Swagger Simple Application'
+  termsOfService: 'http://swagger.io/terms/'
+  contact:
+    email: apiteam@swagger.io
+  license:
+    name: Apache 2.0
+    url: 'http://www.apache.org/licenses/LICENSE-2.0.html'
+  version: 1.0.4
+externalDocs:
+  description: Find out more about Swagger
+  url: 'http://swagger.io'
+servers:
+  - url: 'http://localhost:8081'
+    description: Generated server url

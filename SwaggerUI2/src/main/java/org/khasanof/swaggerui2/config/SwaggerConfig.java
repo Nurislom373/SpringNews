@@ -27,10 +27,10 @@ import java.util.Set;
 @Configuration
 public class SwaggerConfig {
 
-//    @Bean
+    @Bean
     public OpenAPI springOpenAPI() {
         return new OpenAPI()
-                .info(new Info().title("Spring 6 Swagger 2 Example")
+                .info(new Info().title("Spring 6 Swagger 2 Annotation Example")
                         .description("Spring 6 Swagger Simple Application")
                         .version("v0.0.01")
                         .license(new License().name("Apache 2.0").url("http://springdoc.org")))

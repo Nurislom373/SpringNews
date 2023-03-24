@@ -1,0 +1,12 @@
+{
+  "urls": [
+    {
+      "url": "http://localhost:8080/v3/api-docs",
+      "name": "members"
+    },
+    {
+      "url": "http://localhost:8080/item/get/yaml",
+      "name": "yaml"
+    }
+  ]
+}

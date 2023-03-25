@@ -196,31 +196,32 @@ When our model includes JSR-303 bean validation annotations, such as @NotNull, @
 springdoc-openapi library uses them to generate additional schema documentation for the corresponding constraints.
 
 ```java
+@ParameterObject
 public class Store {
-    
-    @Min(1)
-    @NotNull
-    @Parameter(description = "Store Identifier", required = true)
-    private Long id;
-    
-    @NotBlank
-    @Size(min = 3, max = 120)
-    @Parameter(description = "Store Name", required = true)
-    private String name;
-    
-    @NotBlank
-    @Size(min = 9, max = 250)
-    @Parameter(description = "Store Email", required = true)
-    private String email;
-    
-    @NotNull
-    @Min(1)
-    @Parameter(description = "Store EmployeeCount", required = true)
-    private int employeeCount;
-    
-    @Parameter(description = "Store Description", required = false)
-    private String desc;
-    
+
+  @Min(1)
+  @NotNull
+  @Parameter(description = "Store Identifier", required = true)
+  private Long id;
+
+  @NotBlank
+  @Size(min = 3, max = 120)
+  @Parameter(description = "Store Name", required = true)
+  private String name;
+
+  @NotBlank
+  @Size(min = 9, max = 250)
+  @Parameter(description = "Store Email", required = true)
+  private String email;
+
+  @NotNull
+  @Min(1)
+  @Parameter(description = "Store EmployeeCount", required = true)
+  private int employeeCount;
+
+  @Parameter(description = "Store Description", required = false)
+  private String desc;
+
 }
 ```
 
@@ -263,6 +264,7 @@ public class StoreController {
 Here's the effect 
 
 ![img](../etc/img.png)
+![pobject](../etc/parameter_object.png)
 
 # Swagger JWT Authentication
 

@@ -46,3 +46,5 @@ description will be available at the following url for json format: `http://serv
     <version>2.0.4</version>
 </dependency>
 ```
+
+- [Annotation Config](mds/ANNOTATION.md)

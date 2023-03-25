@@ -1,4 +1,4 @@
-swagger: 3.0.1
+swagger: 2.0
 info:
   title: Spring 6 Swagger 2 Example With YAML file
   description: "This is a sample Pet Store Server based on the OpenAPI 3.0 specification.  You can find out more about

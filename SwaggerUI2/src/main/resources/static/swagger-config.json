@@ -143,7 +143,7 @@
       }
     },
     "/item/get/{id}": {
-      "post": {
+      "get": {
         "tags": [
           "item-controller"
         ],
@@ -179,7 +179,7 @@
       }
     },
     "/item/delete/{id}": {
-      "post": {
+      "delete": {
         "tags": [
           "item-controller"
         ],

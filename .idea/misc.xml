@@ -16,6 +16,8 @@
         <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
         <option value="$PROJECT_DIR$/SpringDataJPA/pom.xml" />
         <option value="$PROJECT_DIR$/SwaggerUI2/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringWorkingYAML/pom.xml" />
+        <option value="$PROJECT_DIR$/RateLimitingWithSpring/pom.xml" />
       </list>
     </option>
   </component>

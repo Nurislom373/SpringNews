@@ -1,0 +1,38 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+name: test-YAML
+environment: testing
+enabled: false
+servers:
+  - www.abc.test.com
+  - www.xyz.test.com
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: prod
+name: prod-YAML
+environment: production
+enabled: true
+servers:
+  - www.abc.com
+  - www.xyz.com
+
+---
+
+my:
+  secret: ${random.value}
+  number: ${random.int}
+  bignumber: ${random.long}
+  numberOne:
+    less:
+      than:
+        ten: ${random.int(10)}
+
+app:
+  name: My Simple Application
+  description: ${app.name} is a Spring Boot application

@@ -10,9 +10,11 @@
         <module name="SpringMVC6" />
         <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
+        <module name="RateLimitingWithSpring" />
         <module name="MapStruct" />
         <module name="SpringJdbcTemplate" />
         <module name="SpringDataJPA" />
+        <module name="SpringWorkingYAML" />
         <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
       </profile>
@@ -43,6 +45,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />
+      <module name="RateLimitingWithSpring" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
@@ -54,6 +57,7 @@
       <module name="SpringJdbcTemplate" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
+      <module name="SpringWorkingYAML" options="-parameters" />
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="-parameters" />

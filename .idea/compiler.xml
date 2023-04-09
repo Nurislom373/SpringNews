@@ -12,6 +12,7 @@
         <module name="Spring6Thymeleaf" />
         <module name="RateLimitingWithSpring" />
         <module name="MapStruct" />
+        <module name="SpringLiquibaseMigration" />
         <module name="SpringJdbcTemplate" />
         <module name="SpringDataJPA" />
         <module name="SpringWorkingYAML" />
@@ -55,6 +56,7 @@
       <module name="SpringDataJPA" options="-parameters" />
       <module name="SpringExpressionLanguage" options="-parameters" />
       <module name="SpringJdbcTemplate" options="-parameters" />
+      <module name="SpringLiquibaseMigration" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
       <module name="SpringWorkingYAML" options="-parameters" />

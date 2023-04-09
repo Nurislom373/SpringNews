@@ -18,6 +18,7 @@
         <option value="$PROJECT_DIR$/SwaggerUI2/pom.xml" />
         <option value="$PROJECT_DIR$/SpringWorkingYAML/pom.xml" />
         <option value="$PROJECT_DIR$/RateLimitingWithSpring/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringLiquibaseMigration/pom.xml" />
       </list>
     </option>
   </component>

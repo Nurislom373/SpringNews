@@ -39,6 +39,7 @@
       <module name="SpringExpressionLanguage" target="17" />
       <module name="SpringQueryDSL" target="17" />
       <module name="SpringReactiveR2DBC" target="17" />
+      <module name="SpringSession" target="17" />
       <module name="Thymeleaf" target="17" />
     </bytecodeTargetLevel>
   </component>

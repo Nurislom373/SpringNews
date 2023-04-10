@@ -30,7 +30,10 @@ public class RateLimitInterceptor implements HandlerInterceptor {
             return false;
         }
 
-        Bucket tokenBucket = pricingPlanService.resolveBucket(apiKey);
+        String requestRequestURI = request.getRequestURI();
+        System.out.println("requestRequestURI = " + requestRequestURI);
+
+        Bucket tokenBucket = pricingPlanService.resolveBucket(apiKey, requestRequestURI);
 
         ConsumptionProbe probe = tokenBucket.tryConsumeAndReturnRemaining(1);
 
@@ -45,7 +48,7 @@ public class RateLimitInterceptor implements HandlerInterceptor {
 
             response.setContentType(MediaType.APPLICATION_JSON_VALUE);
             response.addHeader(HEADER_RETRY_AFTER, String.valueOf(waitForRefill));
-            response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(), "You have exhausted your API Request Quota"); // 429
+            response.sendError(HttpStatus.TOO_MANY_REQUESTS.value(), "You have exhausted your API Request"); // 429
 
             return false;
         }

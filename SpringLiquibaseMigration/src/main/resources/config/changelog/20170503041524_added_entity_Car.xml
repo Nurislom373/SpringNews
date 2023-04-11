@@ -1,10 +1,9 @@
 <databaseChangeLog xmlns="http://www.liquibase.org/xml/ns/dbchangelog" xmlns:ext="http://www.liquibase.org/xml/ns/dbchangelog-ext" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.4.xsd http://www.liquibase.org/xml/ns/dbchangelog-ext http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-ext.xsd">
-    ...
-    <!--Added the entity Car-->
+
     <changeSet id="20170503041524-1" author="user">
         <createTable tableName="car">
-            <column name="id" type="bigint" autoIncrement="${autoIncrement}">
-                <constraints primaryKey="true" nullable="false" />
+            <column autoIncrement="true" name="id" type="bigint">
+                <constraints primaryKey="true"/>
             </column>
             <column name="make" type="varchar(255)">
                 <constraints nullable="true" />
@@ -17,4 +16,5 @@
             </column>
         </createTable>
     </changeSet>
+
 </databaseChangeLog>

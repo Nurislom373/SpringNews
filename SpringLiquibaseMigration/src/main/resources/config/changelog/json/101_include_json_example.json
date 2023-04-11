@@ -1,0 +1,7 @@
+{
+  "databaseChangeLog": [
+    {
+      "include": {"file": "/config/changelog/json/100_changeset_json_example.json"}
+    }
+  ]
+}

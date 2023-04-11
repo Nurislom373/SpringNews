@@ -1,0 +1,3 @@
+databaseChangeLog:
+  - include:
+      file: /config/changelog/yaml/100_changeset_yaml_example.yaml

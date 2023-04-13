@@ -1,0 +1,50 @@
+[
+  {
+    "url": "/api/v1/user/findAll",
+    "method": "GET",
+    "plans": [
+      {
+        "plan": "FREE",
+        "requestType": "LIMIT",
+        "requestCount": 100,
+        "timeType": "MONTH"
+      },
+      {
+        "plan": "BASIC",
+        "requestType": "LIMIT",
+        "requestCount": 1000,
+        "timeType": "MONTH"
+      },
+      {
+        "plan": "PRO",
+        "requestType": "LIMIT",
+        "requestCount": 10000,
+        "timeType": "MONTH"
+      }
+    ]
+  },
+  {
+    "url": "/api/v1/item/findAll",
+    "method": "GET",
+    "plans": [
+      {
+        "plan": "FREE",
+        "requestType": "LIMIT",
+        "requestCount": 200,
+        "timeType": "WEEK"
+      },
+      {
+        "plan": "BASIC",
+        "requestType": "LIMIT",
+        "requestCount": 2000,
+        "timeType": "WEEK"
+      },
+      {
+        "plan": "PRO",
+        "requestType": "LIMIT",
+        "requestCount": 20000,
+        "timeType": "WEEK"
+      }
+    ]
+  }
+]

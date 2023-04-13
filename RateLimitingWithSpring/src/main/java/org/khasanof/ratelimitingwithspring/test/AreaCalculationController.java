@@ -1,43 +1,29 @@
-package org.khasanof.ratelimitingwithspring.controller;
+package org.khasanof.ratelimitingwithspring.test;
 
-import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
-import io.github.bucket4j.Refill;
-import org.khasanof.ratelimitingwithspring.rateLimiting.AdapterLimited;
-import org.khasanof.ratelimitingwithspring.rateLimiting.Limited;
-import org.khasanof.ratelimitingwithspring.rateLimiting.Time;
+import org.khasanof.ratelimitingwithspring.core.AdapterLimited;
+import org.khasanof.ratelimitingwithspring.core.Limited;
+import org.khasanof.ratelimitingwithspring.core.Time;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.Duration;
 import java.util.Map;
-
 
 @RestController
 @RequestMapping(value = "/api/v1/*")
 public class AreaCalculationController {
 
-    private final Bucket bucket;
-
     private final AdapterLimited getAllLimited;
 
     public AreaCalculationController(AdapterLimited getAllLimited) {
         this.getAllLimited = getAllLimited;
-        Bandwidth limit = Bandwidth.classic(20, Refill.greedy(20, Duration.ofMinutes(2)));
-        this.bucket = Bucket.builder()
-                .addLimit(limit)
-                .build();
     }
 
     @GetMapping(value = "value")
     @Limited(limit = 60, time = 10, timeType = Time.MINUTE)
-    public ResponseEntity<String> value() {
-        if (bucket.tryConsume(1)) {
-            bucket.getAvailableTokens();
-            return new ResponseEntity<>(String.valueOf(bucket.getAvailableTokens()), HttpStatus.OK);
-        }
-        return ResponseEntity.status(HttpStatus.TOO_MANY_REQUESTS).build();
+    public ResponseEntity<String> value(@RequestHeader(value = "X-api-key") String apiKey) {
+        return ResponseEntity.ok().build();
     }
 
     @RequestMapping(value = "check", method = RequestMethod.GET)

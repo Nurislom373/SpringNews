@@ -1,15 +1,21 @@
-package org.khasanof.ratelimitingwithspring.rateLimiting;
+package org.khasanof.ratelimitingwithspring.core;
 
-import io.github.bucket4j.Bucket;
-import io.github.bucket4j.ConsumptionProbe;
+import io.github.bucket4j.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import java.time.Duration;
+import java.time.Instant;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+
+@Slf4j
 @Component
 public class RateLimitInterceptor implements HandlerInterceptor {
 
@@ -18,7 +24,24 @@ public class RateLimitInterceptor implements HandlerInterceptor {
     private static final String HEADER_RETRY_AFTER = "X-Rate-Limit-Retry-After-Seconds";
 
     @Autowired
-    private PricingPlanService pricingPlanService;
+    private RateLimitingService rateLimitingService;
+
+    private final Bucket bucket;
+
+    public RateLimitInterceptor() {
+
+        Instant firstRefillTime = ZonedDateTime.now()
+                .truncatedTo(ChronoUnit.HOURS)
+                .plus(100, ChronoUnit.YEARS)
+                .toInstant();
+
+        Bandwidth bandwidth = Bandwidth.classic(5, Refill.intervallyAligned(5,
+                Duration.ofSeconds(5), firstRefillTime, false));
+
+        this.bucket = Bucket.builder()
+                .addLimit(bandwidth)
+                .build();
+    }
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -33,11 +56,15 @@ public class RateLimitInterceptor implements HandlerInterceptor {
         String requestRequestURI = request.getRequestURI();
         System.out.println("requestRequestURI = " + requestRequestURI);
 
-        Bucket tokenBucket = pricingPlanService.resolveBucket(apiKey, requestRequestURI);
+//        Bucket tokenBucket = rateLimitingService.resolveBucket(apiKey, requestRequestURI);
 
-        ConsumptionProbe probe = tokenBucket.tryConsumeAndReturnRemaining(1);
+        ConsumptionProbe probe = bucket.tryConsumeAndReturnRemaining(1);
+
+        BlockingBucket blockingBucket = bucket.asBlocking();
 
         if (probe.isConsumed()) {
+
+            log.info("Aviable Tokens: {}", probe.getRemainingTokens());
 
             response.addHeader(HEADER_LIMIT_REMAINING, String.valueOf(probe.getRemainingTokens()));
             return true;

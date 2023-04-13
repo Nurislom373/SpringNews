@@ -1,7 +1,7 @@
-package org.khasanof.ratelimitingwithspring.controller;
+package org.khasanof.ratelimitingwithspring.test;
 
-import org.khasanof.ratelimitingwithspring.rateLimiting.Limited;
-import org.khasanof.ratelimitingwithspring.rateLimiting.Time;
+import org.khasanof.ratelimitingwithspring.core.Limited;
+import org.khasanof.ratelimitingwithspring.core.Time;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

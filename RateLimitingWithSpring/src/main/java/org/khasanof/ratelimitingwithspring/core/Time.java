@@ -1,4 +1,4 @@
-package org.khasanof.ratelimitingwithspring.rateLimiting;
+package org.khasanof.ratelimitingwithspring.core;
 
 /**
  * Author: Nurislom

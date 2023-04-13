@@ -1,4 +1,4 @@
-package org.khasanof.ratelimitingwithspring.rateLimiting;
+package org.khasanof.ratelimitingwithspring.core;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;

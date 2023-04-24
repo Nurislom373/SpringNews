@@ -66,21 +66,6 @@ public class AdapterLimited {
                             }
                         })
                 )).forEach(map -> bucketMap.put(map.getKey(), map.getValue()));
-
-        /*listMap.get(true).stream().filter(limitedMethod.and(requestMappingMethod))
-                .forEach(c -> Arrays.stream(c.getClass().getMethods())
-                        .filter(method -> methodLevelPresentAnnotation(method, annotations))
-                        .filter(method -> methodLevelPresentAnnotation(method, Limited.class))
-                        .map(m -> new AbstractMap.SimpleEntry<>(getMethodUrl(m, getClassUrl(c)), getBucketMethod(m)))
-                        .forEach(map -> bucketMap.put(map.getKey(), map.getValue())));
-
-        listMap.get(false).stream().filter(limitedMethod.and(requestMappingMethod))
-                .forEach(c -> Arrays.stream(c.getClass().getMethods())
-                        .filter(method -> methodLevelPresentAnnotation(method, annotations))
-                        .filter(method -> methodLevelPresentAnnotation(method, Limited.class))
-                        .map(m -> new AbstractMap.SimpleEntry<>(getMethodUrl(m, null), getBucketMethod(m)))
-                        .forEach(map -> bucketMap.put(map.getKey(), map.getValue())));*/
-
         return bucketMap;
     }
 
@@ -107,9 +92,16 @@ public class AdapterLimited {
     }
 
     private LocalBucket getLocalBucket(Limited limited) {
+        Bandwidth bandwidth;
+        if (limited.refillType().equals(RefillType.GREEDY)) {
+            bandwidth = Bandwidth.classic(limited.limit(),
+                    Refill.greedy(limited.limit(), getDuration(limited)));
+        } else {
+            bandwidth = Bandwidth.classic(limited.limit(),
+                    Refill.intervally(limited.limit(), getDuration(limited)));
+        }
         return Bucket.builder()
-                .addLimit(Bandwidth.classic(limited.limit(),
-                        Refill.greedy(limited.limit(), getDuration(limited))))
+                .addLimit(bandwidth)
                 .build();
     }
 

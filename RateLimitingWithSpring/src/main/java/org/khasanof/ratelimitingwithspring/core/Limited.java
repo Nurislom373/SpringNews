@@ -23,4 +23,6 @@ public @interface Limited {
     int time() default 5;
 
     Time timeType() default Time.MINUTE;
+
+    RefillType refillType() default RefillType.INTERVAL;
 }

@@ -1,10 +1,11 @@
-package org.khasanof.ratelimitingwithspring.core;
+package org.khasanof.ratelimitingwithspring;
 
 import io.github.bucket4j.Bandwidth;
 import io.github.bucket4j.Bucket;
 import io.github.bucket4j.Refill;
 import io.github.bucket4j.local.LocalBucket;
-import lombok.RequiredArgsConstructor;
+import org.khasanof.ratelimitingwithspring.annotation.Limited;
+import org.khasanof.ratelimitingwithspring.enums.RefillType;
 import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -27,7 +28,6 @@ import java.util.stream.Collectors;
  * Package: org.khasanof.ratelimitingwithspring.rateLimiting
  */
 @Component
-@RequiredArgsConstructor
 public class AdapterLimited {
 
     private final ApplicationContext context;
@@ -36,6 +36,10 @@ public class AdapterLimited {
             RequestMapping.class, GetMapping.class, PostMapping.class,
             DeleteMapping.class, PutMapping.class, PatchMapping.class
     );
+
+    public AdapterLimited(ApplicationContext context) {
+        this.context = context;
+    }
 
     public Map<String, Bucket> getAllLimitedAPIs() {
         Map<String, Bucket> bucketMap = new HashMap<>();

@@ -1,4 +1,7 @@
-package org.khasanof.ratelimitingwithspring.core;
+package org.khasanof.ratelimitingwithspring.annotation;
+
+import org.khasanof.ratelimitingwithspring.enums.Time;
+import org.khasanof.ratelimitingwithspring.enums.RefillType;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

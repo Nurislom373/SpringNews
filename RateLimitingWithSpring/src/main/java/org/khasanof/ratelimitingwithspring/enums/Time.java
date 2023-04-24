@@ -1,4 +1,4 @@
-package org.khasanof.ratelimitingwithspring.core;
+package org.khasanof.ratelimitingwithspring.enums;
 
 /**
  * Author: Nurislom

@@ -8,9 +8,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SpringMVC6" />
+        <module name="khasanof-common-rate-limiting" />
         <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
-        <module name="RateLimitingWithSpring" />
         <module name="MapStruct" />
         <module name="SpringLiquibaseMigration" />
         <module name="SpringJdbcTemplate" />
@@ -31,6 +31,7 @@
     <bytecodeTargetLevel>
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
+      <module name="RateLimitingWithSpring" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
       <module name="Spring-Batch" target="17" />
@@ -64,6 +65,7 @@
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="-parameters" />
+      <module name="khasanof-common-rate-limiting" options="-parameters" />
     </option>
   </component>
 </project>

@@ -7,16 +7,12 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringMVC6" />
+        <module name="Junit5Spring" />
         <module name="khasanof-common-rate-limiting" />
         <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
-        <module name="SpringLiquibaseMigration" />
-        <module name="SpringJdbcTemplate" />
-        <module name="SpringDataJPA" />
         <module name="SpringWorkingYAML" />
-        <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
@@ -29,6 +25,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="JacksonBoot" target="17" />
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
@@ -37,7 +34,11 @@
       <module name="Spring-Batch" target="17" />
       <module name="SpringAOP" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
+      <module name="SpringDataJPA" target="17" />
       <module name="SpringExpressionLanguage" target="17" />
+      <module name="SpringJdbcTemplate" target="17" />
+      <module name="SpringLiquibaseMigration" target="17" />
+      <module name="SpringMVC6" target="17" />
       <module name="SpringQueryDSL" target="17" />
       <module name="SpringReactiveR2DBC" target="17" />
       <module name="SpringSession" target="17" />
@@ -48,6 +49,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />
+      <module name="Junit5Spring" options="-parameters" />
       <module name="RateLimitingWithSpring" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />

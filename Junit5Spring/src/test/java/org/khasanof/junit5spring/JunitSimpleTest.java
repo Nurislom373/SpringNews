@@ -1,7 +1,6 @@
 package org.khasanof.junit5spring;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Tag;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -15,11 +14,9 @@ import org.junit.jupiter.api.Test;
  */
 public class JunitSimpleTest {
 
-    private final CalculateService service = new CalculateService();
-
-    @Tag("Boom")
     @Test
     void addition() {
+        CalculateService service = new CalculateService();
         long calculate = service.calculate(5, 5, '+');
         Assertions.assertEquals(10, calculate);
     }

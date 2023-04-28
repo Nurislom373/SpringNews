@@ -2,6 +2,9 @@ package org.khasanof.junit5spring;
 
 import org.junit.jupiter.api.Test;
 
+import java.time.Duration;
+import java.util.concurrent.CountDownLatch;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
@@ -61,6 +64,56 @@ public class AssertionsExampleTest {
                     );
                 }
         );
+    }
+
+    @Test
+    void exceptionTesting() {
+        ArithmeticException exception = assertThrows(ArithmeticException.class,
+                () -> service.calculate(1L, 0L, '/'));
+        assertEquals("cannot be divided by zero.", exception.getMessage());
+    }
+
+    @Test
+    void timeoutNotExceeded() {
+        // The following assertion succeeds.
+        assertTimeout(Duration.ofSeconds(5), () -> {
+            // Perform task that takes less than 5 seconds.
+            System.out.println("Nurislom");
+        });
+    }
+
+    @Test
+    void timeoutNotExceededWithResult() {
+        // The following assertion succeeds, and returns the supplied object.
+        String result = assertTimeout(Duration.ofSeconds(3), () -> "Abdulloh");
+        assertEquals("Abdulloh", result);
+    }
+
+    @Test
+    void timeoutNotExceededWithMethod() {
+        // The following assertion invokes a method reference and returns an object.
+        String greeting = assertTimeout(Duration.ofSeconds(3), service::greeting);
+        assertEquals("Boom", greeting);
+    }
+
+    @Test
+    void timeoutExceeded() {
+        // The following assertion fails with an error message similar to:
+        // execution exceeded timeout of 10 ms by 91 ms
+        assertTimeout(Duration.ofMillis(10), () -> {
+            // Simulate task that takes more than 10 ms.
+            Thread.sleep(100);
+        }, () -> "Hello World");
+    }
+
+    @Test
+    void timeoutExceededWithPreemptiveTermination() {
+        // The following assertion fails with an error message similar to:
+        // execution timed out after 10 ms
+        assertTimeoutPreemptively(Duration.ofMillis(10), () -> {
+            // Simulate task that takes more than 10 ms.
+            new CountDownLatch(1).await();
+        });
     }
 
 }

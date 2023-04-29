@@ -240,7 +240,7 @@ must not be `abstract` and must not return a value (except `@TestFactory` method
 Test Methodlar va Lifecycle Methodlar superclasslardan meros bo'lib o'tishi mumkin. Bundan tashqari test va lifecycle
 methodlar `abstract` bo'lmasligi va qiymat qaytarmasligi kerak.    
 
-### Class and method visibility
+## Class and method visibility
 
 Test classes, test methods, and lifecycle methods are not required to be public, but they must not be private.
 
@@ -307,7 +307,7 @@ and even emojis — that will be displayed in test reports and by test runne
 ---
 
 `@DisplayName` annotatsiyasi bilan test class va methodlariga nom berishimiz mumkin. Har xil turdagi belgi va emojilar
-qo'yishimiz mumkin.
+foydalanib nom berishimiz ham mumkin.
 
 ```java
 @DisplayName("Display Name Test Class")

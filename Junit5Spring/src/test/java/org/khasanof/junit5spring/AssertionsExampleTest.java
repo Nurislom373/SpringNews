@@ -1,6 +1,7 @@
 package org.khasanof.junit5spring;
 
 import org.junit.jupiter.api.Test;
+import org.opentest4j.AssertionFailedError;
 
 import java.time.Duration;
 import java.util.concurrent.CountDownLatch;
@@ -104,6 +105,18 @@ public class AssertionsExampleTest {
             // Simulate task that takes more than 10 ms.
             Thread.sleep(100);
         }, () -> "Hello World");
+    }
+
+    @Test
+    void timeoutExceededWithAssertion() {
+        assertAll(() -> {
+            assertThrows(AssertionFailedError.class, () -> {
+                assertTimeout(Duration.ofMillis(10), () -> {
+                    Thread.sleep(20);
+                    return new RuntimeException("Not Executed!");
+                }, () -> "Not Executed!");
+            });
+        });
     }
 
     @Test

@@ -15,7 +15,7 @@ public class CalculateService {
         return "Boom";
     }
 
-    long calculate(long num1, long num2, char oper) {
+    public long calculate(long num1, long num2, char oper) {
         return switch (oper) {
             case '+' -> num1 + num2;
             case '-' -> num1 - num2;

@@ -35,8 +35,8 @@ versions of the JDK.
 ## Dependencies
 
 1. JUnit Platform
-   * **Group ID**: `org.junit.platform`
-   * **Version**: `1.9.3`
+    * **Group ID**: `org.junit.platform`
+    * **Version**: `1.9.3`
 2. JUnit Jupiter
     * **Group ID**: `org.junit.jupiter`
     * **Version**: `5.9.3`
@@ -52,7 +52,7 @@ The following example provides a glimpse at the minimum requirements for writing
 @Test
 void simpleTest() {
     CalculateService service = new CalculateService();
-    long calculate = service.calculate(5, 5, '+');
+    long calculate=service.calculate(5, 5, '+');
     Assertions.assertEquals(10, calculate);
 }
 ```
@@ -61,7 +61,7 @@ void simpleTest() {
 
 JUnit Jupiter supports the following annotations for configuring tests and extending the framework.
 
-Unless otherwise stated, all core annotations are located in the `org.junit.jupiter.api` package in the 
+Unless otherwise stated, all core annotations are located in the `org.junit.jupiter.api` package in the
 `junit-jupiter-api` module.
 
 ---
@@ -192,3 +192,280 @@ JUnit Jupiter testlarni sozlash uchun quyidagi annotation-larni qo'llab-quvvatla
          method; located in the `org.junit.jupiter.api.io` package.</td>
    </tr>
 </table>
+
+# Jupiter Concepts
+
+**Lifecycle Method**
+
+- any method that is directly annotated or meta-annotated with `@BeforeAll`, `@AfterAll`, `@BeforeEach`,
+  or `@AfterEach`.
+
+**Test Class**
+
+- any top-level class, static member class, or @Nested class that contains at least one test method, i.e. a container.
+  Test classes must not be abstract and must have a single constructor.
+
+**Test Method**
+
+- any instance method that is directly annotated or meta-annotated with `@Test`, `@RepeatedTest`, `@ParameterizedTest`,
+  `@TestFactory`, or `@TestTemplate`. With the exception of @Test, these create a container in the test tree that groups
+  tests or, potentially (for @TestFactory), other containers.
+
+--- 
+
+**Lifecycle Method**
+
+- `@BeforeAll`, `@AfterAll`, `@BeforeEach`, or `@AfterEach`. Ushbu 4ta annotatsiyadan istalgan biri qoyilgan method
+  _Lifecycle Method_ deyiladi. Yani Test Classlar bajarilishidan oldin yoki keyin ishlaydigan methodlar.
+
+**Test Class**
+
+- Har qanday top-level class, static member class yoki @Nested annotatsiyasi qoyilgan class. Ushbu classlarni ichida
+  kamida bitta test method bo'lsa ushbu class _Test Class_ deb ataladi. Test Classlarni nomi **Test** bilan tugashi
+  majburiy emas. Lekin test class ekanligini bildirish uchun test qo'shimchasini qo'shimiz kerak.
+
+**Test Method**
+
+- `@Test`, `@RepeatedTest`, `@ParameterizedTest`, `@TestFactory` yoki `@TestTemplate` annotatsiyalaridan biri qoyilgan
+  method test method deyiladi. 
+
+# Test Classes and Methods
+
+Test methods and lifecycle methods may be declared locally within the current test class, inherited from superclasses, 
+or inherited from interfaces (see Test Interfaces and Default Methods). In addition, test methods and lifecycle methods 
+must not be `abstract` and must not return a value (except `@TestFactory` methods which are required to return a value).
+
+---
+
+Test Methodlar va Lifecycle Methodlar superclasslardan meros bo'lib o'tishi mumkin. Bundan tashqari test va lifecycle
+methodlar `abstract` bo'lmasligi va qiymat qaytarmasligi kerak.    
+
+### Class and method visibility
+
+Test classes, test methods, and lifecycle methods are not required to be public, but they must not be private.
+
+---
+
+Test Classlar, test methodlar va lifecycle methodlar `public` bo'lishi shart emas. `private` bo'lishi mumkin emas.
+
+----
+
+`It is generally recommended to omit the public modifier for test classes, test methods, and lifecycle methods unless 
+there is a technical reason for doing so – for example, when a test class is extended by a test class in another 
+package. Another technical reason for making classes and methods public is to simplify testing on the module path when 
+using the Java Module System.`
+
+```java
+public class LifecycleMethodTests {
+
+    private static final Logger log = LoggerFactory.getLogger(LifecycleMethodTests.class);
+
+    @BeforeAll
+    static void initAll() {
+        log.info("initAll Method Start");
+    }
+
+    @BeforeEach
+    void init() {
+        log.info("init Method Start");
+    }
+
+    @Test
+    void failingTest() {
+        log.error("failingTest Method Start");
+    }
+
+    @Test
+    @Disabled("for demonstration purposes")
+    void skippedTest() {
+        // not executed!
+    }
+
+    @Test
+    void abortedTest() {
+        log.info("test should have been aborted");
+    }
+
+    @AfterEach
+    void tearDown() {
+        log.warn("tearDown Method Start");
+    }
+
+    @AfterAll
+    static void tearDownAll() {
+        log.warn("tearDownAll Method Start");
+    }
+
+}
+```
+
+# Display Names
+
+Test classes and test methods can declare custom display names via @DisplayName — with spaces, special characters,
+and even emojis — that will be displayed in test reports and by test runners and IDEs.
+
+---
+
+`@DisplayName` annotatsiyasi bilan test class va methodlariga nom berishimiz mumkin. Har xil turdagi belgi va emojilar
+qo'yishimiz mumkin.
+
+```java
+@DisplayName("Display Name Test Class")
+public class DisplayNameTest {
+
+    @Test
+    @DisplayName("Custom test name containing spaces")
+    void testWithDisplayNameContainingSpaces() {
+    }
+
+    @Test
+    @DisplayName("╯°□°）╯")
+    void testWithDisplayNameContainingSpecialCharacters() {
+    }
+
+    @Test
+    @DisplayName("😱")
+    void testWithDisplayNameContainingEmoji() {
+    }
+
+}
+```
+
+# Assertions
+
+```java
+public class AssertionsExampleTest {
+
+    private final CalculateService service = new CalculateService();
+    private final Person person = new Person("Nurislom", 18);
+
+    @Test
+    void standardAssertions() {
+        assertEquals(4, service.calculate(2, 2, '+'));
+        assertEquals(5, service.calculate(10, 5, '-'));
+        assertTrue('a' < 'b', "Assertion messages can be lazily evaluated -- " +
+                "to avoid constructing complex messages unnecessarily.");
+    }
+
+    @Test
+    void groupedAssertions() {
+        // In a grouped assertion all assertions are executed, and all failures will be reported together.
+        assertAll(
+                () -> assertEquals("Nurislom", person.getName()),
+                () -> assertEquals(18, person.getAge()),
+                () -> assertEquals(5, 5)
+        );
+    }
+
+    @Test
+    void dependentAssertions() {
+        // Within a code block, if an assertion fails the subsequent code in the same block will be skipped.
+        assertAll(
+                () -> {
+                    String name = person.getName();
+                    assertNotNull(name);
+
+                    // Executed only if the previous assertion is valid.
+                    assertAll(name,
+                            () -> assertTrue(name.startsWith("N")),
+                            () -> assertTrue(name.endsWith("m"))
+                    );
+                },
+                () -> {
+                    Integer age = person.getAge();
+                    assertNotNull(age);
+
+                    // Executed only if the previous assertion is valid.
+                    assertAll(String.valueOf(age),
+                            () -> assertEquals(18, (int) age),
+                            () -> assertTrue(true)
+                    );
+                }
+        );
+    }
+
+    @Test
+    void exceptionTesting() {
+        ArithmeticException exception = assertThrows(ArithmeticException.class,
+                () -> service.calculate(1L, 0L, '/'));
+        assertEquals("cannot be divided by zero.", exception.getMessage());
+    }
+
+    @Test
+    void timeoutNotExceeded() {
+        // The following assertion succeeds.
+        assertTimeout(Duration.ofSeconds(5), () -> {
+            // Perform task that takes less than 5 seconds.
+            System.out.println("Nurislom");
+        });
+    }
+
+    @Test
+    void timeoutNotExceededWithResult() {
+        // The following assertion succeeds, and returns the supplied object.
+        String result = assertTimeout(Duration.ofSeconds(3), () -> "Abdulloh");
+        assertEquals("Abdulloh", result);
+    }
+
+    @Test
+    void timeoutNotExceededWithMethod() {
+        // The following assertion invokes a method reference and returns an object.
+        String greeting = assertTimeout(Duration.ofSeconds(3), service::greeting);
+        assertEquals("Boom", greeting);
+    }
+
+    @Test
+    void timeoutExceeded() {
+        // The following assertion fails with an error message similar to:
+        // execution exceeded timeout of 10 ms by 91 ms
+        assertTimeout(Duration.ofMillis(10), () -> {
+            // Simulate task that takes more than 10 ms.
+            Thread.sleep(100);
+        }, () -> "Hello World");
+    }
+
+    @Test
+    void timeoutExceededWithAssertion() {
+        assertAll(() -> {
+            assertThrows(AssertionFailedError.class, () -> {
+                assertTimeout(Duration.ofMillis(10), () -> {
+                    Thread.sleep(20);
+                    return new RuntimeException("Not Executed!");
+                }, () -> "Not Executed!");
+            });
+        });
+    }
+
+    @Test
+    void timeoutExceededWithPreemptiveTermination() {
+        // The following assertion fails with an error message similar to:
+        // execution timed out after 10 ms
+        assertTimeoutPreemptively(Duration.ofMillis(10), () -> {
+            // Simulate task that takes more than 10 ms.
+            new CountDownLatch(1).await();
+        });
+    }
+
+}
+```
+
+# Third-party Assertion Libraries
+
+Even though the assertion facilities provided by JUnit Jupiter are sufficient for many testing scenarios, there are 
+times when more power and additional functionality such as matchers are desired or required. In such cases, the JUnit 
+team recommends the use of third-party assertion libraries such as [AssertJ](https://joel-costigliola.github.io/assertj/),
+[Hamcrest](https://hamcrest.org/JavaHamcrest/), [Truth](https://truth.dev/), etc. Developers are therefore free to use 
+the assertion library of their choice.
+
+# Disabling Tests
+
+```java
+@Disabled("Disabled until bug #99 has been fixed")
+class DisabledClassDemo {
+
+    @Test
+    void testWillBeSkipped() {
+    }
+
+}
+```

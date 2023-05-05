@@ -469,3 +469,155 @@ class DisabledClassDemo {
 
 }
 ```
+
+# Conditional Test Execution
+
+The ExecutionCondition extension API in JUnit Jupiter allows developers to either enable or disable a container or test 
+based on certain conditions programmatically. The simplest example of such a condition is the built-in DisabledCondition
+which supports the @Disabled annotation (see Disabling Tests). In addition to @Disabled, JUnit Jupiter also supports 
+several other annotation-based conditions in the org.junit.jupiter.api.condition package that allow developers to enable
+or disable containers and tests declaratively. When multiple ExecutionCondition extensions are registered, a container 
+or test is disabled as soon as one of the conditions returns disabled. If you wish to provide details about why they 
+might be disabled, every annotation associated with these built-in conditions has a disabledReason attribute available 
+for that purpose.
+
+
+## Custom Conditions
+
+As an alternative to implementing an `ExecutionCondition`, a container or test may be enabled or disabled based on a 
+condition method configured via the `@EnabledIf` and `@DisabledIf` annotations. A condition method must have a boolean 
+return type and may accept either no arguments or a single ExtensionContext argument.
+
+```java
+@Test
+@EnabledIf("customCondition")
+void enabled() {
+    // ...
+}
+
+@Test
+@DisabledIf("customCondition")
+void disabled() {
+    // ...
+}
+
+boolean customCondition() {
+    return true;
+}
+```
+
+Alternatively, the condition method can be located outside the test class. In this case, it must be referenced by its 
+fully qualified name as demonstrated in the following example.
+
+```java
+package example;
+
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.condition.EnabledIf;
+
+class ExternalCustomConditionDemo {
+
+    @Test
+    @EnabledIf("example.ExternalCondition#customCondition")
+    void enabled() {
+        // ...
+    }
+
+}
+
+class ExternalCondition {
+
+    static boolean customCondition() {
+        return true;
+    }
+
+}
+```
+
+# Nested Tests
+
+`@Nested` tests give the test writer more capabilities to express the relationship among several groups of tests. Such 
+nested tests make use of Java’s nested classes and facilitate hierarchical thinking about the test structure. Here’s an 
+elaborate example, both as source code and as a screenshot of the execution within an IDE.
+
+Only non-static nested classes (i.e. inner classes) can serve as @Nested test classes. Nesting can be arbitrarily deep, 
+and those inner classes are subject to full lifecycle support with one exception: @BeforeAll and @AfterAll methods do 
+not work by default. The reason is that Java does not allow static members in inner classes prior to Java 16. However, 
+this restriction can be circumvented by annotating a @Nested test class with @TestInstance(Lifecycle.PER_CLASS) 
+(see Test Instance Lifecycle). If you are using Java 16 or higher, @BeforeAll and @AfterAll methods can be declared as 
+static in @Nested test classes, and this restriction no longer applies.
+
+---
+
+JUnit 5da `@Nested` annotatsiyasi inner test classlarni yaratish uchun ishlatiladi.
+
+Static bo'lmagan classlargina inner test class bo'lishi mumkin. default holatda static `@BeforeAll` va `@AfterAll`
+lifecycle methodlari ishlamaydi. Sababi Java 16 dan oldin inner classlarda static memberlarga ruhsat berilmaydi.
+Ammo ushbu cheklov 16dan boshlab `@TestIntance(Lifecycle.PER_CLASS)` annotatsiyasini `@Nested` annotatsiyasi qo'yilgan
+inner classga qo'yish orqali chetlab o'tish mumkin. 
+
+```java
+@DisplayName("List Interface Several Case Tests")
+public class ListInterfaceTest {
+
+    List<Integer> nums;
+
+    @Test
+    void initialize() {
+        nums = new ArrayList<>();
+    }
+
+    @Nested
+    @DisplayName("When Is New")
+    class WhenIsNew {
+
+        @BeforeEach
+        void beforeEach() {
+            nums = new ArrayList<>();
+        }
+
+        @Test
+        void isNonNullTest() {
+            assertFalse(Objects.isNull(nums));
+        }
+
+        @Test
+        void isEmptyTest() {
+            assertTrue(nums.isEmpty());
+        }
+
+        @Test
+        void throwsRuntimeException() {
+            assertThrows(RuntimeException.class, () -> nums.get(0));
+        }
+
+        @Test
+        void throwsArrayIndexOutOfBound() {
+            assertThrows(IndexOutOfBoundsException.class, () -> nums.get(9));
+        }
+
+        @Nested
+        @DisplayName("After Pushing Element Several Test Cases")
+        class AfterPushingElementTest {
+
+            @BeforeEach
+            void beforeEach() {
+                nums.add(18);
+            }
+
+            @Test
+            void isNotEmpty() {
+                assertFalse(nums.isEmpty());
+            }
+
+            @Test
+            void listElementEqualsTest() {
+                assertEquals(18, nums.get(0));
+            }
+
+        }
+
+    }
+
+}
+```

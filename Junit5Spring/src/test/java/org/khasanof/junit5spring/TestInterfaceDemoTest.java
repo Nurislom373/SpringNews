@@ -18,7 +18,7 @@ import static org.junit.jupiter.api.Assertions.*;
  * Package: org.khasanof.junit5spring
  */
 @ExtendWith(TimingExtension.class)
-public class TestInterfaceDemoTest implements TestLifeCycleLogger {
+public class TestInterfaceDemoTest implements TestLifeCycleLogger, TestInterfaceDynamicTests {
 
     @Test
     void isEqualValue() {

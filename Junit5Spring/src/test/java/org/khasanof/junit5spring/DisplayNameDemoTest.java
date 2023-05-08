@@ -13,7 +13,4 @@ import org.junit.jupiter.api.DisplayName;
  */
 @DisplayName("A special test case")
 public class DisplayNameDemoTest {
-
-
-
 }

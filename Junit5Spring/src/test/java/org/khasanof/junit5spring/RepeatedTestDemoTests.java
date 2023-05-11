@@ -25,7 +25,7 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 public class RepeatedTestDemoTests {
 
-    @RepeatedTest(10)
+    @RepeatedTest(value = 10)
     void repeatedTest() {
         Random random = new Random();
         assertAll(

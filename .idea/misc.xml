@@ -16,6 +16,7 @@
         <option value="$PROJECT_DIR$/RateLimitingWithSpring/pom.xml" />
         <option value="$PROJECT_DIR$/Junit5Spring/pom.xml" />
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
       </list>
     </option>
   </component>

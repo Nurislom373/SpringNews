@@ -13,6 +13,7 @@
         <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
         <module name="SpringWorkingYAML" />
+        <module name="SpringJdbcTemplate" />
         <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
       </profile>
@@ -36,7 +37,6 @@
       <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringDataJPA" target="17" />
       <module name="SpringExpressionLanguage" target="17" />
-      <module name="SpringJdbcTemplate" target="17" />
       <module name="SpringLiquibaseMigration" target="17" />
       <module name="SpringMVC6" target="17" />
       <module name="SpringQueryDSL" target="17" />

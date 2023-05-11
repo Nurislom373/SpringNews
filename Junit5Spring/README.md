@@ -621,3 +621,129 @@ public class ListInterfaceTest {
 
 }
 ```
+
+# @RepeatedTest
+
+JUnit Jupiter provides the ability to repeat a test a specified number of times by annotating a method with 
+@RepeatedTest and specifying the total number of repetitions desired. Each invocation of a repeated test behaves like 
+the execution of a regular @Test method with full support for the same lifecycle callbacks and extensions.
+
+In addition to specifying the number of repetitions, a custom display name can be configured for each repetition via the
+name attribute of the @RepeatedTest annotation. Furthermore, the display name can be a pattern composed of a combination
+of static text and dynamic placeholders. The following placeholders are currently supported.
+
+- `{displayName}`: display name of the `@RepeatedTest` method
+- `{currentRepetition}`: the current repetition count
+- `{totalRepetitions}`: the total number of repetitions
+
+```java
+@RepeatedTest(10)
+void repeatedTest() {
+    // ...
+}
+```
+
+Example Source Code - [Link](src/test/java/org/khasanof/junit5spring/RepeatedTestDemoTests.java)
+
+# Parameterized Tests
+
+Parameterized tests make it possible to run a test multiple times with different arguments. They are declared just like 
+regular `@Test` methods but use the `@ParameterizedTest` annotation instead. In addition, you must declare at least one 
+source that will provide the arguments for each invocation and then consume the arguments in the test method.
+
+The following example demonstrates a parameterized test that uses the `@ValueSource` annotation to specify a String array 
+as the source of arguments.
+
+```java
+@ParameterizedTest
+@ValueSource(strings = { "racecar", "radar", "able was I ere I saw elba" })
+void palindromes(String candidate) {
+    assertTrue(StringUtils.isPalindrome(candidate));
+}
+```
+
+## Required Setup
+In order to use parameterized tests you need to add a dependency on the `junit-jupiter-params` artifact. Please refer to 
+Dependency Metadata for details.
+
+## @ValueSource
+
+`@ValueSource` is one of the simplest possible sources. It lets you specify a single array of literal values and can only 
+be used for providing a single argument per parameterized test invocation.
+
+The following types of literal values are supported by `@ValueSource`.
+
+* short
+* byte
+* int
+* long
+* float
+* double
+* char
+* boolean
+* java.lang.String
+* java.lang.Class
+
+## Null and Empty Sources
+
+In order to check corner cases and verify proper behavior of our software when it is supplied bad input, it can be 
+useful to have null and empty values supplied to our parameterized tests. The following annotations serve as sources 
+of null and empty values for parameterized tests that accept a single argument.
+
+- `@NullSource`: provides a single null argument to the annotated `@ParameterizedTest` method.
+- `@EmptySource`: provides a single empty argument to the annotated `@ParameterizedTest` method for parameters of the 
+  following types: java.lang.String, java.util.List, java.util.Set, java.util.Map, primitive arrays (e.g., int[], 
+  char[][], etc.), object arrays (e.g.,String[], Integer[][], etc.).
+- `@NullAndEmptySource`: a composed annotation that combines the functionality of `@NullSource` and `@EmptySource`.
+
+```java
+@ParameterizedTest
+@NullSource
+@EmptySource
+@ValueSource(strings = { " ", "   ", "\t", "\n" })
+void nullEmptyAndBlankStrings(String text) {
+    assertTrue(text == null || text.trim().isEmpty());
+}
+```
+
+```java
+@ParameterizedTest
+@NullAndEmptySource
+@ValueSource(strings = { " ", "   ", "\t", "\n" })
+void nullEmptyAndBlankStrings(String text) {
+    assertTrue(text == null || text.trim().isEmpty());
+}
+```
+
+## @MethodSource
+
+@MethodSource allows you to refer to one or more factory methods of the test class or external classes.
+
+Factory methods within the test class must be static unless the test class is annotated with 
+@TestInstance(Lifecycle.PER_CLASS); whereas, factory methods in external classes must always be static.
+
+Each factory method must generate a stream of arguments, and each set of arguments within the stream will be provided as
+the physical arguments for individual invocations of the annotated @ParameterizedTest method. Generally speaking this 
+translates to a Stream of Arguments (i.e., Stream<Arguments>); however, the actual concrete return type can take on many
+forms. In this context, a "stream" is anything that JUnit can reliably convert into a Stream, such as Stream, 
+DoubleStream, LongStream, IntStream, Collection, Iterator, Iterable, an array of objects, or an array of primitives. 
+The "arguments" within the stream can be supplied as an instance of Arguments, an array of objects (e.g., Object[]), or 
+a single value if the parameterized test method accepts a single argument.
+
+If you only need a single parameter, you can return a Stream of instances of the parameter type as demonstrated in the 
+following example.
+
+```java
+@ParameterizedTest
+@MethodSource("stringProvider")
+void testWithExplicitLocalMethodSource(String argument) {
+    assertNotNull(argument);
+}
+
+static Stream<String> stringProvider() {
+    return Stream.of("apple", "banana");
+}
+```
+
+Example Source Files - [Link](src/test/java/org/khasanof/junit5spring/parameterizedTests)
+

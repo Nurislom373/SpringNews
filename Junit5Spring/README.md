@@ -50,11 +50,11 @@ The following example provides a glimpse at the minimum requirements for writing
 
 ```java
 @Test
-void simpleTest() {
-    CalculateService service = new CalculateService();
-    long calculate=service.calculate(5, 5, '+');
-    Assertions.assertEquals(10, calculate);
-}
+void simpleTest(){
+        CalculateService service=new CalculateService();
+        long calculate=service.calculate(5,5,'+');
+        Assertions.assertEquals(10,calculate);
+        }
 ```
 
 ## 2.1 Annotations
@@ -227,18 +227,18 @@ JUnit Jupiter testlarni sozlash uchun quyidagi annotation-larni qo'llab-quvvatla
 **Test Method**
 
 - `@Test`, `@RepeatedTest`, `@ParameterizedTest`, `@TestFactory` yoki `@TestTemplate` annotatsiyalaridan biri qoyilgan
-  method test method deyiladi. 
+  method test method deyiladi.
 
 # Test Classes and Methods
 
-Test methods and lifecycle methods may be declared locally within the current test class, inherited from superclasses, 
-or inherited from interfaces (see Test Interfaces and Default Methods). In addition, test methods and lifecycle methods 
+Test methods and lifecycle methods may be declared locally within the current test class, inherited from superclasses,
+or inherited from interfaces (see Test Interfaces and Default Methods). In addition, test methods and lifecycle methods
 must not be `abstract` and must not return a value (except `@TestFactory` methods which are required to return a value).
 
 ---
 
 Test Methodlar va Lifecycle Methodlar superclasslardan meros bo'lib o'tishi mumkin. Bundan tashqari test va lifecycle
-methodlar `abstract` bo'lmasligi va qiymat qaytarmasligi kerak.    
+methodlar `abstract` bo'lmasligi va qiymat qaytarmasligi kerak.
 
 ## Class and method visibility
 
@@ -250,9 +250,9 @@ Test Classlar, test methodlar va lifecycle methodlar `public` bo'lishi shart ema
 
 ----
 
-`It is generally recommended to omit the public modifier for test classes, test methods, and lifecycle methods unless 
-there is a technical reason for doing so – for example, when a test class is extended by a test class in another 
-package. Another technical reason for making classes and methods public is to simplify testing on the module path when 
+`It is generally recommended to omit the public modifier for test classes, test methods, and lifecycle methods unless
+there is a technical reason for doing so – for example, when a test class is extended by a test class in another
+package. Another technical reason for making classes and methods public is to simplify testing on the module path when
 using the Java Module System.`
 
 ```java
@@ -301,8 +301,8 @@ public class LifecycleMethodTests {
 
 # Display Names
 
-Test classes and test methods can declare custom display names via @DisplayName — with spaces, special characters,
-and even emojis — that will be displayed in test reports and by test runners and IDEs.
+Test classes and test methods can declare custom display names via @DisplayName — with spaces, special characters,
+and even emojis — that will be displayed in test reports and by test runners and IDEs.
 
 ---
 
@@ -310,6 +310,7 @@ and even emojis — that will be displayed in test reports and by test runne
 foydalanib nom berishimiz ham mumkin.
 
 ```java
+
 @DisplayName("Display Name Test Class")
 public class DisplayNameTest {
 
@@ -451,15 +452,17 @@ public class AssertionsExampleTest {
 
 # Third-party Assertion Libraries
 
-Even though the assertion facilities provided by JUnit Jupiter are sufficient for many testing scenarios, there are 
-times when more power and additional functionality such as matchers are desired or required. In such cases, the JUnit 
-team recommends the use of third-party assertion libraries such as [AssertJ](https://joel-costigliola.github.io/assertj/),
-[Hamcrest](https://hamcrest.org/JavaHamcrest/), [Truth](https://truth.dev/), etc. Developers are therefore free to use 
+Even though the assertion facilities provided by JUnit Jupiter are sufficient for many testing scenarios, there are
+times when more power and additional functionality such as matchers are desired or required. In such cases, the JUnit
+team recommends the use of third-party assertion libraries such
+as [AssertJ](https://joel-costigliola.github.io/assertj/),
+[Hamcrest](https://hamcrest.org/JavaHamcrest/), [Truth](https://truth.dev/), etc. Developers are therefore free to use
 the assertion library of their choice.
 
 # Disabling Tests
 
 ```java
+
 @Disabled("Disabled until bug #99 has been fixed")
 class DisabledClassDemo {
 
@@ -472,41 +475,40 @@ class DisabledClassDemo {
 
 # Conditional Test Execution
 
-The ExecutionCondition extension API in JUnit Jupiter allows developers to either enable or disable a container or test 
+The ExecutionCondition extension API in JUnit Jupiter allows developers to either enable or disable a container or test
 based on certain conditions programmatically. The simplest example of such a condition is the built-in DisabledCondition
-which supports the @Disabled annotation (see Disabling Tests). In addition to @Disabled, JUnit Jupiter also supports 
+which supports the @Disabled annotation (see Disabling Tests). In addition to @Disabled, JUnit Jupiter also supports
 several other annotation-based conditions in the org.junit.jupiter.api.condition package that allow developers to enable
-or disable containers and tests declaratively. When multiple ExecutionCondition extensions are registered, a container 
-or test is disabled as soon as one of the conditions returns disabled. If you wish to provide details about why they 
-might be disabled, every annotation associated with these built-in conditions has a disabledReason attribute available 
+or disable containers and tests declaratively. When multiple ExecutionCondition extensions are registered, a container
+or test is disabled as soon as one of the conditions returns disabled. If you wish to provide details about why they
+might be disabled, every annotation associated with these built-in conditions has a disabledReason attribute available
 for that purpose.
-
 
 ## Custom Conditions
 
-As an alternative to implementing an `ExecutionCondition`, a container or test may be enabled or disabled based on a 
-condition method configured via the `@EnabledIf` and `@DisabledIf` annotations. A condition method must have a boolean 
+As an alternative to implementing an `ExecutionCondition`, a container or test may be enabled or disabled based on a
+condition method configured via the `@EnabledIf` and `@DisabledIf` annotations. A condition method must have a boolean
 return type and may accept either no arguments or a single ExtensionContext argument.
 
 ```java
 @Test
 @EnabledIf("customCondition")
-void enabled() {
-    // ...
-}
+void enabled(){
+        // ...
+        }
 
 @Test
 @DisabledIf("customCondition")
-void disabled() {
-    // ...
-}
+void disabled(){
+        // ...
+        }
 
-boolean customCondition() {
-    return true;
-}
+        boolean customCondition(){
+        return true;
+        }
 ```
 
-Alternatively, the condition method can be located outside the test class. In this case, it must be referenced by its 
+Alternatively, the condition method can be located outside the test class. In this case, it must be referenced by its
 fully qualified name as demonstrated in the following example.
 
 ```java
@@ -536,15 +538,15 @@ class ExternalCondition {
 
 # Nested Tests
 
-`@Nested` tests give the test writer more capabilities to express the relationship among several groups of tests. Such 
-nested tests make use of Java’s nested classes and facilitate hierarchical thinking about the test structure. Here’s an 
+`@Nested` tests give the test writer more capabilities to express the relationship among several groups of tests. Such
+nested tests make use of Java’s nested classes and facilitate hierarchical thinking about the test structure. Here’s an
 elaborate example, both as source code and as a screenshot of the execution within an IDE.
 
-Only non-static nested classes (i.e. inner classes) can serve as @Nested test classes. Nesting can be arbitrarily deep, 
-and those inner classes are subject to full lifecycle support with one exception: @BeforeAll and @AfterAll methods do 
-not work by default. The reason is that Java does not allow static members in inner classes prior to Java 16. However, 
-this restriction can be circumvented by annotating a @Nested test class with @TestInstance(Lifecycle.PER_CLASS) 
-(see Test Instance Lifecycle). If you are using Java 16 or higher, @BeforeAll and @AfterAll methods can be declared as 
+Only non-static nested classes (i.e. inner classes) can serve as @Nested test classes. Nesting can be arbitrarily deep,
+and those inner classes are subject to full lifecycle support with one exception: @BeforeAll and @AfterAll methods do
+not work by default. The reason is that Java does not allow static members in inner classes prior to Java 16. However,
+this restriction can be circumvented by annotating a @Nested test class with @TestInstance(Lifecycle.PER_CLASS)
+(see Test Instance Lifecycle). If you are using Java 16 or higher, @BeforeAll and @AfterAll methods can be declared as
 static in @Nested test classes, and this restriction no longer applies.
 
 ---
@@ -554,9 +556,10 @@ JUnit 5da `@Nested` annotatsiyasi inner test classlarni yaratish uchun ishlatila
 Static bo'lmagan classlargina inner test class bo'lishi mumkin. default holatda static `@BeforeAll` va `@AfterAll`
 lifecycle methodlari ishlamaydi. Sababi Java 16 dan oldin inner classlarda static memberlarga ruhsat berilmaydi.
 Ammo ushbu cheklov 16dan boshlab `@TestIntance(Lifecycle.PER_CLASS)` annotatsiyasini `@Nested` annotatsiyasi qo'yilgan
-inner classga qo'yish orqali chetlab o'tish mumkin. 
+inner classga qo'yish orqali chetlab o'tish mumkin.
 
 ```java
+
 @DisplayName("List Interface Several Case Tests")
 public class ListInterfaceTest {
 
@@ -624,8 +627,8 @@ public class ListInterfaceTest {
 
 # @RepeatedTest
 
-JUnit Jupiter provides the ability to repeat a test a specified number of times by annotating a method with 
-@RepeatedTest and specifying the total number of repetitions desired. Each invocation of a repeated test behaves like 
+JUnit Jupiter provides the ability to repeat a test a specified number of times by annotating a method with
+@RepeatedTest and specifying the total number of repetitions desired. Each invocation of a repeated test behaves like
 the execution of a regular @Test method with full support for the same lifecycle callbacks and extensions.
 
 In addition to specifying the number of repetitions, a custom display name can be configured for each repetition via the
@@ -638,37 +641,46 @@ of static text and dynamic placeholders. The following placeholders are currentl
 
 ```java
 @RepeatedTest(10)
-void repeatedTest() {
-    // ...
-}
+void repeatedTest(){
+        // ...
+        }
 ```
 
 Example Source Code - [Link](src/test/java/org/khasanof/junit5spring/RepeatedTestDemoTests.java)
 
 # Parameterized Tests
 
-Parameterized tests make it possible to run a test multiple times with different arguments. They are declared just like 
-regular `@Test` methods but use the `@ParameterizedTest` annotation instead. In addition, you must declare at least one 
+Parameterized tests make it possible to run a test multiple times with different arguments. They are declared just like
+regular `@Test` methods but use the `@ParameterizedTest` annotation instead. In addition, you must declare at least one
 source that will provide the arguments for each invocation and then consume the arguments in the test method.
 
-The following example demonstrates a parameterized test that uses the `@ValueSource` annotation to specify a String array 
+The following example demonstrates a parameterized test that uses the `@ValueSource` annotation to specify a String
+array
 as the source of arguments.
+
+---
+
+Parameterized Testlar testni turli argumentlar bilan bir necha marta testdan o'tkazish imkoni beradi. Ular ham oddiy
+testlar kabi e'lon qilinadi, lekin `@Test` annotatsiyasini o'rniga `@ParameterizedTest` annotatsiya qoyiladi va kirib
+keluvchi parameterlarni e'lon qilishingiz kerak bo'ladi.
 
 ```java
 @ParameterizedTest
-@ValueSource(strings = { "racecar", "radar", "able was I ere I saw elba" })
-void palindromes(String candidate) {
-    assertTrue(StringUtils.isPalindrome(candidate));
-}
+@ValueSource(strings = {"racecar", "radar", "able was I ere I saw elba"})
+void palindromes(String candidate){
+        assertTrue(StringUtils.isPalindrome(candidate));
+        }
 ```
 
 ## Required Setup
-In order to use parameterized tests you need to add a dependency on the `junit-jupiter-params` artifact. Please refer to 
+
+In order to use parameterized tests you need to add a dependency on the `junit-jupiter-params` artifact. Please refer to
 Dependency Metadata for details.
 
 ## @ValueSource
 
-`@ValueSource` is one of the simplest possible sources. It lets you specify a single array of literal values and can only 
+`@ValueSource` is one of the simplest possible sources. It lets you specify a single array of literal values and can
+only
 be used for providing a single argument per parameterized test invocation.
 
 The following types of literal values are supported by `@ValueSource`.
@@ -686,13 +698,13 @@ The following types of literal values are supported by `@ValueSource`.
 
 ## Null and Empty Sources
 
-In order to check corner cases and verify proper behavior of our software when it is supplied bad input, it can be 
-useful to have null and empty values supplied to our parameterized tests. The following annotations serve as sources 
+In order to check corner cases and verify proper behavior of our software when it is supplied bad input, it can be
+useful to have null and empty values supplied to our parameterized tests. The following annotations serve as sources
 of null and empty values for parameterized tests that accept a single argument.
 
 - `@NullSource`: provides a single null argument to the annotated `@ParameterizedTest` method.
-- `@EmptySource`: provides a single empty argument to the annotated `@ParameterizedTest` method for parameters of the 
-  following types: java.lang.String, java.util.List, java.util.Set, java.util.Map, primitive arrays (e.g., int[], 
+- `@EmptySource`: provides a single empty argument to the annotated `@ParameterizedTest` method for parameters of the
+  following types: java.lang.String, java.util.List, java.util.Set, java.util.Map, primitive arrays (e.g., int[],
   char[][], etc.), object arrays (e.g.,String[], Integer[][], etc.).
 - `@NullAndEmptySource`: a composed annotation that combines the functionality of `@NullSource` and `@EmptySource`.
 
@@ -700,49 +712,49 @@ of null and empty values for parameterized tests that accept a single argument.
 @ParameterizedTest
 @NullSource
 @EmptySource
-@ValueSource(strings = { " ", "   ", "\t", "\n" })
-void nullEmptyAndBlankStrings(String text) {
-    assertTrue(text == null || text.trim().isEmpty());
-}
+@ValueSource(strings = {" ", "   ", "\t", "\n"})
+void nullEmptyAndBlankStrings(String text){
+        assertTrue(text==null||text.trim().isEmpty());
+        }
 ```
 
 ```java
 @ParameterizedTest
 @NullAndEmptySource
-@ValueSource(strings = { " ", "   ", "\t", "\n" })
-void nullEmptyAndBlankStrings(String text) {
-    assertTrue(text == null || text.trim().isEmpty());
-}
+@ValueSource(strings = {" ", "   ", "\t", "\n"})
+void nullEmptyAndBlankStrings(String text){
+        assertTrue(text==null||text.trim().isEmpty());
+        }
 ```
 
 ## @MethodSource
 
 @MethodSource allows you to refer to one or more factory methods of the test class or external classes.
 
-Factory methods within the test class must be static unless the test class is annotated with 
+Factory methods within the test class must be static unless the test class is annotated with
 @TestInstance(Lifecycle.PER_CLASS); whereas, factory methods in external classes must always be static.
 
 Each factory method must generate a stream of arguments, and each set of arguments within the stream will be provided as
-the physical arguments for individual invocations of the annotated @ParameterizedTest method. Generally speaking this 
+the physical arguments for individual invocations of the annotated @ParameterizedTest method. Generally speaking this
 translates to a Stream of Arguments (i.e., Stream<Arguments>); however, the actual concrete return type can take on many
-forms. In this context, a "stream" is anything that JUnit can reliably convert into a Stream, such as Stream, 
-DoubleStream, LongStream, IntStream, Collection, Iterator, Iterable, an array of objects, or an array of primitives. 
-The "arguments" within the stream can be supplied as an instance of Arguments, an array of objects (e.g., Object[]), or 
+forms. In this context, a "stream" is anything that JUnit can reliably convert into a Stream, such as Stream,
+DoubleStream, LongStream, IntStream, Collection, Iterator, Iterable, an array of objects, or an array of primitives.
+The "arguments" within the stream can be supplied as an instance of Arguments, an array of objects (e.g., Object[]), or
 a single value if the parameterized test method accepts a single argument.
 
-If you only need a single parameter, you can return a Stream of instances of the parameter type as demonstrated in the 
+If you only need a single parameter, you can return a Stream of instances of the parameter type as demonstrated in the
 following example.
 
 ```java
 @ParameterizedTest
 @MethodSource("stringProvider")
-void testWithExplicitLocalMethodSource(String argument) {
-    assertNotNull(argument);
-}
+void testWithExplicitLocalMethodSource(String argument){
+        assertNotNull(argument);
+        }
 
-static Stream<String> stringProvider() {
-    return Stream.of("apple", "banana");
-}
+static Stream<String> stringProvider(){
+        return Stream.of("apple","banana");
+        }
 ```
 
 Example Source Files - [Link](src/test/java/org/khasanof/junit5spring/parameterizedTests)

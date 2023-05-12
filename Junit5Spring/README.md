@@ -667,9 +667,9 @@ keluvchi parameterlarni e'lon qilishingiz kerak bo'ladi.
 ```java
 @ParameterizedTest
 @ValueSource(strings = {"racecar", "radar", "able was I ere I saw elba"})
-void palindromes(String candidate){
-        assertTrue(StringUtils.isPalindrome(candidate));
-        }
+void palindromes(String candidate) {
+    assertTrue(StringUtils.isPalindrome(candidate));
+}
 ```
 
 ## Required Setup
@@ -713,18 +713,18 @@ of null and empty values for parameterized tests that accept a single argument.
 @NullSource
 @EmptySource
 @ValueSource(strings = {" ", "   ", "\t", "\n"})
-void nullEmptyAndBlankStrings(String text){
-        assertTrue(text==null||text.trim().isEmpty());
-        }
+void nullEmptyAndBlankStrings(String text) {
+    assertTrue(text == null || text.trim().isEmpty());
+}
 ```
 
 ```java
 @ParameterizedTest
 @NullAndEmptySource
 @ValueSource(strings = {" ", "   ", "\t", "\n"})
-void nullEmptyAndBlankStrings(String text){
-        assertTrue(text==null||text.trim().isEmpty());
-        }
+void nullEmptyAndBlankStrings(String text) {
+    assertTrue(text == null || text.trim().isEmpty());
+}
 ```
 
 ## @MethodSource
@@ -748,14 +748,45 @@ following example.
 ```java
 @ParameterizedTest
 @MethodSource("stringProvider")
-void testWithExplicitLocalMethodSource(String argument){
-        assertNotNull(argument);
-        }
+void testWithExplicitLocalMethodSource(String argument) {
+    assertNotNull(argument);
+}
 
-static Stream<String> stringProvider(){
-        return Stream.of("apple","banana");
-        }
+static Stream<String> stringProvider() {
+    return Stream.of("apple","banana");
+}
 ```
 
 Example Source Files - [Link](src/test/java/org/khasanof/junit5spring/parameterizedTests)
 
+## @CsvSource
+
+@CsvSource allows you to express argument lists as comma-separated values (i.e., CSV String literals). Each string
+provided via the value attribute in @CsvSource represents a CSV record and results in one invocation of the 
+parameterized test. The first record may optionally be used to supply CSV headers (see the Javadoc for the 
+useHeadersInDisplayName attribute for details and an example).
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "apple,         1",
+    "banana,        2",
+    "'lemon, lime', 0xF1",
+    "strawberry,    700_000"
+})
+void testWithCsvSource(String fruit, int rank) {
+    assertNotNull(fruit);
+    assertNotEquals(0, rank);
+}
+```
+
+The default delimiter is a comma (,), but you can use another character by setting the delimiter attribute. 
+Alternatively, the delimiterString attribute allows you to use a String delimiter instead of a single character.
+However, both delimiter attributes cannot be set simultaneously.
+
+By default, @CsvSource uses a single quote (') as its quote character, but this can be changed via the quoteCharacter 
+attribute. See the 'lemon, lime' value in the example above and in the table below. An empty, quoted value ('') results 
+in an empty String unless the emptyValue attribute is set; whereas, an entirely empty value is interpreted as a null 
+reference. By specifying one or more nullValues, a custom value can be interpreted as a null reference (see the NIL 
+example in the table below). An ArgumentConversionException is thrown if the target type of a null reference is a 
+primitive type.

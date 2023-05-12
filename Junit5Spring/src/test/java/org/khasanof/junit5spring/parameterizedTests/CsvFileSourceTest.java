@@ -30,4 +30,11 @@ public class CsvFileSourceTest {
         assertNotEquals(0, reference);
     }
 
+    @ParameterizedTest(name = "[{index}] {arguments}")
+    @CsvFileSource(resources = "/two_column.csv", useHeadersInDisplayName = true)
+    void testWithCsvFileSourceAndHeaders(String country, int reference) {
+        assertNotNull(country);
+        assertNotEquals(0, reference);
+    }
+
 }

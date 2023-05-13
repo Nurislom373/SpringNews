@@ -178,7 +178,6 @@ class WebFluxApplicationTests {
         ).subscribe(System.out::println);
     }
 
-
     @Test
     void test_FluxCreateMethod() {
         Flux.just(1, 2, 3, 4, 5)

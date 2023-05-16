@@ -829,6 +829,12 @@ void testWithCsvFileSourceAndHeaders(String country, int reference) {
 @ArgumentsSource can be used to specify a custom, reusable ArgumentsProvider. Note that an implementation of 
 ArgumentsProvider must be declared as either a top-level class or as a static nested class.
 
+---
+
+@ArgumentSource annotatsiyasi orqali biz qayta foydalanish mumkin bo'lgan ArgumentsProviderni belgilash uchun 
+ishlatishimiz mumkin. ArgumentProvider `@ParameterizedTest` methodiga uzatiladigan argumentlar oqimni yani streamni 
+ta'minlash uchun javobgardir.
+
 ```java
 public class ArgumentSourceTest {
 
@@ -847,5 +853,28 @@ public class ArgumentSourceProvider implements ArgumentsProvider {
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) throws Exception {
         return Stream.of("Nurislom", "khasanof").map(Arguments::of);
     }
+}
+```
+
+# Argument Conversion
+
+### Widening Conversion
+
+JUnit Jupiter supports Widening Primitive Conversion for arguments supplied to a @ParameterizedTest. For example, a 
+parameterized test annotated with @ValueSource(ints = { 1, 2, 3 }) can be declared to accept not only an argument of 
+type int but also an argument of type long, float, or double.
+
+### Implicit Conversion
+To support use cases like @CsvSource, JUnit Jupiter provides a number of built-in implicit type converters. The 
+conversion process depends on the declared type of each method parameter.
+
+For example, if a @ParameterizedTest declares a parameter of type TimeUnit and the actual type supplied by the declared 
+source is a String, the string will be automatically converted into the corresponding TimeUnit enum constant.
+
+```java
+@ParameterizedTest
+@ValueSource(strings = "SECONDS")
+void testWithImplicitArgumentConversion(ChronoUnit argument) {
+    assertNotNull(argument.name());
 }
 ```

@@ -878,3 +878,162 @@ void testWithImplicitArgumentConversion(ChronoUnit argument) {
     assertNotNull(argument.name());
 }
 ```
+
+### Fallback String-to-Object Conversion
+
+JUnit Jupiter also provides a fallback mechanism for automatic conversion from a String to a given target type if the 
+target type declares exactly one suitable factory method or a factory constructor as defined below.
+
+- factory method: a non-private, static method declared in the target type that accepts a single String argument and 
+  returns an instance of the target type. The name of the method can be arbitrary and need not follow any particular 
+  convention.
+
+- factory constructor: a non-private constructor in the target type that accepts a single String argument. Note that the
+  target type must be declared as either a top-level class or as a static nested class.
+
+```java
+@ParameterizedTest
+@ValueSource(strings = "42 Cats")
+void testWithImplicitFallbackArgumentConversion(Book book) {
+    assertEquals("42 Cats", book.getTitle());
+}
+```
+
+```java
+public class Book {
+
+    private final String title;
+
+    private Book(String title) {
+        this.title = title;
+    }
+
+    public static Book fromTitle(String title) {
+        return new Book(title);
+    }
+
+    public String getTitle() {
+        return this.title;
+    }
+}
+```
+
+### Explicit Conversion
+Instead of relying on implicit argument conversion you may explicitly specify an ArgumentConverter to use for a certain 
+parameter using the @ConvertWith annotation like in the following example. Note that an implementation of 
+ArgumentConverter must be declared as either a top-level class or as a static nested class.
+
+```java
+@ParameterizedTest
+@ValueSource(strings = {"Hello", "Boom", "Lorem Ipsum"})
+void testWithExplicitArgumentConversion(@ConvertWith(ToLengthArgumentConverter.class) Integer length) {
+    assertNotNull(length);
+}
+```
+
+```java
+public class ToLengthArgumentConverter extends TypedArgumentConverter<String, Integer> {
+
+    protected ToLengthArgumentConverter() {
+        super(String.class, Integer.class);
+    }
+
+    @Override
+    protected Integer convert(String source) {
+        return (source != null ? source.length() : 0);
+    }
+
+}
+```
+
+Explicit argument converters are meant to be implemented by test and extension authors. Thus, junit-jupiter-params only 
+provides a single explicit argument converter that may also serve as a reference implementation: 
+JavaTimeArgumentConverter. It is used via the composed annotation JavaTimeConversionPattern.
+
+```java
+@ParameterizedTest
+@ValueSource(strings = { "01.01.2017", "31.12.2017" })
+void testWithExplicitJavaTimeConverter(
+        @JavaTimeConversionPattern("dd.MM.yyyy") LocalDate argument) {
+
+    assertEquals(2017, argument.getYear());
+}
+```
+
+# Argument Aggregation
+
+By default, each argument provided to a @ParameterizedTest method corresponds to a single method parameter. 
+Consequently, argument sources which are expected to supply a large number of arguments can lead to large method 
+signatures.
+
+In such cases, an ArgumentsAccessor can be used instead of multiple parameters. Using this API, you can access the 
+provided arguments through a single argument passed to your test method. In addition, type conversion is supported as 
+discussed in Implicit Conversion.
+
+---
+
+default holatda `@ParameterizedTest` method belgilangan har bir argument bitta method parameteriga mos keladi. 
+Shunday qilib, ko'p argumentlarni taqdim etadigan argument sourcelari katta method signaturelarga olib kelishi mumkin.
+
+Bunday hollarda bir nechta parameter o'rniga `ArgumentAccessor`dan foydalanish mumkin. Ushbu API yordamida siz taqdim 
+etilgan argumentlarni methodga bitta argument orqali kirishingiz mumkin. 
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "Jane, Doe, F, 1990-05-20",
+    "John, Doe, M, 1990-10-22"
+})
+void testWithArgumentsAccessor(ArgumentsAccessor arguments) {
+    Person person = new Person(arguments.getString(0),
+                               arguments.getString(1),
+                               arguments.get(2, Gender.class),
+                               arguments.get(3, LocalDate.class));
+
+    if (person.getFirstName().equals("Jane")) {
+        assertEquals(Gender.F, person.getGender());
+    }
+    else {
+        assertEquals(Gender.M, person.getGender());
+    }
+    assertEquals("Doe", person.getLastName());
+    assertEquals(1990, person.getDateOfBirth().getYear());
+}
+```
+
+### Custom Aggregators
+Apart from direct access to a @ParameterizedTest method’s arguments using an ArgumentsAccessor, JUnit Jupiter also 
+supports the usage of custom, reusable aggregators.
+
+To use a custom aggregator, implement the ArgumentsAggregator interface and register it via the @AggregateWith 
+annotation on a compatible parameter in the @ParameterizedTest method. The result of the aggregation will then be 
+provided as an argument for the corresponding parameter when the parameterized test is invoked. Note that an 
+implementation of ArgumentsAggregator must be declared as either a top-level class or as a static nested class.
+
+---
+
+JUnit `ArgumentsAccessor` yordamida `@ParameterizedTest` methodning argumentlariga to'g'ridan to'g'ri kirishdan tashqari
+maxsus qayta ishlatiladigan aggregatorlardan foydalanishni ham qo'llab quvvatlaydi.
+
+```java
+@ParameterizedTest
+@CsvSource({
+    "Jane, Doe, F, 1990-05-20",
+    "John, Doe, M, 1990-10-22"
+})
+void testWithArgumentsAggregator(@AggregateWith(PersonAggregator.class) Person person) {
+    // perform assertions against person
+}
+```
+
+```java
+public class PersonAggregator implements ArgumentsAggregator {
+    @Override
+    public Person aggregateArguments(ArgumentsAccessor arguments, ParameterContext context) {
+        return new Person(arguments.getString(0),
+                          arguments.getString(1),
+                          arguments.get(2, Gender.class),
+                          arguments.get(3, LocalDate.class));
+    }
+}
+```

@@ -2,6 +2,7 @@ package org.khasanof.junit5spring;
 
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.converter.ConvertWith;
+import org.junit.jupiter.params.converter.JavaTimeConversionPattern;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.khasanof.junit5spring.classes.Book;
 
@@ -44,6 +45,14 @@ public class ArgumentConversionsTest {
     void testToLengthConversions(@ConvertWith(ToLengthArgumentConverter.class) Integer length) {
         System.out.println("length = " + length);
         assertNotNull(length);
+    }
+
+    @ParameterizedTest
+    @ValueSource(strings = { "01.01.2017", "31.12.2017" })
+    void testWithExplicitJavaTimeConverter(
+            @JavaTimeConversionPattern("dd.MM.yyyy") LocalDate argument) {
+
+        assertEquals(2017, argument.getYear());
     }
 
 }

@@ -24,8 +24,19 @@ or later to be present on the class path or module path.
 
 JUnit Javada test yozish uchun ommabop va open-source framework. JUnit 5 uni so'nggi versiyasi. JUnit 5 2017 yil sentabr
 oyida chiqarilgan va o'zidan oldingi JUnit 4 ga nisbatan bir qancha yangi xususiyatlar va yaxshilanishlarni taqdim
-etadi.
-JUnit platformasi JVM da test tizimlarni ishga tushirish uchun asos bo'lib xizmat qiladi.
+etadi. JUnit platformasi JVM da test tizimlarni ishga tushirish uchun asos bo'lib xizmat qiladi.
+
+Unit Testlar kichik kod qismni o'zi mo'ljallangan narsani bajarayotgani tekshirish uchun yoziladi. Unit Testlar ilova 
+kodi tashqi bog'liqliklar bilan to'g'ri ishlayotgani tekshirmaydi. U bitta componentga e'tibor qaratadi va ushbu 
+component to'g'ri natija beradi yoqmi shuni tekshiradi. Yani method kutilgan harakatni qilishni tekshiradi. Testlar odatda
+unitga ma'lumotlarni taqdim etadi va unit tomonidan ishlab chiqarilgan natijalar yoki effectlarni kutilgan natijalar
+bilan taqqoslab baholaydi.
+
+Unit Testlar odatda individual funksiya, method va classni ifodalaydi va uning xatti harakatlarini alohida alohida sinab
+ko'rishga qaratilgan.
+
+![img](etc/images/1_aH_ifsVI0cI5P5Guu1X1CQ.jpg)
+
 
 ## Supported Java Versions
 
@@ -44,16 +55,81 @@ versions of the JDK.
     * **Group ID**: `org.junit.vintage`
     * **Version**: `5.9.3`
 
-# 2. Writing Tests
+## JUnit Architecture
+
+![img](etc/images/junit5-architecture_03.png)
+
+# Why do we need to write unit tests?
+
+Unit tests are essential for several reasons:
+
+1. Error Detection: Unit tests help identify bugs and errors in code by validating individual units or components of a 
+   software system. They allow developers to catch and fix issues early in the development process, reducing the 
+   likelihood of those issues propagating to other parts of the codebase.
+
+2. Code Quality: Writing unit tests often leads to better code quality. It encourages modular and loosely coupled code 
+   design, as tests typically focus on isolated units of code. This promotes good programming practices such as 
+   separation of concerns and improves code maintainability and readability.
+
+3. Regression Prevention: Unit tests act as a safety net during software development. They can automatically check 
+   existing functionality whenever code changes are made, preventing regressions. By re-running tests frequently, 
+   developers can catch unintended side effects and ensure that new changes do not break previously working code.
+
+4. Documentation: Unit tests serve as living documentation for code behavior. They provide examples and usage scenarios 
+   for how components should be used, making it easier for developers to understand how to interact with them correctly.
+
+5. Collaboration and Refactoring: Unit tests facilitate collaboration among developers. When multiple people are working
+   on a project, unit tests provide a shared understanding of code behavior and serve as a communication tool. 
+   Furthermore, having a comprehensive test suite gives developers confidence to refactor or modify existing code, 
+   knowing that tests will catch potential regressions.
+
+6. Continuous Integration and Deployment: Unit tests are a crucial part of automated testing pipelines. They enable 
+   continuous integration and deployment workflows by validating code changes before they are merged into the main 
+   codebase. This ensures that new code is stable and minimizes the risk of introducing bugs into production.
+
+7. Overall, unit tests contribute to software reliability, maintainability, and developer productivity, making them an 
+   essential practice in modern software development.
+
+--- 
+
+1. Error Detection: Unit Test yozishni afzalliklaridan biri dasturiy ta'minot tizimning alohida unitlari va 
+   componentlarini tekshirish orqali koddagi xato va kamchiliklarni aniqlashga yordam beradi. Unit Test yozish 
+   dasturchilarga muammolarni dasturni ishlab chiqish jarayonining boshida aniqlash va tuzatish imkoni beradi, bu
+   muammolarning kodlari bazasning boshqa qismlariga tarqalish ehtimolni kamaytiradi.
+
+2. Code Quality: Unit Testlarni yozish ko'pincha kod sifatini yaxshilashga yordam beradi. Bu Modular(Modulli) va Loose
+   Coopled(Erkin bog'langan) kodlarni yozishga undaydi, chunki testlar odatda ajratilgan kod birliklariga qaratilgan
+   
+3. Regression Prevention: Unit Testlar dasturiy ta'minotni ishlab chiqishda xavfsizlik tarmog'i vazifasini bajaradi.
+   Kod o'zgartirilganda ular avtomatik ravishda mavjud funksiyalarni tekshirib, regressiyani oldini oladi. Testlarni
+   tez-tez qayta o'tkazish orqali ishlab chiquvchilar kutilmagan nojo'ya ta'sirlarni qo'lga kiritishlari va yangi 
+   o'zgarishlarning ilgari ishlaydigan kodni buzmasligiga ishonch hosil qilishlari mumkin. 
+
+4. Documentation: Unit Testlar kod harakatni jonli hujjat sifatida xizmat qiladi. Ular componentlardam qanday foydalanish
+   kerakligi haqida misollar va foydalanish stsenariylarini taqdim etadi, bu esa ishlab chiquvchilarga ular bilan
+   qanday to'g'ri munosabatda bo'lishni tushunishlari osonlashtiradi.
+
+5. Collabration and Refactoring: Unit Testlar Developer o'rtasida hamkorlikni osonlashtiradi. Bir nechta odam loyiha
+   ustida ishlayotgan bo'lsa, unit testlar kod xatti-harakatlarni umumiy tushinishni ta'minlaydi va aloqa vositasi 
+   sifatida xizmat qiladi. Bundan tashqari, keng qamrovli test to'plamiga ega bo'lish developerlarga mavjud kodni
+   qayta tiklash yoki o'zgartirishga ishonch beradi, chunki testlar potensial reggresiyalarni ushlaydi.
+
+6. Continuous Integration and Deployment: Unit Testlar avtomatlashtirilgan sinov pipeline(quvur)larining muhim qismi.
+   Ular asosiy kod bazasiga birlashtirilishidan oldin kod o'zgarishlarini tekshirish orqali continues integration va 
+   deployment yani tarqatish ish oqimlarni faollashtiradi. Bu yangi kodni barqarorligini taminlaydi va ishlab chiqishda
+   xatoliklar xavfni kamaytiradi.
+
+ 
+#  Writing Tests
 
 The following example provides a glimpse at the minimum requirements for writing a test in JUnit Jupiter.
 
 ```java
 @Test
 void simpleTest() {
-    CalculateService service=new CalculateService();
-    long calculate=service.calculate(5,5,'+');
-    Assertions.assertEquals(10,calculate);
+    CalculateService service = new CalculateService();
+    long calculate = service.calculate(5, 5, '+');
+    Assertions.assertEquals(10, calculate);
 }
 ```
 
@@ -333,6 +409,16 @@ public class DisplayNameTest {
 
 # Assertions
 
+We use assertions in unit tests to verify that certain conditions or expectations are true. They serve as checkpoints to
+ensure that the code behaves as intended during testing. If an assertion fails, it indicates a deviation from the 
+expected behavior, helping identify bugs or errors in the code. Assertions help maintain code correctness and provide 
+feedback on the test results.
+
+--- 
+
+Shartlar va taxminlarning to'g'riligini tekshirish uchun biz unit testlarda assertionlardan foydalanamiz. Ular test 
+paytida kodning o'zini qanday tutishini ta'minlash uchun nazorat punktlari bo'lib xizmat qiladi. 
+
 ```java
 public class AssertionsExampleTest {
 
@@ -482,28 +568,37 @@ or test is disabled as soon as one of the conditions returns disabled. If you wi
 might be disabled, every annotation associated with these built-in conditions has a disabledReason attribute available
 for that purpose.
 
+---
+
+ExecutionCondition API dasturchilarga container yoki testni yoqish yoki o'chirish imkoni beradi.
+
 ## Custom Conditions
 
 As an alternative to implementing an `ExecutionCondition`, a container or test may be enabled or disabled based on a
 condition method configured via the `@EnabledIf` and `@DisabledIf` annotations. A condition method must have a boolean
 return type and may accept either no arguments or a single ExtensionContext argument.
 
+---
+
+Unit Testlarda `Execution Condition` ni amalga oshirish uchun `@EnabledIf` va `@DisabledIf` annotatsiyalaridan 
+foydalanish mumkin. 
+
 ```java
 @Test
 @EnabledIf("customCondition")
-void enabled(){
-        // ...
-        }
+void enabled() {
+    // ...
+}
 
 @Test
 @DisabledIf("customCondition")
-void disabled(){
-        // ...
-        }
+void disabled() {
+    // ...
+}
 
-        boolean customCondition(){
-        return true;
-        }
+boolean customCondition() {
+    return true;
+}
 ```
 
 Alternatively, the condition method can be located outside the test class. In this case, it must be referenced by its
@@ -637,14 +732,63 @@ of static text and dynamic placeholders. The following placeholders are currentl
 - `{currentRepetition}`: the current repetition count
 - `{totalRepetitions}`: the total number of repetitions
 
+---
+
+JUnit Testni `@RepeatedTest` bilan methodga annotatsiya qo'yish va kerakli takrorlashlarning umumiy sonini belgilash
+orqali ma'lum bir necha marta takrorlash imkoniyatini beradi. Repeated Testning har bir chaqiruvi `@Test` methodning
+bajarilishi kabi ishlaydi.
+
 ```java
 @RepeatedTest(10)
-void repeatedTest(){
-        // ...
-        }
+void repeatedTest(){ 
+    // ...
+}
 ```
 
-Example Source Code - [Link](src/test/java/org/khasanof/junit5spring/RepeatedTestDemoTests.java)
+```java
+class RepeatedTestsDemo {
+
+    private Logger logger = // ...
+
+    @BeforeEach
+    void beforeEach(TestInfo testInfo, RepetitionInfo repetitionInfo) {
+        int currentRepetition = repetitionInfo.getCurrentRepetition();
+        int totalRepetitions = repetitionInfo.getTotalRepetitions();
+        String methodName = testInfo.getTestMethod().get().getName();
+        logger.info(String.format("About to execute repetition %d of %d for %s", //
+            currentRepetition, totalRepetitions, methodName));
+    }
+
+    @RepeatedTest(10)
+    void repeatedTest() {
+        // ...
+    }
+
+    @RepeatedTest(5)
+    void repeatedTestWithRepetitionInfo(RepetitionInfo repetitionInfo) {
+        assertEquals(5, repetitionInfo.getTotalRepetitions());
+    }
+
+    @RepeatedTest(value = 1, name = "{displayName} {currentRepetition}/{totalRepetitions}")
+    @DisplayName("Repeat!")
+    void customDisplayName(TestInfo testInfo) {
+        assertEquals("Repeat! 1/1", testInfo.getDisplayName());
+    }
+
+    @RepeatedTest(value = 1, name = RepeatedTest.LONG_DISPLAY_NAME)
+    @DisplayName("Details...")
+    void customDisplayNameWithLongPattern(TestInfo testInfo) {
+        assertEquals("Details... :: repetition 1 of 1", testInfo.getDisplayName());
+    }
+
+    @RepeatedTest(value = 5, name = "Wiederholung {currentRepetition} von {totalRepetitions}")
+    void repeatedTestInGerman() {
+        // ...
+    }
+
+}
+```
+
 
 # Parameterized Tests
 
@@ -694,6 +838,14 @@ The following types of literal values are supported by `@ValueSource`.
 * java.lang.String
 * java.lang.Class
 
+```java
+@ParameterizedTest
+@ValueSource(ints = { 1, 2, 3 })
+void testWithValueSource(int argument) {
+    assertTrue(argument > 0 && argument < 4);
+}
+```
+
 ## Null and Empty Sources
 
 In order to check corner cases and verify proper behavior of our software when it is supplied bad input, it can be
@@ -725,6 +877,38 @@ void nullEmptyAndBlankStrings(String text) {
 }
 ```
 
+## @EnumSource
+
+`@EnumSource` Enum Constantalaridan foydalanishning qulay usulni taqdim etadi.
+
+```java
+@ParameterizedTest
+@EnumSource(ChronoUnit.class)
+void testWithEnumSource(TemporalUnit unit) {
+    assertNotNull(unit);
+}
+```
+
+```java
+@ParameterizedTest
+@EnumSource
+void testWithEnumSourceWithAutoDetection(ChronoUnit unit) {
+    assertNotNull(unit);
+}
+```
+
+`@EnumSource`ni names attributedan foydalanib faqat o'zimizga kerakli bo'lgan konstantalarni olishimiz ham mumkin.
+
+```java
+@ParameterizedTest
+@EnumSource(names = { "DAYS", "HOURS" })
+void testWithEnumSourceInclude(ChronoUnit unit) {
+    assertTrue(EnumSet.of(ChronoUnit.DAYS, ChronoUnit.HOURS).contains(unit));
+}
+```
+
+
+
 ## @MethodSource
 
 @MethodSource allows you to refer to one or more factory methods of the test class or external classes.
@@ -743,6 +927,12 @@ a single value if the parameterized test method accepts a single argument.
 If you only need a single parameter, you can return a Stream of instances of the parameter type as demonstrated in the
 following example.
 
+---
+
+`@MethodSource` bizga test classning va tashqi classlarning bir yoki bir nechta factory methodlariga murojaat qilish
+imkoni beradi. Har bir factory method argumentlarni oqimni yaratishi kerak va oqim ichidagi argumentlarning har bir 
+to'plami `@ParameterizedTest` methodning individual chaqiruvlari uchun jismoniy argumentlar sifatida taqdim etiladi.
+
 ```java
 @ParameterizedTest
 @MethodSource("stringProvider")
@@ -754,8 +944,6 @@ static Stream<String> stringProvider() {
     return Stream.of("apple","banana");
 }
 ```
-
-Example Source Files - [Link](src/test/java/org/khasanof/junit5spring/parameterizedTests)
 
 ## @CsvSource
 

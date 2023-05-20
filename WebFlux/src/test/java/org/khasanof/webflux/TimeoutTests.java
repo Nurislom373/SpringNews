@@ -26,7 +26,7 @@ import static org.junit.jupiter.api.Assertions.*;
 public class TimeoutTests {
 
     @Test
-    void simpleTimeoutTest() {
+    void simpleTimeoutSuccessTest() {
         Mono<Response> mono = Mono.just("Jeck")
                 .publishOn(Schedulers.boundedElastic())
                 .handle((m, sink) -> {
@@ -52,6 +52,38 @@ public class TimeoutTests {
                 .assertNext(next -> {
                     assertTrue(next.success);
                     assertEquals(next.message, "OK");
+                })
+                .expectComplete()
+                .verify();
+    }
+
+    @Test
+    void simpleTimeoutFailTest() {
+        Mono<Response> mono = Mono.just("Jeck")
+                .publishOn(Schedulers.boundedElastic())
+                .handle((m, sink) -> {
+                    try {
+                        Thread.sleep(2400);
+                    } catch (InterruptedException e) {
+                        sink.error(new RuntimeException(e));
+                    }
+                    sink.next(m.length());
+                }).timeout(Duration.ofSeconds(2))
+                .doOnError(ex -> log.warn("Timeout Exception !"))
+                .retryWhen(Retry.backoff(3, Duration.ofSeconds(2))
+                        .filter(throwable -> throwable instanceof TimeoutException)
+                        .onRetryExhaustedThrow(((retryBackoffSpec, retrySignal) -> {
+                            throw new RuntimeException("External Service failed to process after max retries");
+                        }))
+                ).doOnNext(o -> log.info("Service Working Well!"))
+                .map(o -> new Response(true, "OK"))
+                .doOnError(ex -> log.info("Exception : {}", ex.getMessage()))
+                .onErrorResume(ex -> Mono.just(new Response(false, ex.getMessage())));
+
+        StepVerifier.create(mono)
+                .assertNext(next -> {
+                    assertFalse(next.success);
+                    assertEquals(next.message, "External Service failed to process after max retries");
                 })
                 .expectComplete()
                 .verify();

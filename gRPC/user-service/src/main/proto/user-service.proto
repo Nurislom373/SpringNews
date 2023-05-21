@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+
+package org.khasanof.user_service;
+
+service UserService {
+  rpc register (UserData) returns (stream ServerResponse);
+  rpc getById(GetUser) returns (stream ServerResponse);
+}
+
+message UserData {
+  string firstName = 1;
+  string lastName = 2;
+  string email = 3;
+  string phone = 4;
+  LANGUAGE language = 5;
+  STATUS status = 6;
+}
+
+message GetUser {
+  int64 id = 1;
+}
+
+message ServerResponse {
+  bool success = 1;
+  string data = 2;
+  string message = 3;
+}
+
+enum LANGUAGE {
+  RU = 0;
+  UZ = 1;
+  EN = 2;
+}
+
+enum STATUS {
+  ACTIVE = 0;
+  NO_ACTIVE = 1;
+  BLOCK = 2;
+}

@@ -8,14 +8,15 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Junit5Spring" />
-        <module name="khasanof-common-rate-limiting" />
         <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
+        <module name="user-service" />
         <module name="SpringWorkingYAML" />
         <module name="SpringJdbcTemplate" />
         <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
+        <module name="gRPC" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -29,6 +30,7 @@
     <bytecodeTargetLevel>
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
+      <module name="khasanof-common-rate-limiting" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
@@ -68,6 +70,7 @@
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
+      <module name="user-service" options="-parameters" />
     </option>
   </component>
 </project>

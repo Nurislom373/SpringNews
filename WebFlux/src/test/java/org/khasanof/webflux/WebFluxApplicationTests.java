@@ -8,7 +8,9 @@ import reactor.core.publisher.ConnectableFlux;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import reactor.core.scheduler.Schedulers;
+import reactor.test.StepVerifier;
 
+import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -197,6 +199,25 @@ class WebFluxApplicationTests {
                 .onErrorReturn("Uh Oh")
                 .subscribe(System.out::println);
         Thread.sleep(2100);
+    }
+
+    @Test
+    void test_FluxError() {
+        Flux<Integer> hello = Flux.just(1, 2, 3, 4, 5, 6)
+                .<Integer>handle((i, sink) -> {
+                    if (i == 2) {
+                        sink.error(new RuntimeException());
+                    } else {
+                        sink.next(i);
+                    }
+                })
+                .doOnError(ex -> System.out.println("ex = " + ex))
+                .doOnNext(on -> System.out.println("on = " + on));
+
+        StepVerifier.create(hello)
+                .expectNextCount(6)
+                .expectComplete()
+                .verify();
     }
 
     private String convertNum(Integer id) {

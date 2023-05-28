@@ -16,8 +16,13 @@
         <option value="$PROJECT_DIR$/Junit5Spring/pom.xml" />
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
         <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
-        <option value="$PROJECT_DIR$/gRPC/user-service/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/WebFluxServerSideEvent/pom.xml" />
       </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/gRPC/pom.xml" />
+      </set>
     </option>
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="17" project-jdk-type="JavaSDK">

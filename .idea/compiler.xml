@@ -11,12 +11,11 @@
         <module name="WebFlux" />
         <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
-        <module name="user-service" />
+        <module name="WebFluxServerSideEvent" />
         <module name="SpringWorkingYAML" />
         <module name="SpringJdbcTemplate" />
         <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
-        <module name="gRPC" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -28,6 +27,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="gRPC" target="17" />
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
       <module name="khasanof-common-rate-limiting" target="17" />
@@ -45,6 +45,7 @@
       <module name="SpringReactiveR2DBC" target="17" />
       <module name="SpringSession" target="17" />
       <module name="Thymeleaf" target="17" />
+      <module name="user-service" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -69,6 +70,7 @@
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="-parameters" />
+      <module name="WebFluxServerSideEvent" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

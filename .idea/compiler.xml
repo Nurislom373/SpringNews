@@ -9,7 +9,6 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Junit5Spring" />
         <module name="WebFlux" />
-        <module name="Spring6Thymeleaf" />
         <module name="MapStruct" />
         <module name="WebFluxServerSideEvent" />
         <module name="SpringWorkingYAML" />
@@ -35,6 +34,7 @@
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
       <module name="Spring-Batch" target="17" />
+      <module name="Spring6Thymeleaf" target="17" />
       <module name="SpringAOP" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringDataJPA" target="17" />

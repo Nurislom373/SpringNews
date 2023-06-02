@@ -1,6 +1,7 @@
 package org.khasanof.webflux;
 
 import org.junit.jupiter.api.Test;
+import reactor.core.publisher.BaseSubscriber;
 import reactor.core.publisher.Flux;
 import reactor.test.StepVerifier;
 
@@ -66,5 +67,24 @@ public class BackpressureMechanismTest {
                 .thenRequest(10)
                 .expectNext(16, 17, 18, 19, 20, 21, 22, 23, 24, 25)
                 .verifyComplete();
+    }
+
+    @Test
+    public void whenCancel_thenSubscriptionFinished() {
+        Flux<Integer> cancel = Flux.range(1, 10).log();
+
+        cancel.subscribe(new BaseSubscriber<>() {
+            @Override
+            protected void hookOnNext(Integer value) {
+                request(3);
+                System.out.println(value);
+                cancel();
+            }
+        });
+
+        StepVerifier.create(cancel)
+                .expectNext(1, 2, 3)
+                .thenCancel()
+                .verify();
     }
 }

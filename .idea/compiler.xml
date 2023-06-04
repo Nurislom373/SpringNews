@@ -8,9 +8,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="Junit5Spring" />
-        <module name="WebFlux" />
+        <module name="RSocketWithoutSpring" />
         <module name="RSocketServer" />
-        <module name="RSocket" />
         <module name="MapStruct" />
         <module name="WebFluxServerSideEvent" />
         <module name="SpringWorkingYAML" />
@@ -34,6 +33,7 @@
       <module name="JpaSpecification" target="17" />
       <module name="khasanof-common-rate-limiting" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
+      <module name="RSocket" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
       <module name="Spring-Batch" target="17" />
@@ -59,6 +59,7 @@
       <module name="RSocket" options="-parameters" />
       <module name="RSocketClient" options="-parameters" />
       <module name="RSocketServer" options="-parameters" />
+      <module name="RSocketWithoutSpring" options="-parameters" />
       <module name="RateLimitingWithSpring" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
@@ -75,7 +76,7 @@
       <module name="SpringWorkingYAML" options="-parameters" />
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
-      <module name="WebFlux" options="-parameters" />
+      <module name="WebFlux" options="" />
       <module name="WebFluxServerSideEvent" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />

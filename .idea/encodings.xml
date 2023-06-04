@@ -33,10 +33,12 @@
     <file url="file://$PROJECT_DIR$/Thymeleaf/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/RSocket/RSocketClient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/RSocket/RSocketServer/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebFlux/RSocket/RSocketWithoutSpring/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/RSocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/RSocket/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/WebFluxServerSideEvent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFlux/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebFlux/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/user-service/src/main/java" charset="UTF-8" />

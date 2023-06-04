@@ -1,11 +1,18 @@
 # RSocket
 
-RSocket is an application protocol providing Reactive Streams semantics – it functions, for example, as an alternative
-to HTTP.
+RSocket is a binary, point-to-point communication protocol intended for use in distributed applications. In that sense, 
+it provides an alternative to other protocols like HTTP.
+
+A full comparison between RSocket and other protocols is beyond the scope of this article. Instead, we'll focus on a key
+feature of RSocket: its interaction models.
+
+RSocket provides four interaction models. With that in mind, we'll explore each one with an example.
 
 ---
 
-RSocket - bu Reactive Stream semantikasini ta'minlovchi dastur protokoli. U masalan HTTP ga muqobil sifatida ishlaydi.
+RSocket - bu distributed applicationlarda foydalanish uchun mo'ljallangan binary, point-to-point aloqa protocoli.
+RSocker to'rtta o'zaro ta'sir modelini taqdim etadi. 
+
 
 # Introduction to RSocket
 
@@ -32,6 +39,15 @@ RSocket provides the following 4 distinct communication models:
   one-way communication.
 - **Channel**: is a bidirectional communication channel where both the requester and responder can send data to each
   other at any time.
+
+---
+
+- **Request-Response**: Ushbu modelda har bitta request bitta response oladi.
+- **Request-Stream**: Ushbu modelda bitta request bir nechta response olishi mumkin. 
+- **Fire-and-Forget**: Ushbu model Client tomonidan yuborilgan requestga response qaytmaydi.
+- **Channel**: Channel modeli ikki tomonlama aloqani ta'minlaydi. Ushbu modelda message oqimlari ikkala yo'nalishda ham
+  asinxron ravishda oqadi. 
+
 
 ![img2](etc/imgs/img_1.png)
 

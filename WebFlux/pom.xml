@@ -11,8 +11,12 @@
     <groupId>org.khasanof</groupId>
     <artifactId>WebFlux</artifactId>
     <version>0.0.1-SNAPSHOT</version>
+    <packaging>pom</packaging>
     <name>WebFlux</name>
     <description>WebFlux</description>
+    <modules>
+        <module>RSocket/RSocketWithoutSpring</module>
+    </modules>
     <properties>
         <java.version>17</java.version>
     </properties>

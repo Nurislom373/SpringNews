@@ -17,6 +17,9 @@
         <option value="$PROJECT_DIR$/JacksonBoot/pom.xml" />
         <option value="$PROJECT_DIR$/SpringJdbcTemplate/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/WebFluxServerSideEvent/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/RSocket/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/RSocket/RSocketServer/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/RSocket/RSocketClient/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

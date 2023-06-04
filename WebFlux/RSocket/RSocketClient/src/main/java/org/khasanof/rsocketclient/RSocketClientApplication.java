@@ -27,8 +27,7 @@ public class RSocketClientApplication {
         return builder.rsocketConnector(
                         rSocketRequester -> rSocketRequester.reconnect(
                                 Retry.fixedDelay(2, Duration.ofSeconds(2)))
-                ).dataMimeType(MimeTypeUtils.APPLICATION_JSON)
-                .tcp("localhost", 7000);
+                ).tcp("localhost", 7000);
     }
 
 }
@@ -48,6 +47,13 @@ class VMController {
         return rSocketRequester
                 .route("uuid-list")
                 .data(count)
+                .retrieveFlux(String.class);
+    }
+
+    @GetMapping(value = "/interval", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Publisher<String> interval() {
+        return rSocketRequester
+                .route("intervalObjectPush")
                 .retrieveFlux(String.class);
     }
 

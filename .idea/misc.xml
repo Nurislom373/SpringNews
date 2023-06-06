@@ -10,7 +10,6 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/pom.xml" />
-        <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
         <option value="$PROJECT_DIR$/SwaggerUI2/pom.xml" />
         <option value="$PROJECT_DIR$/SpringWorkingYAML/pom.xml" />
         <option value="$PROJECT_DIR$/Junit5Spring/pom.xml" />
@@ -20,6 +19,8 @@
         <option value="$PROJECT_DIR$/WebFlux/RSocket/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/RSocket/RSocketServer/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/RSocket/RSocketClient/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFluxServerSideEvent/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

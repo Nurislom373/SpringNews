@@ -13,6 +13,7 @@ import reactor.test.StepVerifier;
 import java.io.Serializable;
 import java.time.Duration;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -218,6 +219,52 @@ class WebFluxApplicationTests {
                 .expectNextCount(6)
                 .expectComplete()
                 .verify();
+    }
+
+    @Test
+    public void filter() {
+        Flux<String> nationalParkFlux = Flux.just(
+                        "Yellowstone", "Yosemite", "Grand Canyon", "Zion", "Grand Teton")
+                .filter(np -> !np.contains(" "));
+        StepVerifier.create(nationalParkFlux)
+                .expectNext("Yellowstone", "Yosemite", "Zion")
+                .verifyComplete();
+    }
+
+    @Test
+    public void distinct() {
+        Flux<String> animalFlux = Flux.just(
+                        "dog", "cat", "bird", "dog", "bird", "anteater")
+                .distinct();
+        StepVerifier.create(animalFlux)
+                .expectNext("dog", "cat", "bird", "anteater")
+                .verifyComplete();
+    }
+
+    @Test
+    public void buffer() {
+        Flux<String> fruitFlux = Flux.just(
+                "apple", "orange", "banana", "kiwi", "strawberry");
+
+        Flux<List<String>> bufferedFlux = fruitFlux.buffer(3);
+
+        StepVerifier
+                .create(bufferedFlux)
+                .expectNext(Arrays.asList("apple", "orange", "banana"))
+                .expectNext(Arrays.asList("kiwi", "strawberry"))
+                .verifyComplete();
+    }
+
+    @Test
+    public void bufferAndFlatMap() throws Exception {
+        Flux.just("apple", "orange", "banana", "kiwi", "strawberry")
+                .buffer(3)
+                .flatMap(x ->
+                        Flux.fromIterable(x)
+                                .map(String::toUpperCase)
+                                .subscribeOn(Schedulers.parallel())
+                                .log()
+                ).subscribe();
     }
 
     private String convertNum(Integer id) {

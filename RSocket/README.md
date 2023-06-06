@@ -6,13 +6,10 @@ it provides an alternative to other protocols like HTTP.
 A full comparison between RSocket and other protocols is beyond the scope of this article. Instead, we'll focus on a key
 feature of RSocket: its interaction models.
 
-RSocket provides four interaction models. With that in mind, we'll explore each one with an example.
-
 ---
 
 RSocket - bu distributed applicationlarda foydalanish uchun mo'ljallangan binary, point-to-point aloqa protocoli.
-RSocker to'rtta o'zaro ta'sir modelini taqdim etadi. 
-
+RSocker to'rtta o'zaro ta'sir modelini taqdim etadi.
 
 # Introduction to RSocket
 
@@ -25,6 +22,28 @@ RSocket, a relatively new protocol over TCP for inter-application communication,
 a reactive model consistent with reactive types like Flux and Mono. It is very important to know that with RSocket, we
 do not use the terms like “client” and “server” because both sides become symmetrical and each side can initiate the
 interaction. We refer to the participating sides as “requester” and “responder”.
+
+# These are the key features and benefits of the RSocket protocol:
+
+Reactive Streams semantics across network boundary — for streaming requests such as Request-Stream and Channel, 
+back pressure signals travel between requester and responder, allowing a requester to slow down a responder at the 
+source, hence reducing reliance on network layer congestion control, and the need for buffering at the network level or
+at any level.
+
+Request throttling — this feature is named "Leasing" after the LEASE frame that can be sent from each end to limit
+the total number of requests allowed by other end for a given time. Leases are renewed periodically.
+
+Session resumption — this is designed for loss of connectivity and requires some state to be maintained. The state
+management is transparent for applications, and works well in combination with back pressure which can stop a producer 
+when possible and reduce the amount of state required.
+
+Fragmentation and re-assembly of large messages.
+
+Keepalive (heartbeats).
+
+RSocket has implementations in multiple languages. The Java library is built on Project Reactor, and Reactor Netty for 
+the transport. That means signals from Reactive Streams Publishers in your application propagate transparently through 
+RSocket across the network.
 
 ## Communication Models
 
@@ -67,6 +86,19 @@ us understand how the model is applied:
 
 This will transitively pull in RSocket related dependencies such as _rsocket-core_ and _rsocket-transport-netty_.
 
+# Client Requester
+
+To obtain an RSocketRequester on the client side is to connect to a server which involves sending an RSocket SETUP frame
+with connection settings. RSocketRequester provides a builder that helps to prepare an io.rsocket.core.RSocketConnector 
+including connection settings for the SETUP frame.
+
+```java
+RSocketRequester requester = RSocketRequester.builder().tcp("localhost", 7000);
+
+URI url = URI.create("https://example.org:8080/rsocket");
+RSocketRequester requester = RSocketRequester.builder().webSocket(url);
+```
+
 # Message Handlers
 
 Spring configuration will automatically detect @Controller beans with @MessageMapping annotation and use them as message
@@ -99,3 +131,21 @@ public Mono<String> operate(@DestinationVariable("name") String name) {
 }
 ```
 
+### Exception Handling
+
+Now let's see how we can handle exceptions in our server application in a declarative way.
+
+```java
+@MessageExceptionHandler
+public Mono<MarketData> handleException(Exception e) {
+    return Mono.just(MarketData.fromException(e));
+}
+```
+
+Here we've annotated our exception handler method with @MessageExceptionHandler. As a result, it will handle all types 
+of exceptions since the Exception class is the superclass of all others.
+
+We can be more specific and create different exception handler methods for different exception types.
+
+This is of course for the request/response model, and so we're returning a Mono<MarketData>. We want our return type 
+here to match the return type of our interaction model.

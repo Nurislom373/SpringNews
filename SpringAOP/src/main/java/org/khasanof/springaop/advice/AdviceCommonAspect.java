@@ -35,15 +35,35 @@ public class AdviceCommonAspect {
     @Pointcut("within(@org.springframework.stereotype.Service *)")
     public void repositoryClassMethods() {};
 
+    @Pointcut("execution(* org.khasanof.springaop.pointcut.TestService.exceptionMethod())")
+    public void exceptionPointCut() {};
+
     @Around("repositoryClassMethods()")
     public Object measureMethodExecutionTime(ProceedingJoinPoint pjp) throws Throwable {
-        long start = System.nanoTime();
-        Object retval = pjp.proceed();
-        long end = System.nanoTime();
-        String methodName = pjp.getSignature().getName();
-        logger.info("Execution of " + methodName + " took " +
-                TimeUnit.NANOSECONDS.toMillis(end - start) + " ms");
-        return retval;
+        try {
+            long start = System.nanoTime();
+            Object retval = pjp.proceed();
+            long end = System.nanoTime();
+            String methodName = pjp.getSignature().getName();
+            logger.info("Execution of " + methodName + " took " +
+                    TimeUnit.NANOSECONDS.toMillis(end - start) + " ms");
+            return retval;
+        } catch (RuntimeException exception) {
+            System.out.println("exception = " + exception);
+            return "Hello World";
+        }
     }
+
+//    @Around(value = "exceptionPointCut()")
+//    public Object afterThrowing(ProceedingJoinPoint pjp) throws Throwable {
+//        System.out.println("pjp.proceed() = " + pjp.proceed());
+//        try {
+//            System.out.println("pjp = " + pjp);
+//            return pjp.proceed();
+//        } catch (RuntimeException exception) {
+//            System.out.println("exception = " + exception);
+//            return "Hello World";
+//        }
+//    }
 
 }

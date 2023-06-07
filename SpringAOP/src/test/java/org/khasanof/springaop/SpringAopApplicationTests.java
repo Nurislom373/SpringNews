@@ -32,4 +32,10 @@ class SpringAopApplicationTests {
 		adviceService.testMethod();
 	}
 
+	@Test
+	void exceptionMethodTest() {
+		Object o = service.exceptionMethod();
+		System.out.println("o = " + o);
+	}
+
 }

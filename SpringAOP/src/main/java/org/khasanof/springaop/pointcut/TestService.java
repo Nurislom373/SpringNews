@@ -22,4 +22,9 @@ public class TestService {
     public void observer() {
         System.out.println("Execute Observer");
     }
+
+    public Object exceptionMethod() {
+        System.out.println("Hello World");
+        throw new RuntimeException("Hello");
+    }
 }

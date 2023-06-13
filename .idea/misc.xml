@@ -22,10 +22,14 @@
         <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
         <option value="$PROJECT_DIR$/WebFluxServerSideEvent/pom.xml" />
         <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
+        <option value="$PROJECT_DIR$/RSocket/RSocketWithoutSpring/pom.xml" />
+        <option value="$PROJECT_DIR$/RSocket/RSocketServer/pom.xml" />
+        <option value="$PROJECT_DIR$/RSocket/RSocketClient/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
+        <option value="$PROJECT_DIR$/RSocket/RSocketWithoutSpring/pom.xml" />
         <option value="$PROJECT_DIR$/Spring6Thymeleaf/pom.xml" />
         <option value="$PROJECT_DIR$/gRPC/pom.xml" />
       </set>

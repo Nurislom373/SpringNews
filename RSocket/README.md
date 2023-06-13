@@ -11,6 +11,15 @@ feature of RSocket: its interaction models.
 RSocket - bu distributed applicationlarda foydalanish uchun mo'ljallangan binary, point-to-point aloqa protocoli.
 RSocker to'rtta o'zaro ta'sir modelini taqdim etadi.
 
+RSocket request-response dan ko'ra ko'proq narsani ta'minlaydigan ilovalararo aloqa uchun nisbatan yangi protokol. Va
+tabiatan Reactive bo'lgani uchun HTTP requestlarni blokirovka qilishdan ko'ra samaraliroq bo'lishi mumkin.
+
+RSocket Flux va Mono kabi reactive typelarga mos keladigan reactive modelni qo'llab quvvatlaydigan ilovalar o'rtasida
+asinxron aloqani taklif qiladi.
+
+HTTP muqobil bo'lib, u yanada moslashuvchan bo'lib, 4ta alohida aloqa modelni taklif qiladi. request-response, 
+request-stream, fire-and-forget va channel. 
+
 # Introduction to RSocket
 
 HTTP is the most traditional and used way of communication between applications over networks. HTTP works on the

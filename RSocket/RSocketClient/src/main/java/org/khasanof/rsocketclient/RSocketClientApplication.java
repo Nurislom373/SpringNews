@@ -1,5 +1,8 @@
 package org.khasanof.rsocketclient;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.extern.slf4j.Slf4j;
 import org.reactivestreams.Publisher;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -19,7 +22,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import reactor.util.retry.Retry;
 
+import java.math.BigDecimal;
 import java.time.Duration;
+import java.time.Instant;
 
 @SpringBootApplication
 public class RSocketClientApplication {
@@ -52,6 +57,7 @@ class RSocketConfiguration {
     }
 }
 
+@Slf4j
 @RestController
 class VMController {
 
@@ -87,4 +93,50 @@ class VMController {
                 .retrieveFlux(String.class);
     }
 
+    @GetMapping(value = "greeting/{name}", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Publisher<String> greeting(@PathVariable String name) {
+        return rSocketRequester
+                .route("greeting/{name}", name)
+                .data("Hello RSocket")
+                .retrieveMono(String.class);
+    }
+
+    @GetMapping(value = "stock/{symbol}", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Publisher<StockQuote> stockQuotePublisher(@PathVariable String symbol) {
+        return rSocketRequester
+                .route("stock/{symbol}", symbol)
+                .retrieveFlux(StockQuote.class)
+                .doOnNext(stockQuote ->
+                        log.info("Price of {} : {} (at {})", stockQuote.getSymbol(),
+                                stockQuote.getPrice(), stockQuote.getTimestamp()));
+    }
+
+    @GetMapping(value = "alert", produces = {MediaType.TEXT_EVENT_STREAM_VALUE})
+    public Publisher<Void> voidPublisher() {
+        return rSocketRequester
+                .route("alert")
+                .data(new Alert(Alert.Level.RED, "Craig", Instant.now()))
+                .send();
+    }
+
+}
+
+@Data
+@AllArgsConstructor
+class StockQuote {
+    private String symbol;
+    private BigDecimal price;
+    private Instant timestamp;
+}
+
+@Data
+@AllArgsConstructor
+class Alert {
+    private Level level;
+    private String orderedBy;
+    private Instant orderedAt;
+
+    public enum Level {
+        YELLOW, ORANGE, RED, BLACK
+    }
 }

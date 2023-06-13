@@ -9,10 +9,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="Junit5Spring" />
         <module name="SpringAOP" />
+        <module name="RSocketServer" />
         <module name="MapStruct" />
         <module name="WebFluxServerSideEvent" />
         <module name="SpringWorkingYAML" />
         <module name="SpringJdbcTemplate" />
+        <module name="RSocketClient" />
         <module name="JacksonBoot" />
         <module name="SwaggerUI2" />
       </profile>
@@ -32,8 +34,6 @@
       <module name="khasanof-common-rate-limiting" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
       <module name="RSocket" target="17" />
-      <module name="RSocketClient" target="17" />
-      <module name="RSocketServer" target="17" />
       <module name="RSocketWithoutSpring" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />

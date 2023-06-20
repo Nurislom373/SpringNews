@@ -78,8 +78,7 @@ class SimulationController {
                                 alert.getLevel(),
                                 alert.getOrderedBy(),
                                 alert.getOrderedAt())
-                )
-                .thenEmpty(Mono.empty());
+                ).thenEmpty(Mono.empty());
     }
 
 }

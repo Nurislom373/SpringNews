@@ -3,7 +3,6 @@ package org.khasanof.jacksonboot.customSDElizer;
 import com.fasterxml.jackson.core.JsonGenerator;
 import com.fasterxml.jackson.databind.SerializerProvider;
 import com.fasterxml.jackson.databind.ser.std.StdSerializer;
-import lombok.NoArgsConstructor;
 import org.khasanof.jacksonboot.objectMapper.Car;
 
 import java.io.IOException;

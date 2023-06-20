@@ -19,7 +19,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class Car implements Serializable {
-
     private String color;
     private String type;
     

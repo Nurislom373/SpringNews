@@ -19,7 +19,7 @@ import java.util.*;
  * <br/>
  * Package: org.khasanof.springexpressionlanguage.ExpressionParser
  */
-@Component
+//@Component
 @Slf4j
 public class SpelExpressionParserSecond implements CommandLineRunner {
 

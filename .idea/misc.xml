@@ -25,6 +25,7 @@
         <option value="$PROJECT_DIR$/RSocket/RSocketWithoutSpring/pom.xml" />
         <option value="$PROJECT_DIR$/RSocket/RSocketServer/pom.xml" />
         <option value="$PROJECT_DIR$/RSocket/RSocketClient/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

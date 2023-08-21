@@ -39,6 +39,14 @@ oshiradi. OOPda modul asosiy birligi Classdir, AOP da esa asosiy modul birligi A
 - Target object: An object being advised by one or more aspects. Also referred to as the “advised object”. Since Spring
   AOP is implemented by using runtime proxies, this object is always a proxied object.
 
+---
+
+- Aspect - bu bir nechta classlarni kesib tashlaydigan concerning modulizaysiyasi. 
+- Join Point - bu dasturni bajarilish paytidagi nuqta, masalan, methodning bajarilishi paytida yoki exceptionni 
+  handle qilish nuqtasi. Join point doim methodni bajarilishi ifodalaydi.
+- Advice - bu qo'shilish nuqtasida(Join point) aspect tomonidan bajariladigan harakat. Har xil turdagi advicelar mavjud
+  `Around`, `Before` va `After`.
+
 ## Spring AOP Capabilities and Goals
 
 Spring AOP is implemented in pure Java. There is no need for a special compilation process. Spring AOP does not need to

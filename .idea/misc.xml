@@ -27,6 +27,7 @@
         <option value="$PROJECT_DIR$/RSocket/RSocketClient/pom.xml" />
         <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
         <option value="$PROJECT_DIR$/Keycloak/pom.xml" />
+        <option value="$PROJECT_DIR$/GatlingPerformanceTest/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

@@ -23,7 +23,7 @@ public class LoggingAspect {
     public void logPointcut(){
     }
 
-    @Before("logPointcut()")
+//    @Before("logPointcut()")
     public void logAllMethodCallsAdvice(){
         System.out.println("In Aspect");
     }

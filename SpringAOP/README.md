@@ -41,11 +41,15 @@ oshiradi. OOPda modul asosiy birligi Classdir, AOP da esa asosiy modul birligi A
 
 ---
 
-- Aspect - bu bir nechta classlarni kesib tashlaydigan concerning modulizaysiyasi. 
-- Join Point - bu dasturni bajarilish paytidagi nuqta, masalan, methodning bajarilishi paytida yoki exceptionni 
+- `Aspect` - bu bir nechta classlarni kesib tashlaydigan concerning modulizaysiyasi. 
+- `Join Point` - bu dasturni bajarilish paytidagi nuqta, masalan, methodning bajarilishi paytida yoki exceptionni 
   handle qilish nuqtasi. Join point doim methodni bajarilishi ifodalaydi.
-- Advice - bu qo'shilish nuqtasida(Join point) aspect tomonidan bajariladigan harakat. Har xil turdagi advicelar mavjud
-  `Around`, `Before` va `After`.
+- `Advice` - bu qo'shilish nuqtasida(Join point) aspect tomonidan bajariladigan harakat. Har xil turdagi advicelar mavjud
+  `Around`, `Before` va `After`. Ko'pgina AOP frameworklari, shu jumladan _Spring_ advice ni interceptor yani tutuvchi 
+  sifatida modellashtiradi va qo'shilish nuqatasida tutuvchi zanjirni ushlaydi.
+- `Pointcut` - bu qo'shilish nuqtalariga mos keladigan predicate. Advice Pointcut bilan bog'lanadi va pointcut ga mos 
+  keladigan har qanday qo'shilish nutqasida ishlaydi (masalan ma'lum bir nomli method bajarilishi). Spring default AspectJ
+  expression languagedan foydalanadi.
 
 ## Spring AOP Capabilities and Goals
 

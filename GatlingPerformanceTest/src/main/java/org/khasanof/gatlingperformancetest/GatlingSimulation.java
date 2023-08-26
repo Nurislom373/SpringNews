@@ -67,13 +67,16 @@ public class GatlingSimulation extends Simulation {
                         .header("Content-Type", "application/json")
                         .body(StringBody(stringBody))
                         .check(HttpDsl.status().is(201)))
+                .pause(2)
                 .exec(http("get-employee-request")
                         .get("/api/get-fake-data")
                         .header("Content-Type", "application/json")
-                        .check(HttpDsl.status().is(200)));
+                        .check(HttpDsl.status().is(200)))
+                .pause(2, 3);
     }
 
     private OpenInjectionStep.RampRate.RampRateOpenInjectionStep postEndpointInjectionProfile() {
+
         int totalDesiredUserCount = 200;
         double userRampUpPerInterval = 50;
         double rampUpIntervalSeconds = 30;

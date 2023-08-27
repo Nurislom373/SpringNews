@@ -51,7 +51,7 @@ scability testing lar kiradi.
 
 # Key Terminologies
 
-## Virtual User
+# 1. Virtual User
 
 Ab yoki wrk kabi bazi load testing tool lar url ni buzishda juda samarali, ammo requestlar orasidagi logic bilan
 shug'ullana olmaydi. 
@@ -59,7 +59,7 @@ shug'ullana olmaydi.
 Gatling kabi ilg'or load testing toollari virtual foydalanuvchilar bilan shug'ullanishi mumkin, ularning har biri o'z
 ma'lumotlariga ega va ehitmol aniq ko'rish yo'lini oladi.
 
-## Scenario
+# 2. Scenario
 
 bu foydalanuvchilarning odatiy xatti-harakatlarni ifodalaydi. Bu virtual foydalanuvchilar amal qiladigan
 qiladigan ish jarayoni.
@@ -72,6 +72,43 @@ Misl uchun e-commerce ilovasini stsenariasyini olaylik:
 5. ortga qaytib
 6. boshqa productlarni description ko'rish
 7. productni sotib olish va hokazolar.
+
+## 2.2 Exec
+
+`exec` method amallarni bajarish uchun ishlatiladi. Amallar odatda simulatsiya paytida yuboriladigan requestlar (HTTP, 
+WebSocker, MQTT...). Bajariladigan har qanday harakat exec method bilan amalga oshiriladi.
+
+```java
+// attached to a scenario
+scenario("Scenario")
+  .exec(http("Home").get("https://gatling.io"));
+
+// directly created and stored in a reference
+ChainBuilder chain = exec(http("Home").get("https://gatling.io"));
+
+// attached to another
+exec(http("Home").get("https://gatling.io"))
+  .exec(http("Enterprise").get("https://gatling.io/enterprise"));
+```
+
+exec method Function functional interface qabul qiladigan overload versiyasi ham bor.
+ushbu methodidan foydalanib qo'lda nosozliklarni tuzatish yoki sessionni tahrirlash uchun ishlatish mumkin.
+
+```java
+exec(session -> {
+  // displays the content of the session in the console (debugging only)
+  System.out.println(session);
+  // return the original session
+  return session;
+});
+
+exec(session ->
+  // return a new session instance
+  // with a new "foo" attribute whose value is "bar"
+  session.set("foo", "bar")
+);
+```
+
 
 ## Simulation
 

@@ -109,6 +109,24 @@ exec(session ->
 );
 ```
 
+# 3. Injection
+
+foydalanuvchilar kiritish Gatlingda ikki xil modelda amalga oshiriladi ular InjectOpen va InjectClosed modellar.
+
+## Open and Closed Workload Models
+
+yuklash modeli haqida gap ketganda, tizimlar 2 xil usulda ishlaydi:
+
+- Bir vaqtning o'zida foydalanuvchilar sonini boshqaradigan yopiq tizimlar.
+- Foydalanuvchilarning kelish tezligini nazorat qiladigan ochiq tizimlar.
+
+Yopiq tizim - bu bir vaqtning o'zida foydalanuvchilar soni chegaranlangan tizim. To'liq quvvat bilan yangi foydalanuvchi
+tizimga faqat ikkinchisi chiqqanidan keyin kirishi mumkin.
+
+bunday ishlaydigan tizimlar.
+
+- Call Center.
+
 # Simulation
 
 Simulatsiya - bu load testingning tavsifi. U bir nechta foydalanuvchi populatsiyalari qanday ishlashini tasvirlaydi.

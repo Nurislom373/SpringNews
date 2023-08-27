@@ -109,11 +109,25 @@ exec(session ->
 );
 ```
 
-
-## Simulation
+# Simulation
 
 Simulatsiya - bu load testingning tavsifi. U bir nechta foydalanuvchi populatsiyalari qanday ishlashini tasvirlaydi.
 Ular stsenariyni qanday bajaradi va yangi virtual foydalanuvchilar qanday kiritiladi.
+
+Simulation class bu Gatling testlari uchun parent class. Ushbu class load testlarni ishga tushirish uchun foydalaniladi.
+
+```java
+// required for Gatling core structure DSL
+import io.gatling.javaapi.core.*;
+import static io.gatling.javaapi.core.CoreDsl.*;
+
+// required for Gatling HTTP DSL
+import io.gatling.javaapi.http.*;
+import static io.gatling.javaapi.http.HttpDsl.*;
+```
+
+Simulatsiyadagi `setUp` methodni testlarni ro'yxatdan o'tkazish uchun o'z constructorida bir marta chaqirishlar.
+`setup` methodni maqsadi testlar ro'yxatdan o'tkazish.
 
 ```java
  setUp(
@@ -122,6 +136,16 @@ Ular stsenariyni qanday bajaradi va yangi virtual foydalanuvchilar qanday kiriti
                 Duration.of(60, ChronoUnit.SECONDS)), CoreDsl.rampUsers(5).during(400)),
         scenarioBuilder().injectOpen(CoreDsl.rampUsers(500).during(200))
  );
+```
+
+## Acceptance Criteria
+
+load test tuganidan so'ng undan qaytgan natijani assertionlar orqali biz kutgan natijani olganmizmi yoki yoqligini 
+bilishimiz mumkin.
+
+```java
+setUp(scn.injectOpen(atOnceUsers(1)))
+  .assertions(global().failedRequests().count().is(0L));
 ```
 
 ## Session
@@ -219,3 +243,17 @@ browser and they will, most likely, read it and then decide what to do next.
 Ushbu tepada ishlatilgan Pauzalar foydalanuvchining fikrlash vaqtini taqlid qilish uchun ishlatiladi. Haqiqiy 
 foydalanuvchi havolani yani link bosganida, sahifa o'z brauzeriga yuklanishi kerak va ular, ehtimol, uni o'qib chiqadi
 va keyin nima qilishni hal qiladi. 
+
+Pauza method faqat bitta parameter qabul qiladi va uni bir nechta variantlari bor. int, Duration, Gatling EL yoki 
+Function.
+
+```java
+// with a number of seconds
+pause(10);
+// with a java.time.Duration
+pause(Duration.ofMillis(100));
+// with a Gatling EL string resolving to a number of seconds or a java.time.Duration
+pause("#{pause}");
+// with a function that returns a java.time.Duration
+pause(session -> Duration.ofMillis(100));
+```

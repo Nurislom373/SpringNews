@@ -27,7 +27,7 @@ public class SimulationTokenAndCategories {
                             .header("Accept", "application/json")
                             .check(
                                     status().is(200),
-                                    jsonPath("access_token").exists().saveAs("access_token")
+                                    jsonPath("$.access_token").exists().saveAs("access_token")
                             );
                     return session;
                 })

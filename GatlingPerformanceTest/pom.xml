@@ -60,7 +60,7 @@
 				<artifactId>gatling-maven-plugin</artifactId>
 				<version>4.3.0</version>
 				<configuration>
-					<simulationClass>org.khasanof.gatlingperformancetest.GatlingSimulation</simulationClass>
+					<simulationClass>org.khasanof.gatlingperformancetest.rest.PlusCardTokenAndCheck</simulationClass>
 				</configuration>
 			</plugin>
 			<plugin>

@@ -3,6 +3,8 @@ package org.khasanof.gatlingperformancetest.rest;
 import io.gatling.javaapi.http.HttpDsl;
 import io.gatling.javaapi.http.HttpRequestActionBuilder;
 
+import static io.gatling.javaapi.http.HttpDsl.http;
+
 /**
  * @author Nurislom
  * @see org.khasanof.gatlingperformancetest
@@ -11,7 +13,7 @@ import io.gatling.javaapi.http.HttpRequestActionBuilder;
 public abstract class CountrySimulations {
 
     public static HttpRequestActionBuilder countriesActions() {
-        return HttpDsl.http("get countries http")
+        return http("get countries http")
                 .get("/api/countries")
                 .header("Content-Type", "application/json")
                 .check(HttpDsl.status().is(200));

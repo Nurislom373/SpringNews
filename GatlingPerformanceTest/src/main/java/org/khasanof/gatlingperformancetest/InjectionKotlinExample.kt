@@ -14,7 +14,6 @@ import java.time.Duration
 import io.gatling.javaapi.http.HttpDsl.*
 import java.time.temporal.ChronoUnit
 
-
 class InjectionKotlinExample : Simulation() {
 
     private val scn = scenario("test")

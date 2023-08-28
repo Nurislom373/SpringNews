@@ -77,7 +77,7 @@
 				<artifactId>gatling-maven-plugin</artifactId>
 				<version>4.3.0</version>
 				<configuration>
-					<simulationClass>org.khasanof.gatlingperformancetest.rest.PlusCardTokenAndCheck</simulationClass>
+					<simulationClass>org.khasanof.gatlingperformancetest.websocket.SimulationWebSocket</simulationClass>
 				</configuration>
 			</plugin>
 			<plugin>

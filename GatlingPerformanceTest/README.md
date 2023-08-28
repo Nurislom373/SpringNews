@@ -73,7 +73,12 @@ Misl uchun e-commerce ilovasini stsenariasyini olaylik:
 6. boshqa productlarni description ko'rish
 7. productni sotib olish va hokazolar.
 
-## 2.2 Exec
+## 2.1 Exec
+
+The exec method is used to execute an action. Actions are usually requests (HTTP, WebSocket, JMS, MQTT…) that will be 
+sent during the simulation. Any action that will be executed will be called with exec.
+
+--- 
 
 `exec` method amallarni bajarish uchun ishlatiladi. Amallar odatda simulatsiya paytida yuboriladigan requestlar (HTTP, 
 WebSocker, MQTT...). Bajariladigan har qanday harakat exec method bilan amalga oshiriladi.
@@ -109,6 +114,155 @@ exec(session ->
 );
 ```
 
+## 2.2 Pause
+
+
+```java
+private static ScenarioBuilder buildPostScenario() {
+    return CoreDsl.scenario("Load Test By Test Controller")
+        .feed(FEED_DATA)
+        .exec(http("create-employee-request")
+            .post("/api/create-fake-data")
+            .header("Content-Type", "application/json")
+            .body(StringBody(stringBody))
+            .check(HttpDsl.status().is(201)))
+        .pause(2) // pause method
+        .exec(http("get-employee-request")
+            .get("/api/get-fake-data")
+            .header("Content-Type", "application/json")
+            .check(HttpDsl.status().is(200)))
+        .pause(2, 3); // pause method
+}
+```
+
+Pauses are used to simulate user think time. When a real user clicks on a link, the page has to be loaded in their
+browser and they will, most likely, read it and then decide what to do next.
+
+---
+
+Ushbu tepada ishlatilgan Pauzalar foydalanuvchining fikrlash vaqtini taqlid qilish uchun ishlatiladi. Haqiqiy
+foydalanuvchi havolani yani link bosganida, sahifa o'z brauzeriga yuklanishi kerak va ular, ehtimol, uni o'qib chiqadi
+va keyin nima qilishni hal qiladi.
+
+Pauza method faqat bitta parameter qabul qiladi va uni bir nechta variantlari bor. int, Duration, Gatling EL yoki
+Function.
+
+```java
+// with a number of seconds
+pause(10);
+// with a java.time.Duration
+pause(Duration.ofMillis(100));
+// with a Gatling EL string resolving to a number of seconds or a java.time.Duration
+pause("#{pause}");
+// with a function that returns a java.time.Duration
+pause(session -> Duration.ofMillis(100));
+```
+
+pauza method 2ta parameter qabul qiladigan varinati ham mavjud. Ushbu pauze berilgan orqalida random soni oladi va ushbu 
+vaqt oralig'ida pauza qiladi.
+
+```java
+// with a number of seconds
+pause(10, 20);
+// with a java.time.Duration
+pause(Duration.ofMillis(100), Duration.ofMillis(200));
+// with a Gatling EL strings
+pause("#{min}", "#{max}");
+// with a function that returns a java.time.Duration
+pause(session -> Duration.ofMillis(100), session -> Duration.ofMillis(200));
+```
+
+* `min`: can be an Int for a duration in seconds, a duration, a Gatling EL String or a function
+* `max`: can be an Int for a duration in seconds, a duration, a Gatling EL String or a function
+
+## 2.3 Loop Statements
+
+## Repeat
+
+Repeat the loop a specified amount of times.
+
+---
+
+`repeat` method belgilan miqdorda loopni takrorlaydi.
+
+repeat method 2ta parameter qabul qiladi.
+
+* `times` : sikl tarkibini takrorlash soni int, gatling EL yoki Function bo'lishi mumkin.
+* `counterName` (Optional) : Sessionda sikl hisoblagichini 0 dan boshlab saqlash uchun kalit.
+
+```java
+// with an Int times
+repeat(5).on(
+  exec(http("name").get("/"))
+);
+// with a Gatling EL string resolving an Int
+repeat("#{times}").on(
+  exec(http("name").get("/"))
+);
+// with a function times
+repeat(session -> 5).on(
+  exec(http("name").get("/"))
+);
+// with a counter name
+repeat(5, "counter").on(
+  exec(session -> {
+    System.out.println(session.getInt("counter"));
+    return session;
+  })
+);
+```
+
+## Foreach
+
+Repeat the loop for each element in the specified sequence.
+It takes 3 parameters:
+
+* `seq`: the list of elements to iterate over, can be a List, a Gatling EL String or a function
+* `elementName`: the key to the current element in the `Session`
+* `counterName` (optional): the key to store the loop counter in the Session, starting at 0
+
+---
+
+belgilangan ketma-ketlikda har bir element uchun tsiklni takrorlaydi.
+U 3ta parameter qabul qiladi.
+
+* `seq`: takrorlanadigan elementlar ro'yxati, List, Gatling EL yoki Function.
+* `elementName`: current element `Session` olish uchun key.
+* `counterName` (Optional): sikl hisoblagichini 0 dan boshlab saqlash uchun kalit
+
+```java
+// with a static List
+foreach(Arrays.asList("elt1", "elt2"), "elt").on(
+  exec(http("name").get("/"))
+);
+// with a Gatling EL string
+foreach("#{elts}", "elt").on(
+  exec(http("name").get("/"))
+);
+// with a function
+foreach(session -> Arrays.asList("elt1", "elt2"), "elt").on(
+  exec(http("name").get("/"))
+);
+// with a counter name
+foreach(Arrays.asList("elt1", "elt2"), "elt", "counter").on(
+  exec(session -> {
+    System.out.println(session.getString("elt2"));
+    return session;
+  })
+);
+```
+
+## asLongAs
+
+Shart bajarulgunga qadar tsikl bo'ylab takrorlanadi.
+
+U 3ta parameter qabul qiladi.
+
+* `condition`: boolean, mantiqiy yoki functionni hal qiluvchi Gatling EL String bo'lishi mumkin.
+* `counterName`: Session sikl counterni 0 dan boshlab saqlash uchun kalit
+* `exitASAP` (Optional): agar true bo'lsa, shart sikl ichidagi har bir element uchun baholanadi, bu iteratsiya
+  oxiriga yetmas to'xtalishi mumkin.
+
 # 3. Injection
 
 foydalanuvchilar kiritish Gatlingda ikki xil modelda amalga oshiriladi ular InjectOpen va InjectClosed modellar.
@@ -126,6 +280,32 @@ tizimga faqat ikkinchisi chiqqanidan keyin kirishi mumkin.
 bunday ishlaydigan tizimlar.
 
 - Call Center.
+
+Aksincha ochiq tizimlar bir vaqtda foydalanuvchilarni sonini nazorat qila olmaydilar. Ular xizmat ko'rsatishda muammoga
+duch kelgan bo'lsa ham, foydalanuvchilarni qabul qilishda davom etadilar.
+
+## 3.1 Open Model
+
+```java
+setUp(
+  scn.injectOpen(
+    nothingFor(4), // 1
+    atOnceUsers(10), // 2
+    rampUsers(10).during(5), // 3
+    constantUsersPerSec(20).during(15), // 4
+    constantUsersPerSec(20).during(15).randomized(), // 5
+    rampUsersPerSec(10).to(20).during(10), // 6
+    rampUsersPerSec(10).to(20).during(10).randomized(), // 7
+    stressPeakUsers(1000).during(20) // 8
+  ).protocols(httpProtocol)
+);
+```
+
+ochiq modelni qurish uchun quyidagi methodlardan foydalanishimiz mumkin.
+
+1. `nothingFor(duration)` : belgilangan vaqt uchun pauza qiladi.
+2. `atOnceUsers(nbUsers)` : bir vaqtning o'zida ma'lum miqdordagi foydalanuvchilarni kiritadi.
+3. `rampUsers(nbUsers).during(duration)` : ma'lum bir vaqt oralig'ida teng taqsimlangan foydalanuvchilarning ma'lum sonini kiritadi.
 
 # 4. Simulation
 
@@ -350,47 +530,4 @@ and maven plugin:
         <simulationClass>org.khasanof.gatlingperformancetest.GatlingSimulation</simulationClass>
     </configuration>
 </plugin>
-```
-
-## Pause
-
-```java
-private static ScenarioBuilder buildPostScenario() {
-    return CoreDsl.scenario("Load Test By Test Controller")
-        .feed(FEED_DATA)
-        .exec(http("create-employee-request")
-            .post("/api/create-fake-data")
-            .header("Content-Type", "application/json")
-            .body(StringBody(stringBody))
-            .check(HttpDsl.status().is(201)))
-        .pause(2) // pause method
-        .exec(http("get-employee-request")
-            .get("/api/get-fake-data")
-            .header("Content-Type", "application/json")
-            .check(HttpDsl.status().is(200)))
-        .pause(2, 3); // pause method
-}
-```
-
-Pauses are used to simulate user think time. When a real user clicks on a link, the page has to be loaded in their 
-browser and they will, most likely, read it and then decide what to do next.
-
----
-
-Ushbu tepada ishlatilgan Pauzalar foydalanuvchining fikrlash vaqtini taqlid qilish uchun ishlatiladi. Haqiqiy 
-foydalanuvchi havolani yani link bosganida, sahifa o'z brauzeriga yuklanishi kerak va ular, ehtimol, uni o'qib chiqadi
-va keyin nima qilishni hal qiladi. 
-
-Pauza method faqat bitta parameter qabul qiladi va uni bir nechta variantlari bor. int, Duration, Gatling EL yoki 
-Function.
-
-```java
-// with a number of seconds
-pause(10);
-// with a java.time.Duration
-pause(Duration.ofMillis(100));
-// with a Gatling EL string resolving to a number of seconds or a java.time.Duration
-pause("#{pause}");
-// with a function that returns a java.time.Duration
-pause(session -> Duration.ofMillis(100));
 ```

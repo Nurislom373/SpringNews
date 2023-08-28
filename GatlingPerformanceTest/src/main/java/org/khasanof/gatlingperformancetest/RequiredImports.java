@@ -1,10 +1,8 @@
 package org.khasanof.gatlingperformancetest;
 
-// required for Gatling core structure DSL
 import io.gatling.javaapi.core.*;
 import static io.gatling.javaapi.core.CoreDsl.*;
 
-// required for Gatling HTTP DSL
 import io.gatling.javaapi.http.*;
 import static io.gatling.javaapi.http.HttpDsl.*;
 

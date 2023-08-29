@@ -21,26 +21,6 @@ import java.util.Objects;
  */
 public class LoopScenario extends Simulation {
 
-    private ScenarioBuilder simpleScenarioBuilder() {
-        return scenario("simple")
-                .exec(
-                        http("get categories")
-                                .get("/api/categories")
-                                .header("Content-Type", "application/json")
-                                .check(status().is(200))
-                ).exec(chainBuilder(), subChainBuilder());
-    }
-
-    // simple builder
-    private ChainBuilder chainBuilder() {
-        return exec(actionBuilder());
-    }
-
-    // chain builder example
-    private ChainBuilder subChainBuilder() {
-        return exec(exec(actionBuilder()), exec(actionBuilder()));
-    }
-
     private ChainBuilder paceExample() {
         return exec(
                 forever().on(
@@ -184,11 +164,48 @@ public class LoopScenario extends Simulation {
         );
     }
 
-    private HttpRequestActionBuilder actionBuilder() {
-        return http("get regions")
-                .get("/api/regions")
-                .header("Content-Type", "application/json")
-                .check(status().is(200));
+    private ChainBuilder asLongAsDuringExample() {
+        return asLongAsDuring("#{condition}", 5)
+                .on(exec(http("name").get("/"))
+                        .exec(
+                                // with a Gatling EL string resolving to a boolean and an int duration
+                                asLongAsDuring("#{condition}", 5).on(
+                                        exec(http("name").get("/"))),
+
+                                // with a counter name and exitASAP
+                                asLongAsDuring(session -> true,
+                                        Duration.ofMinutes(10), "counter", false).on(
+                                        exec(http("name").get("/")))
+                        ));
     }
+
+    private ChainBuilder doWhileDuringExample() {
+        return doWhileDuring("#{condition}", 5)
+                .on(
+                        exec(http("name").get("/"))
+                )
+                .exec(
+                        // with a Gatling EL string resolving to a boolean and an int duration
+                        doWhileDuring("#{condition}", 5).on(
+                                exec(http("name").get("/"))
+                        ),
+                        // with a counter name and exitASAP
+                        doWhileDuring(session -> true, Duration.ofMinutes(10), "counter", false).on(
+                                exec(http("name").get("/"))
+                        )
+                );
+    }
+
+    private ChainBuilder foreverExample() {
+        return forever()
+                .on(
+                        exec(http("name").get("/"))
+                )
+                .forever("counter")
+                .on(
+                        exec(http("name").get("/"))
+                );
+    }
+
 
 }

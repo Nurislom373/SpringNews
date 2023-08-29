@@ -228,7 +228,7 @@ U 3ta parameter qabul qiladi.
 
 * `seq`: takrorlanadigan elementlar ro'yxati, List, Gatling EL yoki Function.
 * `elementName`: current element `Session` olish uchun key.
-* `counterName` (Optional): sikl hisoblagichini 0 dan boshlab saqlash uchun kalit
+* `counterName` (Optional): Sessionda sikl hisoblagichini 0 dan boshlab saqlash uchun kalit
 
 ```java
 // with a static List
@@ -254,14 +254,108 @@ foreach(Arrays.asList("elt1", "elt2"), "elt", "counter").on(
 
 ## asLongAs
 
+Iterate over the loop as long as the condition is satisfied.
+
+It takes 3 parameters:
+
+* `condition`: can be a boolean, a Gatling EL String resolving a boolean or a function
+* `counterName` (optional): the key to store the loop counter in the Session, starting at 0
+* `exitASAP` (optional, default true): if true, the condition will be evaluated for each element inside the loop, possibly 
+  causing to exit the loop before reaching the end of the iteration.
+
+---
+
 Shart bajarulgunga qadar tsikl bo'ylab takrorlanadi.
 
 U 3ta parameter qabul qiladi.
 
 * `condition`: boolean, mantiqiy yoki functionni hal qiluvchi Gatling EL String bo'lishi mumkin.
-* `counterName`: Session sikl counterni 0 dan boshlab saqlash uchun kalit
+* `counterName`: Sessionda sikl counterni 0 dan boshlab saqlash uchun kalit
 * `exitASAP` (Optional): agar true bo'lsa, shart sikl ichidagi har bir element uchun baholanadi, bu iteratsiya
   oxiriga yetmas to'xtalishi mumkin.
+
+```java
+// with a Gatling EL string resolving to a boolean
+asLongAs("#{condition}").on(
+  exec(http("name").get("/"))
+);
+// with a function
+asLongAs(session -> session.getBoolean("condition")).on(
+  exec(http("name").get("/"))
+);
+// with a counter name and exitASAP
+asLongAs("#{condition}", "counter", false).on(
+  exec(http("name").get("/"))
+);
+```
+
+## doWhile
+
+Similar to asLongAs but the condition is evaluated after the loop.
+
+It takes 2 parameters:
+
+* `condition` can be a boolean, a Gatling EL String resolving a boolean or a function
+* `counterName` (optional): the key to store the loop counter in the Session, starting at 0
+
+---
+
+`doWhile` `asLongAs` ga o'xshash, lekin shart tsikldan keyin bajariladi.
+
+2ta parameter qabul qiladi:
+
+* `condition` boolean yoki Gatling EL bo'lishi mumkin.
+* `counterName` (Optional): Sessionda sikl counterni 0 dan boshlab saqlash uchun kalit
+
+```java
+// with a Gatling EL string resolving to a boolean
+doWhile("#{condition}").on(
+  exec(http("name").get("/"))
+);
+// with a function
+doWhile(session -> session.getBoolean("condition")).on(
+  exec(http("name").get("/"))
+);
+// with a counter name
+doWhile("#{condition}", "counter").on(
+  exec(http("name").get("/"))
+);
+```
+
+## asLongAsDuring
+
+Iterate over the loop as long as the condition is satisfied and the duration hasn’t been reached.
+
+It takes 4 parameters:
+
+* `condition` can be a boolean, a Gatling EL String resolving a boolean or a function
+* `duration` can be an Int for a duration in seconds, a duration, a Gatling EL String or a function
+* `counterName` (optional): the key to store the loop counter in the Session, starting at 0
+* `exitASAP` (optional, default true). If true, the condition will be evaluated for each element inside the loop, possibly 
+causing to exit the loop before reaching the end of the iteration.
+
+---
+
+shart bajarilsa va muddatga yetib bormasa tsikl takrorlanaveradi.
+
+4ta parameter qabul qiladi:
+
+* `condition`: boolean, mantiqiy yoki functionni hal qiluvchi Gatling EL String bo'lishi mumkin.
+* `duration`: belgilangan soniyada tsikl aylanadi. int yoki gatling EL bo'lishi mumkin.
+* `counterName`: Sessionda sikl counterni 0 dan boshlab saqlash uchun kalit
+* `exitASAP` (Optional): agar true bo'lsa, shart sikl ichidagi har bir element uchun baholanadi, bu iteratsiya
+  oxiriga yetmas to'xtalishi mumkin.
+
+```java
+// with a Gatling EL string resolving to a boolean and an int duration
+asLongAsDuring("#{condition}", 5).on(
+  exec(http("name").get("/"))
+);
+// with a counter name and exitASAP
+asLongAsDuring(session -> true, Duration.ofMinutes(10), "counter", false).on(
+  exec(http("name").get("/"))
+);
+```
 
 # 3. Injection
 

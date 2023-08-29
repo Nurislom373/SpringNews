@@ -9,7 +9,5 @@ import static io.gatling.javaapi.http.HttpDsl.*;
 /**
  * @author Nurislom
  * @see org.khasanof.gatlingperformancetest
- * @since 8/27/2023 7:48 PM
+ * @since 8/29/2023 9:13 AM
  */
-public class RequiredImports {
-}

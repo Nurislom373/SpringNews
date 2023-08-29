@@ -357,6 +357,35 @@ asLongAsDuring(session -> true, Duration.ofMinutes(10), "counter", false).on(
 );
 ```
 
+## 2.4 Conditional Statements
+
+Gatling’s DSL has conditional execution support.
+
+It takes one single parameter:
+
+* `condition` can be a boolean, a Gatling EL String resolving a boolean or a function
+
+---
+
+Gatling DSL conditional bajarishni qo'llab quvvatlaydi.
+
+1ta parameter qabul qiladi:
+
+* `condition` boolean yoki Gatling EL bo'lishi mumkin.
+
+```java
+// with a Gatling EL string resolving to a boolean
+doIf("#{condition}").then(
+  exec(http("name").get("/"))
+);
+
+// with a function
+doIf(session -> session.getBoolean("condition")).then(
+  exec(http("name").get("/"))
+);
+```
+
+
 # 3. Injection
 
 foydalanuvchilar kiritish Gatlingda ikki xil modelda amalga oshiriladi ular InjectOpen va InjectClosed modellar.

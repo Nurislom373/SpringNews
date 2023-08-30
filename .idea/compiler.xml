@@ -17,6 +17,7 @@
         <module name="JacksonBoot" />
         <module name="GatlingPerformanceTest" />
         <module name="SwaggerUI2" />
+        <module name="WebSocket" />
         <module name="SpringAOP" />
         <module name="SpringWorkingYAML" />
         <module name="Keycloak" />
@@ -82,6 +83,7 @@
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="" />
       <module name="WebFluxServerSideEvent" options="-parameters" />
+      <module name="WebSocket" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

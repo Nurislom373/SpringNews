@@ -28,6 +28,7 @@
         <option value="$PROJECT_DIR$/SpringExpressionLanguage/pom.xml" />
         <option value="$PROJECT_DIR$/Keycloak/pom.xml" />
         <option value="$PROJECT_DIR$/GatlingPerformanceTest/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

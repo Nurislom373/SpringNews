@@ -36,7 +36,7 @@ public class SimulationWebSocket extends Simulation {
     private static HttpProtocolBuilder wsProtocol() {
         return http
                 .baseUrl("https://api.b1nk.uz")
-                .userAgentHeader("Gatling2")
+                .userAgentHeader("Gatling")
                 .wsBaseUrl("wss://api.b1nk.uz");
     }
 

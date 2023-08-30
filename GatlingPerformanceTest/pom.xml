@@ -28,6 +28,16 @@
 			<version>1.0.2</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.10</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-text</artifactId>
+			<version>1.10.0</version>
+		</dependency>
+		<dependency>
 			<groupId>io.gatling</groupId>
 			<artifactId>gatling-app</artifactId>
 			<version>3.9.0</version>
@@ -77,7 +87,7 @@
 				<artifactId>gatling-maven-plugin</artifactId>
 				<version>4.3.0</version>
 				<configuration>
-					<simulationClass>org.khasanof.gatlingperformancetest.websocket.SimulationWebSocket</simulationClass>
+					<simulationClass>org.khasanof.gatlingperformancetest.websocket.PlusWebSocket</simulationClass>
 				</configuration>
 			</plugin>
 			<plugin>

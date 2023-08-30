@@ -35,8 +35,7 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
                 Got an exception while handling a frame.
                 Command: {}
                 Headers: {}
-                Payload: {}
-                {}""", command, headers, payload, exception);
+                Payload: {}""", command, headers, payload, exception);
     }
 
     @Override

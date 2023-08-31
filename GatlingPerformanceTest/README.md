@@ -385,6 +385,88 @@ doIf(session -> session.getBoolean("condition")).then(
 );
 ```
 
+## 2.5 Error Handling
+
+Gatling bizga test paytida error sodir bolgan yana qayta urinish imkoni bervurchi bir qancha methodlarni taqdim etadi.
+
+## tryMax
+
+Any error (a technical exception such as a timeout, or a failed check) in the wrapped chain would cause the virtual user
+to interrupt and start over from the beginning, up to a maximum number of times. All requests performed in failing 
+iterations will be logged, including the failing one.
+
+It takes 2 parameters:
+
+* `times`: the maximum number of attempts, an int
+* `counterName` (optional): the key to store the loop counter in the `Session`, starting at 0
+
+---
+
+tryMax method istalgan xatolikni ushlaydi timeout va assertion checkdagi xatoliklarni ham. Shunda tryMax berilgilangan
+marta ushbu method qayta bajaradi xatolik o'tamaguncha. Ushbu method 2ta parameter qabul qiladi.
+
+2ta parameter qabul qiladi:
+
+* `times`: maksimal urinishlar soni
+* `counterName` (Optional): Sessionda sikl counterni 0 dan boshlab key sifatida saqlash uchun. 
+
+```java
+tryMax(5).on(
+  exec(http("name").get("/"))
+);
+
+// with a counter name
+tryMax(5, "counter").on(
+  exec(http("name").get("/"))
+);
+```
+
+## exitBlockOnFail
+
+Similar to tryMax, but without retrying on failure.
+
+---
+
+tryMax-ga o'xshaydi, lekin muvaffaqiyatsizlikka uchraganda qayta urinmasdan blockdan chiqib ketadi.
+
+```java
+exitBlockOnFail(
+  exec(http("name").get("/"))
+);
+```
+
+## exitHere
+
+Make the user exit the scenario from this point.
+
+---
+
+Ushbu exitHere() kelgan nuqtada userni ushbu scenariydan chiqishga majbur qiladi.
+
+```java
+exitHere();
+```
+
+## exitHereIf
+
+Make the user exit the scenario from this point if the condition holds.
+
+In takes one single parameter:
+
+* `condition`: can be a boolean, a Gatling EL String resolving a boolean or a function
+
+---
+
+Agar shart bajarilsa, foydalanuvchi ushbu nuqtadan stsenariydan chiqishga majbur qiladi.
+
+1ta parameter qabul qiladi:
+
+* `condition`: boolean, gatling EL yoki Function bo'lishi mumkin
+
+```java
+exitHereIf("#{myBoolean}");
+exitHereIf(session -> true);
+```
 
 # 3. Injection
 

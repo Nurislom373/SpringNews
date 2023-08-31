@@ -29,8 +29,6 @@ import static org.khasanof.gatlingperformancetest.websocket.JsonRpcConstants.*;
 public class PlusWebSocket extends Simulation {
 
     private final long TIMEOUT = 20;
-    private static final String DEPARTMENT = "department";
-    private final ThreadLocal<String> departmentLocal = ThreadLocal.withInitial(() -> "");
 
     {
         List<PopulationBuilder> builders = IntStream.range(0, 2)
@@ -89,7 +87,7 @@ public class PlusWebSocket extends Simulation {
         return exec(
                 exec(repeat(3)
                         .on(exec(
-                                ws("Send Message")
+                                ws("Send Message Get Payment")
                                         .sendText(formatter(PAYMENT_MS_GET_TRANS, Map.of("username", username)))
                                         .await(TIMEOUT).on(
                                                 ws.checkTextMessage("check message")
@@ -98,7 +96,7 @@ public class PlusWebSocket extends Simulation {
                         ))
                 ),
                 exec(pause(1)),
-                exec(ws("Send Message")
+                exec(ws("Send Message Get Departments")
                         .sendText(formatter(PROFILE_MS_GET_DEPARTMENTS, Map.of("username", username)))
                         .await(TIMEOUT).on(
                                 ws.checkTextMessage("check message")
@@ -106,7 +104,7 @@ public class PlusWebSocket extends Simulation {
                         )
                 ),
                 exec(pause(1)),
-                exec(ws("Send Message")
+                exec(ws("Send Message Create De Departments")
                                 .sendText(formatter(PROFILE_MS_CREATE_DEPARTMENT, Map.of(
                                         "username", username,
                                         "code", RandomStringUtils.randomAlphanumeric(6),
@@ -125,7 +123,7 @@ public class PlusWebSocket extends Simulation {
         return exec(
                 exec(repeat(3)
                         .on(exec(
-                                ws("Send Message")
+                                ws("Send Message Get Merchant Offers")
                                         .sendText(PRODUCT_MS_MERCHANT_OFFERS)
                                         .await(TIMEOUT).on(
                                                 ws.checkTextMessage("Check Message")
@@ -133,14 +131,14 @@ public class PlusWebSocket extends Simulation {
                                         )
                         ))),
                 exec(pause(1)),
-                exec(ws("Send Message")
+                exec(ws("Send Message Get Categories")
                         .sendText(PRODUCT_MS_GET_CATEGORIES)
                         .await(TIMEOUT).on(
                                 ws.checkTextMessage("check message")
                                         .check(regex("MESSAGE.*"))
                         )),
                 exec(pause(1)),
-                exec(ws("Send Message")
+                exec(ws("Send Message Create Category")
                         .sendText(formatter(PRODUCT_MS_CREATE_CATEGORY, Map.of(
                                 "username", username,
                                 "nameUz", RandomStringUtils.randomAlphanumeric(9),

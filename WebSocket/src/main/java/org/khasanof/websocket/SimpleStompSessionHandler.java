@@ -1,6 +1,8 @@
 package org.khasanof.websocket;
 
+import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.khasanof.websocket.dto.JsonRpcResponse;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
@@ -15,6 +17,7 @@ import java.lang.reflect.Type;
  * @since 8/30/2023 6:33 PM
  */
 @Slf4j
+@Getter
 @Component
 public class SimpleStompSessionHandler implements StompSessionHandler {
 
@@ -35,21 +38,23 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
                 Got an exception while handling a frame.
                 Command: {}
                 Headers: {}
-                Payload: {}""", command, headers, payload, exception);
+                Payload: {}
+                {}""", command, headers, payload, exception.getMessage());
     }
 
     @Override
     public void handleTransportError(StompSession session, Throwable exception) {
-
+        log.error("Retrieved a transport error: {}", session);
+        exception.printStackTrace();
     }
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
-        return null;
+        return JsonRpcResponse.class;
     }
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-
+        log.info("Got a new message {}", payload);
     }
 }

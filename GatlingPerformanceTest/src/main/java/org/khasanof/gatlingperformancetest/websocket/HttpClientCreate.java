@@ -51,7 +51,7 @@ public class HttpClientCreate {
             urlParameters.add(new BasicNameValuePair("password", dto.getPassword()));
             request.setEntity(new UrlEncodedFormEntity(urlParameters));
             CloseableHttpResponse response = httpClient.execute(request);
-            Map<String, String> readValue = objectMapper.readValue(response.getEntity().getContent(), new TypeReference<Map<String, String>>() {
+            Map<String, String> readValue = objectMapper.readValue(response.getEntity().getContent(), new TypeReference<>() {
             });
             if (response.getStatusLine().getStatusCode() == 200) {
                 return Optional.of(readValue.get("access_token"));

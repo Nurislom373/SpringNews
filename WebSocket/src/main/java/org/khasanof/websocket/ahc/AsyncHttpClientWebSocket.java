@@ -8,8 +8,10 @@ import org.asynchttpclient.netty.ws.NettyWebSocket;
 import org.asynchttpclient.ws.WebSocket;
 import org.asynchttpclient.ws.WebSocketListener;
 import org.asynchttpclient.ws.WebSocketUpgradeHandler;
+import org.khasanof.websocket.dto.JsonRpcResponse;
 import org.springframework.http.HttpHeaders;
 
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
 
@@ -21,29 +23,39 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class AsyncHttpClientWebSocket {
 
+    private final PlusWebSocketCompletable nettyWebSocketUniquer = new PlusWebSocketCompletable();
+    private final PlusWebSocketListener listener = new PlusWebSocketListener(nettyWebSocketUniquer);
+    private final MessageConverter messageConverter = new MessageConverter();
     private final String SUB_0 = "[\"SUBSCRIBE\\nid:sub-0\\ndestination:/app/topic/send\\n\\n\\u0000\"]";
     private final String SUB_1 = "[\"SUBSCRIBE\\nid:sub-1\\ndestination:/user/topic/rpc\\n\\n\\u0000\"]";
     private final String SEND_TRANSACTION = "[\"SEND\\ndestination:/app/topic/handler\\ncontent-length:261\\n\\n{\\\"service\\\":\\\"PRODUCTMS\\\",\\\"destination\\\":\\\"/app/topic/handler\\\",\\\"username\\\":\\\"373373373\\\",\\\"data\\\":{\\\"method\\\":\\\"getAllMerchantsProductOffers\\\",\\\"jsonrpc\\\":\\\"2.0\\\",\\\"id\\\":\\\"1\\\",\\\"params\\\":{\\\"pageable\\\":{\\\"page\\\":0,\\\"size\\\":10,\\\"sort\\\":null,\\\"orderBy\\\":\\\"DESC\\\",\\\"properties\\\":[\\\"id\\\"]},\\\"criteria\\\":{}}}}\\u0000\"]";
 
     public void builder(String token) throws ExecutionException, InterruptedException {
-        CompletableFuture<String> future = new CompletableFuture<>();
         NettyWebSocket webSocket = Dsl.asyncHttpClient()
                 .prepareGet(getURL())
                 .addHeader(HttpHeaders.AUTHORIZATION, "Bearer ".concat(token))
                 .setRequestTimeout(5000)
-                .execute(getUpgradeHandler(future))
+                .execute(PlusListener.buildUpgradeHandler(listener))
                 .get();
 
         if (webSocket.isOpen() && webSocket.isReady()) {
             webSocket.sendTextFrame("[\"CONNECT\\nAuthorization:Bearer " + token +
                     "\\naccept-version:1.1,1.0\\nheart-beat:10000,10000\\n\\n\\u0000\"]");
-            webSocket.sendTextFrame(SUB_0);
-            webSocket.sendTextFrame(SUB_1);
-            webSocket.sendTextFrame(SEND_TRANSACTION);
+            nettyWebSocketUniquer.sendMessage(webSocket, SUB_0);
+            nettyWebSocketUniquer.sendMessage(webSocket, SUB_1);
+            String lastKey = nettyWebSocketUniquer.sendMessage(webSocket, SEND_TRANSACTION);
+            Thread.sleep(1000);
+            CompletableFuture<String> future = nettyWebSocketUniquer.getResponseMsg(lastKey);
+            if (future.isDone()) {
+                log.info("Message found!!!");
+                String message = future.get();
+                System.out.println("message = " + message);
+                JsonRpcResponse jsonRpcResponse = messageConverter.convertToType(message, JsonRpcResponse.class);
+                System.out.println("jsonRpcResponse = " + jsonRpcResponse);
+            } else {
+                log.warn("Message not found!!!");
+            }
         }
-
-        String response = future.get();
-        System.out.println("response = " + response);
 
         Thread.sleep(3000);
         webSocket.sendCloseFrame();

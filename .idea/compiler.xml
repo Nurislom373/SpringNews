@@ -7,20 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="Junit5Spring" />
         <module name="RSocketServer" />
-        <module name="MapStruct" />
-        <module name="WebFluxServerSideEvent" />
-        <module name="SpringJdbcTemplate" />
         <module name="RSocketClient" />
-        <module name="SpringExpressionLanguage" />
         <module name="JacksonBoot" />
         <module name="GatlingPerformanceTest" />
-        <module name="SwaggerUI2" />
         <module name="WebSocket" />
-        <module name="SpringAOP" />
-        <module name="SpringWorkingYAML" />
-        <module name="Keycloak" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -35,7 +26,10 @@
       <module name="gRPC" target="17" />
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
+      <module name="Junit5Spring" target="17" />
+      <module name="Keycloak" target="17" />
       <module name="khasanof-common-rate-limiting" target="17" />
+      <module name="MapStruct" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
       <module name="RSocket" target="17" />
       <module name="RSocketWithoutSpring" target="17" />
@@ -43,15 +37,22 @@
       <module name="ServiceTwo" target="17" />
       <module name="Spring-Batch" target="17" />
       <module name="Spring6Thymeleaf" target="17" />
+      <module name="SpringAOP" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringDataJPA" target="17" />
+      <module name="SpringExpressionLanguage" target="17" />
+      <module name="SpringJdbcTemplate" target="17" />
       <module name="SpringLiquibaseMigration" target="17" />
       <module name="SpringMVC6" target="17" />
       <module name="SpringQueryDSL" target="17" />
       <module name="SpringReactiveR2DBC" target="17" />
       <module name="SpringSession" target="17" />
+      <module name="SpringWorkingYAML" target="17" />
+      <module name="SwaggerUI2" target="17" />
       <module name="Thymeleaf" target="17" />
       <module name="user-service" target="17" />
+      <module name="WebFlux" target="17" />
+      <module name="WebFluxServerSideEvent" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

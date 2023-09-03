@@ -1,4 +1,4 @@
-package org.khasanof.websocket.ahc;
+package org.khasanof.websocket.plus;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

@@ -1,4 +1,4 @@
-package org.khasanof.websocket.ahc;
+package org.khasanof.websocket.plus;
 
 import lombok.extern.slf4j.Slf4j;
 import org.asynchttpclient.ws.WebSocket;
@@ -13,11 +13,11 @@ import java.util.Optional;
  * @since 9/2/2023 8:56 PM
  */
 @Slf4j
-public class PlusWebSocketListener implements WebSocketListener {
+public class WSSListener implements WebSocketListener {
 
-    private final PlusWebSocketCompletable nettyWebSocketUniquer;
+    private final WSSCompletable nettyWebSocketUniquer;
 
-    public PlusWebSocketListener(PlusWebSocketCompletable nettyWebSocketUniquer) {
+    public WSSListener(WSSCompletable nettyWebSocketUniquer) {
         this.nettyWebSocketUniquer = nettyWebSocketUniquer;
     }
 

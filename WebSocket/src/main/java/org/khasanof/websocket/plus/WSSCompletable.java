@@ -1,10 +1,9 @@
-package org.khasanof.websocket.ahc;
+package org.khasanof.websocket.plus;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.asynchttpclient.netty.ws.NettyWebSocket;
 
 import java.util.Map;
-import java.util.Objects;
 import java.util.Optional;
 import java.util.Queue;
 import java.util.concurrent.*;
@@ -14,7 +13,7 @@ import java.util.concurrent.*;
  * @see org.khasanof.websocket.ahc
  * @since 9/2/2023 8:39 PM
  */
-public class PlusWebSocketCompletable {
+public class WSSCompletable {
 
     private final Queue<String> receiveKeysQueue = new ConcurrentLinkedQueue<>();
     private final Map<String, CompletableFuture<String>> sendMessageIdAndReceived = new ConcurrentHashMap<>();

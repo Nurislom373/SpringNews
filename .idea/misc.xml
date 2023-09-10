@@ -20,6 +20,9 @@
         <option value="$PROJECT_DIR$/RSocket/RSocketClient/pom.xml" />
         <option value="$PROJECT_DIR$/GatlingPerformanceTest/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocket/pom.xml" />
+        <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/WSS/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/WebSocketClient/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -27,6 +30,7 @@
         <option value="$PROJECT_DIR$/MapStruct/pom.xml" />
         <option value="$PROJECT_DIR$/RSocket/RSocketWithoutSpring/pom.xml" />
         <option value="$PROJECT_DIR$/Spring6Thymeleaf/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/WSS/pom.xml" />
         <option value="$PROJECT_DIR$/gRPC/pom.xml" />
       </set>
     </option>

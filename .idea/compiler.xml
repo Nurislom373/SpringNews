@@ -7,8 +7,11 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SpringAOP" />
         <module name="RSocketServer" />
+        <module name="WSS" />
         <module name="RSocketClient" />
+        <module name="WebSocketClient" />
         <module name="JacksonBoot" />
         <module name="GatlingPerformanceTest" />
         <module name="WebSocket" />
@@ -37,7 +40,6 @@
       <module name="ServiceTwo" target="17" />
       <module name="Spring-Batch" target="17" />
       <module name="Spring6Thymeleaf" target="17" />
-      <module name="SpringAOP" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringDataJPA" target="17" />
       <module name="SpringExpressionLanguage" target="17" />
@@ -53,6 +55,7 @@
       <module name="user-service" target="17" />
       <module name="WebFlux" target="17" />
       <module name="WebFluxServerSideEvent" target="17" />
+      <module name="WSS" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
@@ -85,6 +88,7 @@
       <module name="WebFlux" options="" />
       <module name="WebFluxServerSideEvent" options="-parameters" />
       <module name="WebSocket" options="-parameters" />
+      <module name="WebSocketClient" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

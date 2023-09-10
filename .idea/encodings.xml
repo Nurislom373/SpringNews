@@ -47,6 +47,10 @@
     <file url="file://$PROJECT_DIR$/WebFlux/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFluxServerSideEvent/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebFluxServerSideEvent/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebSocket/WSS/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebSocket/WSS/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebSocket/WebSocketClient/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebSocket/WebSocketClient/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebSocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/resources" charset="UTF-8" />

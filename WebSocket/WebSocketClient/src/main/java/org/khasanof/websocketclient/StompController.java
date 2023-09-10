@@ -25,6 +25,7 @@ public class StompController implements ApplicationRunner {
 
     private static final String URL = "ws://localhost:8080/test";
     private static final String SEND = "/app/chat";
+    private static final String SEND_SIMPLE = "/app/simple";
 
     public void connectSocket() throws ExecutionException, InterruptedException {
         WebSocketClient webSocketClient = new StandardWebSocketClient();
@@ -52,6 +53,8 @@ public class StompController implements ApplicationRunner {
 
     private void sendMessageAndReceive(StompSession stompSession) {
         stompSession.send(SEND, new MessageDTO("nurislom", "jeck pot"));
+        stompSession.send(SEND, new MessageDTO("abdulloh", "new message"));
+        stompSession.send(SEND_SIMPLE, new MessageDTO("hello", "Abdulloh"));
     }
 
     @Override

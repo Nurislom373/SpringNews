@@ -1,4 +1,4 @@
-package org.khasanof.websocket.server;
+package org.khasanof.websocket.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;

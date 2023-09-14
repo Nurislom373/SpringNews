@@ -1,4 +1,4 @@
-package org.khasanof.websocket.server;
+package org.khasanof.websocket.config;
 
 import org.khasanof.websocket.server.handler.SimpleHandler;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -8,7 +8,9 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.socket.config.annotation.EnableWebSocket;
 import org.springframework.web.socket.config.annotation.WebSocketConfigurer;
 import org.springframework.web.socket.config.annotation.WebSocketHandlerRegistry;
+import org.springframework.web.socket.server.jetty.JettyRequestUpgradeStrategy;
 import org.springframework.web.socket.server.standard.ServletServerContainerFactoryBean;
+import org.springframework.web.socket.server.support.DefaultHandshakeHandler;
 
 /**
  * @author Nurislom
@@ -24,7 +26,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
-        registry.addHandler(new SimpleHandler(simpMessagingTemplate), "/app/simple");
+        registry.addHandler(new SimpleHandler(simpMessagingTemplate), "/simple");
     }
 
     @Bean

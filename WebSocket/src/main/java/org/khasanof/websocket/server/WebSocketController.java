@@ -3,6 +3,7 @@ package org.khasanof.websocket.server;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.stereotype.Controller;
 
 /**
@@ -19,6 +20,11 @@ public class WebSocketController {
     public MessageDTO sendTo(MessageDTO dto) {
         log.info("message mapping : {}", dto);
         return dto;
+    }
+
+    @SubscribeMapping("/topic/messages")
+    public void subscribeMapping() {
+        // ...
     }
 
 }

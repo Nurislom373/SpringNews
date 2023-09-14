@@ -25,7 +25,10 @@ public class WebSocketMBConfig implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         registry.addEndpoint("test");
-        registry.addEndpoint("test").withSockJS();
+        registry.addEndpoint("test").withSockJS()
+                .setStreamBytesLimit(512 * 1024)
+                .setHttpMessageCacheSize(1000)
+                .setDisconnectDelay(30 * 1000);
     }
 
 }

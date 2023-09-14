@@ -30,13 +30,8 @@ public class PlusWebSocket extends Simulation {
 
     private final long TIMEOUT = 20;
 
-    public PlusWebSocket() {
-        setUp(scenarioBuilder(null, null, true)
-                .injectOpen(atOnceUsers(1000)));
-    }
-
     {
-        List<PopulationBuilder> builders = IntStream.range(0, 500)
+        List<PopulationBuilder> builders = IntStream.range(0, 2)
                 .parallel()
                 .mapToObj(i -> {
                     Optional<RegisterDTO> optional = register();

@@ -24,6 +24,7 @@ import java.util.concurrent.ExecutionException;
 public class StompController implements ApplicationRunner {
 
     private static final String URL = "ws://localhost:8080/test";
+    private static final String URL_SIMPLE = "ws://localhost:8080/simple";
     private static final String SEND = "/app/chat";
     private static final String SEND_SIMPLE = "/app/simple";
 
@@ -47,6 +48,20 @@ public class StompController implements ApplicationRunner {
         connectAsync.disconnect();
     }
 
+    public void connectSimple() throws ExecutionException, InterruptedException {
+        WebSocketClient webSocketClient = new StandardWebSocketClient();
+        WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
+        stompClient.setMessageConverter(new MappingJackson2MessageConverter());
+        stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
+
+        SimpleStompSessionHandler simpleStompSessionHandler = new SimpleStompSessionHandler();
+
+        WebSocketHttpHeaders webSocketHttpHeaders = new WebSocketHttpHeaders();
+
+        StompSession connectAsync = stompClient.connectAsync(URL_SIMPLE, webSocketHttpHeaders, simpleStompSessionHandler)
+                .get();
+    }
+
     private void subscribeAfterConnected(StompSession stompSession) {
         stompSession.subscribe("/topic/messages", new SimpleStompFrameHandler());
     }
@@ -60,5 +75,6 @@ public class StompController implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         connectSocket();
+        connectSimple();
     }
 }

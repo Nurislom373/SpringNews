@@ -22,6 +22,13 @@ public class WebSocketController {
         return dto;
     }
 
+    @MessageMapping("/secured/chat")
+    @SendTo("/topic/messages")
+    public MessageDTO secureSendTo(MessageDTO dto) {
+        log.info("message mapping secured : {}", dto);
+        return dto;
+    }
+
     @SubscribeMapping("/topic/messages")
     public void subscribeMapping() {
         // ...

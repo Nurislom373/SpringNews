@@ -4,6 +4,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
 import org.springframework.messaging.converter.MappingJackson2MessageConverter;
+import org.springframework.messaging.simp.stomp.StompHeaders;
 import org.springframework.messaging.simp.stomp.StompSession;
 import org.springframework.scheduling.concurrent.ConcurrentTaskScheduler;
 import org.springframework.stereotype.Service;
@@ -11,8 +12,15 @@ import org.springframework.web.socket.WebSocketHttpHeaders;
 import org.springframework.web.socket.client.WebSocketClient;
 import org.springframework.web.socket.client.standard.StandardWebSocketClient;
 import org.springframework.web.socket.messaging.WebSocketStompClient;
+import org.springframework.web.socket.sockjs.client.SockJsClient;
+import org.springframework.web.socket.sockjs.client.Transport;
+import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
+import java.util.concurrent.TimeoutException;
 
 /**
  * @author Nurislom
@@ -26,10 +34,12 @@ public class StompController implements ApplicationRunner {
     private static final String URL = "ws://localhost:8080/test";
     private static final String URL_SIMPLE = "ws://localhost:8080/simple";
     private static final String SEND = "/app/chat";
-    private static final String SEND_SIMPLE = "/app/simple";
+    private static final String SEND_SIMPLE = "/simple";
 
-    public void connectSocket() throws ExecutionException, InterruptedException {
-        WebSocketClient webSocketClient = new StandardWebSocketClient();
+    public void connectSocket() throws ExecutionException, InterruptedException, TimeoutException {
+        List<Transport> transports = new ArrayList<>(2);
+        transports.add(new WebSocketTransport(new StandardWebSocketClient()));
+        WebSocketClient webSocketClient = new SockJsClient(transports);
         WebSocketStompClient stompClient = new WebSocketStompClient(webSocketClient);
         stompClient.setMessageConverter(new MappingJackson2MessageConverter());
         stompClient.setTaskScheduler(new ConcurrentTaskScheduler());
@@ -37,9 +47,13 @@ public class StompController implements ApplicationRunner {
         SimpleStompSessionHandler simpleStompSessionHandler = new SimpleStompSessionHandler();
 
         WebSocketHttpHeaders webSocketHttpHeaders = new WebSocketHttpHeaders();
+//        webSocketHttpHeaders.add("login", "nurislom");
+//        webSocketHttpHeaders.add("password", "123");
+        webSocketHttpHeaders.add("Upgrade", "websocket");
+        webSocketHttpHeaders.add("Connection", "Upgrade");
 
         StompSession connectAsync = stompClient.connectAsync(URL, webSocketHttpHeaders, simpleStompSessionHandler)
-                .get();
+                .get(5, TimeUnit.SECONDS);
 
         subscribeAfterConnected(connectAsync);
         sendMessageAndReceive(connectAsync);
@@ -60,6 +74,17 @@ public class StompController implements ApplicationRunner {
 
         StompSession connectAsync = stompClient.connectAsync(URL_SIMPLE, webSocketHttpHeaders, simpleStompSessionHandler)
                 .get();
+        sendSimpleUrl(connectAsync);
+        log.info("disconnect after 3 second!");
+        Thread.sleep(3000);
+        connectAsync.disconnect();
+    }
+
+    public void sendSimpleUrl(StompSession stompSession) {
+        StompHeaders headers = new StompHeaders();
+        headers.setDestination("test");
+        headers.setMessageId("123");
+        stompSession.send(headers, new MessageDTO("Abror", "Hello World"));
     }
 
     private void subscribeAfterConnected(StompSession stompSession) {
@@ -75,6 +100,6 @@ public class StompController implements ApplicationRunner {
     @Override
     public void run(ApplicationArguments args) throws Exception {
         connectSocket();
-        connectSimple();
+//        connectSimple();
     }
 }

@@ -33,7 +33,9 @@ public class SimpleHandler extends TextWebSocketHandler {
     @Override
     public void handleMessage(WebSocketSession session, WebSocketMessage<?> message) throws Exception {
         log.info("received message : {}", message);
-        sendReply(objectMapper.convertValue(message.getPayload(), MessageDTO.class));
+        if (message.getPayload() instanceof MessageDTO) {
+            sendReply(objectMapper.convertValue(message.getPayload(), MessageDTO.class));
+        }
     }
 
     private void sendReply(MessageDTO dto) {

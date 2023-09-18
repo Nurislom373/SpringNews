@@ -43,7 +43,7 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
 
     @Override
     public void handleTransportError(StompSession session, Throwable exception) {
-        log.error("Retrieved a transport error: {}", session);
+        log.error("Retrieved a transport session: {}, error: {}", session, exception.getMessage());
         exception.printStackTrace();
     }
 
@@ -56,4 +56,7 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
     public void handleFrame(StompHeaders headers, Object payload) {
         log.info("Got a new message {}", payload);
     }
+
+
+
 }

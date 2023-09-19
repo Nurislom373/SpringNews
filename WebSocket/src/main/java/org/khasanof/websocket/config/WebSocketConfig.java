@@ -56,6 +56,4 @@ public class WebSocketConfig implements WebSocketConfigurer {
         return container;
     }
 
-
-
 }

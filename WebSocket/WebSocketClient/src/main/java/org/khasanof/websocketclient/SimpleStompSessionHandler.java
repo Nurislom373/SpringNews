@@ -49,7 +49,7 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
 
     @Override
     public Type getPayloadType(StompHeaders headers) {
-        return MessageDTO.class;
+        return String.class;
     }
 
     @Override

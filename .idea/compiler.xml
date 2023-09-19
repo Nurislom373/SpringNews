@@ -10,6 +10,7 @@
         <module name="SpringAOP" />
         <module name="RSocketServer" />
         <module name="WSS" />
+        <module name="WebSocketHandler" />
         <module name="RSocketClient" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
@@ -89,6 +90,7 @@
       <module name="WebFluxServerSideEvent" options="-parameters" />
       <module name="WebSocket" options="-parameters" />
       <module name="WebSocketClient" options="-parameters" />
+      <module name="WebSocketHandler" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

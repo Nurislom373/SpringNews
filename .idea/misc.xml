@@ -23,6 +23,7 @@
         <option value="$PROJECT_DIR$/SpringAOP/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocket/WSS/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocket/WebSocketClient/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/WebSocketHandler/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

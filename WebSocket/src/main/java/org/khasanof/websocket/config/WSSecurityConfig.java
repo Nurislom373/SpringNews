@@ -26,6 +26,7 @@ public class WSSecurityConfig {
     @Bean
     AuthorizationManager<Message<?>> messageAuthorizationManager(MessageMatcherDelegatingAuthorizationManager.Builder messages) {
         messages
+                .nullDestMatcher().authenticated()
                 .simpDestMatchers("/secured/**").authenticated()
                 .anyMessage().permitAll();
         return messages.build();

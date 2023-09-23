@@ -28,7 +28,7 @@ import java.util.concurrent.CompletableFuture;
  * @since 9/19/2023 2:06 PM
  */
 @Slf4j
-@Component
+//@Component
 public class CustomWsHandler implements ApplicationRunner {
 
     private static final String URL_SIMPLE = "ws://localhost:8081/simple";

@@ -35,13 +35,13 @@ public class WsAuthenticationInterceptor implements ChannelInterceptor {
     @Override
     public Message<?> preSend(Message<?> message, MessageChannel channel) {
         log.info("Request pre send : {}", message);
-//        StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
-//        if (Objects.equals(StompCommand.CONNECT, headerAccessor.getCommand())) {
-//            String username = headerAccessor.getFirstNativeHeader(USERNAME_HEADER);
-//            String password = headerAccessor.getFirstNativeHeader(PASSWORD_HEADER);
-//            Authentication authentication = authenticationService.getAuthenticatedOrFail(new AuthenticationDTO(username, password));
-//            headerAccessor.setUser(authentication);
-//        }
+        StompHeaderAccessor headerAccessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
+        if (Objects.equals(StompCommand.CONNECT, headerAccessor.getCommand())) {
+            String username = headerAccessor.getFirstNativeHeader(USERNAME_HEADER);
+            String password = headerAccessor.getFirstNativeHeader(PASSWORD_HEADER);
+            Authentication authentication = authenticationService.getAuthenticatedOrFail(new AuthenticationDTO(username, password));
+            headerAccessor.setUser(authentication);
+        }
         return message;
     }
 }

@@ -11,6 +11,8 @@
         <module name="RSocketServer" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
+        <module name="ReactiveClientWebSocket" />
+        <module name="ReactiveWebSocket" />
         <module name="RSocketClient" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
@@ -71,6 +73,8 @@
       <module name="RSocketServer" options="-parameters" />
       <module name="RSocketWithoutSpring" options="-parameters" />
       <module name="RateLimitingWithSpring" options="-parameters" />
+      <module name="ReactiveClientWebSocket" options="-parameters" />
+      <module name="ReactiveWebSocket" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />

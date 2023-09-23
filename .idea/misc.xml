@@ -24,6 +24,8 @@
         <option value="$PROJECT_DIR$/WebSocket/WSS/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocket/WebSocketClient/pom.xml" />
         <option value="$PROJECT_DIR$/WebSocket/WebSocketHandler/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/ReactiveWebSocket/pom.xml" />
+        <option value="$PROJECT_DIR$/WebSocket/ReactiveClientWebSocket/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

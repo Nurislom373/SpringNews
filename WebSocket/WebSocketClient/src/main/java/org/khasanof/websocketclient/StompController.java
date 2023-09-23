@@ -17,7 +17,9 @@ import org.springframework.web.socket.sockjs.client.Transport;
 import org.springframework.web.socket.sockjs.client.WebSocketTransport;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -32,9 +34,10 @@ import java.util.concurrent.TimeoutException;
 public class StompController implements ApplicationRunner {
 
     private static final String URL = "ws://localhost:8081/ws";
-    private static final String URL_SIMPLE = "ws://localhost:8081/simple";
-    private static final String SEND = "/app/chat";
+    private static final String URL_SIMPLE = "ws://localhost:8088/websocket/tracker?access_token=";
+    private static final String SEND = "/app/handler";
     private static final String SEND_SIMPLE = "/simple";
+    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTY5NTM3NDM1M30.pSOrfjPiiCsmhU0axxoYBUEs4UmnSGsPMQSmD3oqR17KxShBJs129pWXbdRgjW9WzbvzKZpGUQjprf2O0HegiA";
 
     public void connectSocket() throws ExecutionException, InterruptedException, TimeoutException {
         List<Transport> transports = new ArrayList<>(2);
@@ -50,7 +53,7 @@ public class StompController implements ApplicationRunner {
 //        webSocketHttpHeaders.add("login", "nurislom");
 //        webSocketHttpHeaders.add("password", "123");
 
-        StompSession connectAsync = stompClient.connectAsync(URL, webSocketHttpHeaders, simpleStompSessionHandler)
+        StompSession connectAsync = stompClient.connectAsync(URL_SIMPLE.concat(token), simpleStompSessionHandler)
                 .get(5, TimeUnit.SECONDS);
 
         subscribeAfterConnected(connectAsync);
@@ -92,18 +95,26 @@ public class StompController implements ApplicationRunner {
     }
 
     private void subscribeAfterConnected(StompSession stompSession) {
+        log.info("Start Subscribe topics");
         stompSession.subscribe("/topic/messages", new SimpleStompFrameHandler());
+        stompSession.subscribe("/user/topic/updates", new SimpleStompFrameHandler());
+        log.info("End Subscribe topics");
     }
 
     private void sendMessageAndReceive(StompSession stompSession) {
-        stompSession.send(SEND, new MessageDTO("nurislom", "jeck pot"));
-        stompSession.send(SEND, new MessageDTO("abdulloh", "new message"));
-        stompSession.send(SEND_SIMPLE, new MessageDTO("hello", "Abdulloh"));
+        Map<String, Object> map = new HashMap<>();
+        map.put("method", "OPEN_CONNECTION");
+        map.put("id", "123");
+        map.put("payload", new HashMap<>(){{
+            put("chargeBoxId", "10");
+        }});
+        stompSession.send(SEND, map);
+        log.info("Successfully send message!");
     }
 
     @Override
     public void run(ApplicationArguments args) throws Exception {
-//        connectSocket();
+        connectSocket();
 //        connectSimple();
     }
 }

@@ -8,8 +8,23 @@ mijozga so'ralmagan responselarni yubora olmaydi.
 
 ## Overview
 
-WebSocket - bu web bruazer va server o'rtasidagi ikki tomonlama, to'liq dupleks doimiy ulanish. WebSocket ulanish 
-o'rnatilgandan so'ng, mijoz yoki server ushbu ulanishni yopishga qaror qilmaguncha ulanish ochiq qoladi.
+WebSocket protocoli bitta TCP ulanishi orqali mijoz va server o'rtasida to'liq dupleks, ikki tomonlama aloqa kanalini
+o'rnatishning standardlashtirilgan usulni taqdim etadi. Bu HTTP protocolidan farqli TCP protocoli, lekin 80 va 443
+portlaridan foydalangan holda HTTP orqali ishlash uchun mo'ljallangan va mavjud xavfsizlik devori qoidalarni qayta
+ishlashga imkon beradi. 
+
+```yaml
+GET /spring-websocket-portfolio/portfolio HTTP/1.1
+Host: localhost:8080
+Upgrade: websocket
+Connection: Upgrade
+Sec-WebSocket-Key: Uc9l9TMkWGbHFD2qnFHltg==
+Sec-WebSocket-Protocol: v10.stomp, v11.stomp
+Sec-WebSocket-Version: 13
+Origin: http://localhost:8080
+```
+
+## Dependencies
 
 ```xml
 <dependency>

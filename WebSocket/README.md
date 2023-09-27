@@ -1,17 +1,53 @@
 # WebSocket
 
-## Introduction
+## HTTP request
 
 Http Protocoli request-response protocolidir. Bu shuni anglatadiki, faqat mijoz HTTP requestlarini serverga yuborishi
 mumkin. Server faqat HTTP requestlariga HTTP responselarni yuborish orqali xizmat ko'rsatishi mumkin, ammo server 
 mijozga so'ralmagan responselarni yubora olmaydi.
 
-## Overview
+## HTTP Streaming
 
-WebSocket protocoli bitta TCP ulanishi orqali mijoz va server o'rtasida to'liq dupleks, ikki tomonlama aloqa kanalini
-o'rnatishning standardlashtirilgan usulni taqdim etadi. Bu HTTP protocolidan farqli TCP protocoli, lekin 80 va 443
-portlaridan foydalangan holda HTTP orqali ishlash uchun mo'ljallangan va mavjud xavfsizlik devori qoidalarni qayta
-ishlashga imkon beradi. 
+Stream mexanizmi vaqtida mijoz serverga request yuboradi va uni cheksiz muddatga ochiq saqlaydi. Yangi ma'lumotlar 
+kelmaguncha server javob bermaydi. Yangi ma'lumotlar mavjud bo'lganda, server javobning bir qismi sifatida uni mijozga
+qaytarib yuboradi.
+
+## SSE (Server-Sent Events)
+
+Server-Sent Events (SSE) tarmoq protocoli va brauzerlar uchun EventSource API ga ega bo'lgan standartlashtirilgan oqim
+mexanizmi. SSE serverdan brauzerga bir yo'nalishli UTF-8 kodlangan eventlar oqimni belgilaydi.
+
+## WebSocket
+
+WebSocket - bu bitta TCP ulanishi orqali mijozlar (asosan brauzerlar) va serverlar o'rtasida text va binary xabarlarni
+bir vaqtning o'zida ikki tomonlama uzatish imkonini beruvchi protocol. WebSocket 80-portda ("ws" schemasi) TCP orqali
+yoki 443-portda ("wss" schemasi) TLS/TCP orqali muloqot qilishi mumkin.
+
+![handshake](static/images/websocket_handshake.png)
+
+WebSocket protocoli bitta TCP ulanishi orqali mijoz va server o'rtasida to'liq dupleks yani Full-Deplex ikki tomonlama
+aloqa kanalini o'rnatishning standardlashtirilgan usulni taqdim etadi. Full-Duplex aloqada ikkala tomon bir vaqtning
+o'zida ikkala yo'nalishda ham xabarlarni yuborishi va qabul qilishi mumkin. Half-Duplex aloqada ikkala tomon ham har 
+ikki yo'nalishda ham xabarlarni yuborishi va qabul qilishi mumkin, lekin bir vaqtning o'zida emas.
+
+Qisqa qilib aytganda WebSocket ikki tomonlama client va server o'rtasidagi aloqani ta'minlash uchun ishlatiladi.
+
+HTTP text protocol, WebSocket binary protocol (binary protocollar text protocollarga qaraganda tarmoq orqali kamroq
+ma'lumotlarni uzatadi)
+
+WebSocket brauzer-server aloqasiga iloji boricha kamroq o'zgarishlar kiritgan holda TCP socketlarini qo'llab quvvatlash
+uchun mo'ljallangan, bu esa Internetning zarur xavfsizlik cheklovlarini ta'minlaydi. WebSocket TCP ning ustiga faqat 
+minimal funksionallikni qo'shadi, faqat quyidagilardan boshqa narsa emas:
+
+- origin-based security model
+- binary protocoli ustidagi text protocol
+- yopiq handshake
+
+## Opening handshake
+
+xabar almashinuvini boshlashdan oldin, client va server o'rtasida ulanishni o'rnatish kerak. 
+
+An example of an HTTP to WebSocket upgrade request:
 
 ```yaml
 GET /spring-websocket-portfolio/portfolio HTTP/1.1
@@ -23,6 +59,10 @@ Sec-WebSocket-Protocol: v10.stomp, v11.stomp
 Sec-WebSocket-Version: 13
 Origin: http://localhost:8080
 ```
+
+## When to use WebSocket
+
+WebSocket web sahifani dinamik va interaktiv qilishi mumkin.
 
 ## Dependencies
 
@@ -65,7 +105,8 @@ public class WebSocketConfig extends AbstractWebSocketMessageBrokerConfigurer {
 ## STOMP
 
 WebSocket ikki xil turdagi xabar almashish turlarni belgilaydi. Text va Binary, lekin ularning content aniqlanmagan.
-Mijoz va Server uchun sub-protocol bo'yicha muzokaralar olib borish mexanizmni belgilaydi. Ya'ni yuqori darajadagi
+Mijoz va Server uchun WebSocket tepasida qanday xabarlarni yuborishi mumkinligini, formati, mazmunini aniqlash uchun 
+sub-protocol (ya'ni yuqori darajadagi xabar almashish protocoli) bo'yicha muzokaralar olib borish mexanizmni belgilaydi. Ya'ni yuqori darajadagi
 xabar almashish protocoli.
 
 STOMP oddiy matnga yo'naltirilgan(text-oriented) messaging protocol bo'lib, dastlab Ruby, Python va Perl kabi script

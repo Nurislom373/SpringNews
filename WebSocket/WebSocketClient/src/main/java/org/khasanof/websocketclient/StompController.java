@@ -37,7 +37,7 @@ public class StompController implements ApplicationRunner {
     private static final String URL_SIMPLE = "ws://localhost:8088/websocket/tracker?access_token=";
     private static final String SEND = "/app/handler";
     private static final String SEND_SIMPLE = "/simple";
-    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTY5NTM3NDM1M30.pSOrfjPiiCsmhU0axxoYBUEs4UmnSGsPMQSmD3oqR17KxShBJs129pWXbdRgjW9WzbvzKZpGUQjprf2O0HegiA";
+    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTY5NTgyNzYxNn0.avqbTwaEjDxX-71ImoXFDn-PXFoOu0pjRBd777p0vGwDUeIAcbu72xc28i5FtJZZDMHskPe1O9Htae_SOXSgmA";
 
     public void connectSocket() throws ExecutionException, InterruptedException, TimeoutException {
         List<Transport> transports = new ArrayList<>(2);
@@ -59,7 +59,7 @@ public class StompController implements ApplicationRunner {
         subscribeAfterConnected(connectAsync);
         sendMessageAndReceive(connectAsync);
         log.info("disconnect after 3 second!");
-        Thread.sleep(3000);
+        Thread.sleep(30000);
         connectAsync.disconnect();
     }
 
@@ -96,8 +96,8 @@ public class StompController implements ApplicationRunner {
 
     private void subscribeAfterConnected(StompSession stompSession) {
         log.info("Start Subscribe topics");
-        stompSession.subscribe("/topic/messages", new SimpleStompFrameHandler());
-        stompSession.subscribe("/user/topic/updates", new SimpleStompFrameHandler());
+        stompSession.subscribe("/topic/messages", new WsResponseSessionHandler());
+        stompSession.subscribe("/user/topic/messages", new WsResponseSessionHandler());
         log.info("End Subscribe topics");
     }
 
@@ -105,10 +105,22 @@ public class StompController implements ApplicationRunner {
         Map<String, Object> map = new HashMap<>();
         map.put("method", "OPEN_CONNECTION");
         map.put("id", "123");
-        map.put("payload", new HashMap<>(){{
+        map.put("payload", new HashMap<>() {{
             put("chargeBoxId", "10");
         }});
         stompSession.send(SEND, map);
+
+        Map<String, Object> dataMap = Map.of(
+                "chargeBoxId", 1,
+                "connectorId", 49944,
+                "idTag", 123
+        );
+        Map<String, Object> objectMap = Map.of(
+                "method", "START_TRANSACTION_SIMULATE",
+                "id", "123",
+                "payload", dataMap
+        );
+        stompSession.send(SEND, objectMap);
         log.info("Successfully send message!");
     }
 

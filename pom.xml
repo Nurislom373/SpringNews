@@ -10,7 +10,6 @@
     <packaging>pom</packaging>
     <modules>
         <module>Spring6Thymeleaf</module>
-        <module>MapStruct</module>
         <module>gRPC</module>
     </modules>
 

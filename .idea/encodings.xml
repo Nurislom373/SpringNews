@@ -19,6 +19,7 @@
     <file url="file://$PROJECT_DIR$/RSocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RSocket/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/RateLimitingWithSpring/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/SSE/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Spring-Batch/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Spring6Thymeleaf/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Spring6Thymeleaf/src/main/resources" charset="UTF-8" />
@@ -54,6 +55,7 @@
     <file url="file://$PROJECT_DIR$/WebSocket/WebSocketClient/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebSocket/WebSocketClient/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebSocket/WebSocketHandler/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/WebSocket/WebSocketSTOMP/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/WebSocket/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/gRPC/src/main/resources" charset="UTF-8" />

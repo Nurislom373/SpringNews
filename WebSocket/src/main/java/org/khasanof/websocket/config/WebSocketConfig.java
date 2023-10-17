@@ -3,6 +3,7 @@ package org.khasanof.websocket.config;
 import org.khasanof.websocket.config.handshake.WsAuthenticationInterceptor;
 import org.khasanof.websocket.server.handler.SimpleHandler;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.embedded.netty.NettyReactiveWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.server.ServerHttpRequest;
@@ -53,6 +54,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
         ServletServerContainerFactoryBean container = new ServletServerContainerFactoryBean();
         container.setMaxTextMessageBufferSize(8192);
         container.setMaxBinaryMessageBufferSize(8192);
+        NettyReactiveWebServerFactory
         return container;
     }
 

@@ -37,7 +37,9 @@ public class StompController implements ApplicationRunner {
     private static final String URL_SIMPLE = "ws://localhost:8088/websocket/tracker?access_token=";
     private static final String SEND = "/app/handler";
     private static final String SEND_SIMPLE = "/simple";
-    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTY5NTgyNzYxNn0.avqbTwaEjDxX-71ImoXFDn-PXFoOu0pjRBd777p0vGwDUeIAcbu72xc28i5FtJZZDMHskPe1O9Htae_SOXSgmA";
+    private final String token = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJhZG1pbiIsImF1dGgiOiJST0xFX0FETUlOLFJPTEVfVVNFUiIsImV4cCI6MTY5ODkwNTQ5Nn0.1RgQ_swjjg8kpwEH_WdnFNuUCtjnnWnGCCqZfDb1xa6GW9OzyOETIGad9SgTtPWBm1pu9g3rexXpk2346uOCJA";
+
+    private final WsResponseSessionHandler handler = new WsResponseSessionHandler();
 
     public void connectSocket() throws ExecutionException, InterruptedException, TimeoutException {
         List<Transport> transports = new ArrayList<>(2);
@@ -57,10 +59,15 @@ public class StompController implements ApplicationRunner {
                 .get(5, TimeUnit.SECONDS);
 
         subscribeAfterConnected(connectAsync);
-        sendMessageAndReceive(connectAsync);
+        sendOpenConnection(connectAsync);
+//        startTransactionSimulateFail(connectAsync);
+//        startTransactionSimulateFail(connectAsync);
+        Thread.sleep(6000);
+//        stopTransactionSimulateFail(connectAsync);
+
+//        sendMessageAndReceive(connectAsync);
         log.info("disconnect after 3 second!");
-        Thread.sleep(30000);
-        connectAsync.disconnect();
+//        connectAsync.disconnect();
     }
 
     public void connectSimple() throws ExecutionException, InterruptedException {
@@ -97,19 +104,70 @@ public class StompController implements ApplicationRunner {
     private void subscribeAfterConnected(StompSession stompSession) {
         log.info("Start Subscribe topics");
         stompSession.subscribe("/topic/messages", new WsResponseSessionHandler());
-        stompSession.subscribe("/user/topic/messages", new WsResponseSessionHandler());
+        stompSession.subscribe("/user/topic/messages", handler);
         log.info("End Subscribe topics");
     }
 
     private void sendMessageAndReceive(StompSession stompSession) {
+        try {
+            Thread.sleep(5000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        try {
+            Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+
+        sendNearChargeBoxes(stompSession);
+        log.info("Successfully send message!");
+    }
+
+    private void stopTransactionSimulate(StompSession stompSession) {
+        Map<String, Object> map1 = Map.of(
+                "chargeBoxId", "1",
+                "transactionId", handler.getId(),
+                "idTag", "123",
+                "reason", "EV_DISCONNECTED",
+                "stopMeterValue", "4000"
+        );
+        Map<String, Object> objectMap2 = Map.of(
+                "method", "STOP_TRANSACTION_SIMULATE",
+                "id", "7845362",
+                "payload", map1
+        );
+        stompSession.send(SEND, objectMap2);
+    }
+
+    private void stopTransactionSimulateFail(StompSession stompSession) {
+        Map<String, Object> map1 = Map.of(
+                "chargeBoxId", "1543543",
+                "transactionId", 5454565,
+                "idTag", "12334243",
+                "reason", "EV_DISCONNECTED",
+                "stopMeterValue", "4000"
+        );
+        Map<String, Object> objectMap2 = Map.of(
+                "method", "STOP_TRANSACTION_SIMULATE",
+                "id", "7845362",
+                "payload", map1
+        );
+        stompSession.send(SEND, objectMap2);
+    }
+
+    private void sendOpenConnection(StompSession stompSession) {
         Map<String, Object> map = new HashMap<>();
         map.put("method", "OPEN_CONNECTION");
         map.put("id", "123");
         map.put("payload", new HashMap<>() {{
-            put("chargeBoxId", "10");
+            put("chargeBoxId", "1");
         }});
         stompSession.send(SEND, map);
+    }
 
+    private void startTransactionSimulate(StompSession stompSession) {
         Map<String, Object> dataMap = Map.of(
                 "chargeBoxId", 1,
                 "connectorId", 49944,
@@ -121,7 +179,38 @@ public class StompController implements ApplicationRunner {
                 "payload", dataMap
         );
         stompSession.send(SEND, objectMap);
-        log.info("Successfully send message!");
+    }
+
+    private void startTransactionSimulateFail(StompSession stompSession) {
+        Map<String, Object> dataMap = Map.of(
+                "chargeBoxId", 1,
+                "connectorId", 49944,
+                "idTag", 1234
+        );
+        Map<String, Object> objectMap1 = new HashMap<>() {{
+            put("chargeBoxId", null);
+            put("connectorId", null);
+            put("idTag", null);
+        }};
+        Map<String, Object> objectMap = Map.of(
+                "method", "START_TRANSACTION_SIMULATE",
+                "id", "123",
+                "payload", objectMap1
+        );
+        stompSession.send(SEND, objectMap);
+    }
+
+    private void sendNearChargeBoxes(StompSession stompSession) {
+        Map<String, Object> objectMap2 = Map.of(
+                "method", "SEARCH_NEARBY_CHARGE_BOXES",
+                "id", "64587346",
+                "payload", Map.of(
+                        "latitude", 83656.00000000,
+                        "longitude", 17379.00000000,
+                        "distance", 50.0000
+                )
+        );
+        stompSession.send(SEND, objectMap2);
     }
 
     @Override

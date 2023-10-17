@@ -1,5 +1,6 @@
 package org.khasanof.websocketclient;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.Getter;
 import lombok.SneakyThrows;
@@ -12,6 +13,8 @@ import org.springframework.messaging.simp.stomp.StompSessionHandler;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Type;
+import java.util.Map;
+import java.util.Objects;
 
 /**
  * @author Nurislom
@@ -24,6 +27,8 @@ import java.lang.reflect.Type;
 public class WsResponseSessionHandler implements StompSessionHandler {
 
     private StompSession session;
+    private Integer id;
+    private static final String TRAN_ID = "transactionId";
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Override
@@ -59,8 +64,18 @@ public class WsResponseSessionHandler implements StompSessionHandler {
     @SneakyThrows
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        log.info("Got a new message {}", payload);
-        String value = objectMapper.writerWithDefaultPrettyPrinter().writeValueAsString(payload);
+        log.info("Got a new message {}, headers {}", payload, headers);
+        String value = objectMapper.writerWithDefaultPrettyPrinter()
+                .writeValueAsString(payload);
+        WsResponseDTO wsResponseDTO = objectMapper.convertValue(payload, WsResponseDTO.class);
+        if (Objects.nonNull(wsResponseDTO.getData())) {
+            Map<String, Object> convertValue = objectMapper.convertValue(wsResponseDTO.getData(), new TypeReference<>() {
+            });
+            if (convertValue.containsKey(TRAN_ID)) {
+                log.info("transactionId found!");
+                this.id = (Integer) convertValue.get(TRAN_ID);
+            }
+        }
         System.out.println("value = " + value);
     }
 }

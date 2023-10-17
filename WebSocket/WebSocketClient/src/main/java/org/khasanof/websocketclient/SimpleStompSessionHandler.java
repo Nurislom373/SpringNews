@@ -54,9 +54,7 @@ public class SimpleStompSessionHandler implements StompSessionHandler {
 
     @Override
     public void handleFrame(StompHeaders headers, Object payload) {
-        log.info("Got a new message {}", payload);
+        log.info("Got a new message {}, headers {}", payload, headers);
     }
-
-
 
 }

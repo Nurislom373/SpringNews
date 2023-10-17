@@ -7,17 +7,19 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="SpringAOP" />
         <module name="RSocketServer" />
-        <module name="WSS" />
-        <module name="WebSocketHandler" />
-        <module name="ReactiveClientWebSocket" />
+        <module name="SSE" />
         <module name="ReactiveWebSocket" />
         <module name="RSocketClient" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
         <module name="GatlingPerformanceTest" />
         <module name="WebSocket" />
+        <module name="WebSocketSTOMP" />
+        <module name="SpringAOP" />
+        <module name="WSS" />
+        <module name="WebSocketHandler" />
+        <module name="ReactiveClientWebSocket" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -75,6 +77,7 @@
       <module name="RateLimitingWithSpring" options="-parameters" />
       <module name="ReactiveClientWebSocket" options="-parameters" />
       <module name="ReactiveWebSocket" options="-parameters" />
+      <module name="SSE" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
@@ -95,6 +98,7 @@
       <module name="WebSocket" options="-parameters" />
       <module name="WebSocketClient" options="-parameters" />
       <module name="WebSocketHandler" options="-parameters" />
+      <module name="WebSocketSTOMP" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

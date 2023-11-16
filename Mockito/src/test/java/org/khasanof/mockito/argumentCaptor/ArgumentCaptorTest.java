@@ -26,7 +26,6 @@ public class ArgumentCaptorTest {
 
     @Test
     void simpleTest() {
-
         String to = "info@baeldung.com";
         String subject = "Using ArgumentCaptor";
         String body = "Hey, let'use ArgumentCaptor";
@@ -37,7 +36,6 @@ public class ArgumentCaptorTest {
         Email value = argumentCaptor.getValue();
         System.out.println("value = " + value);
         assertThat(value.getFormat()).isEqualTo(Format.HTML);
-
     }
 
 }

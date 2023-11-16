@@ -17,6 +17,7 @@
         <module name="WebSocket" />
         <module name="WebSocketSTOMP" />
         <module name="SpringAOP" />
+        <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
         <module name="ReactiveClientWebSocket" />
@@ -70,6 +71,7 @@
       <module name="JpaSpecification" options="-parameters" />
       <module name="Junit5Spring" options="-parameters" />
       <module name="Keycloak" options="-parameters" />
+      <module name="Mockito" options="-parameters" />
       <module name="RSocket" options="-parameters" />
       <module name="RSocketClient" options="-parameters" />
       <module name="RSocketServer" options="-parameters" />

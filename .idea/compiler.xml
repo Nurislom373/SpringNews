@@ -7,6 +7,7 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="SpringDefault" />
         <module name="RSocketServer" />
         <module name="SSE" />
         <module name="ReactiveWebSocket" />
@@ -87,6 +88,7 @@
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />
       <module name="SpringDataJPA" options="-parameters" />
+      <module name="SpringDefault" options="-parameters" />
       <module name="SpringExpressionLanguage" options="-parameters" />
       <module name="SpringJdbcTemplate" options="-parameters" />
       <module name="SpringLiquibaseMigration" options="-parameters" />

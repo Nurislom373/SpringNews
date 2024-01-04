@@ -6,6 +6,8 @@ import org.springframework.web.client.support.RestTemplateAdapter;
 import org.springframework.web.service.invoker.HttpServiceProxyFactory;
 import org.springframework.web.util.DefaultUriBuilderFactory;
 
+import static org.khasanof.GlobalConstants.BASE_URL;
+
 /**
  * @author Nurislom
  * @see org.khasanof
@@ -17,7 +19,7 @@ public class RestTemplateFactory implements HttpClientFactory {
     @Override
     public SpringDefaultRestClient factory() {
         RestTemplate restTemplate = new RestTemplate();
-        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory("https://postman-echo.com"));
+        restTemplate.setUriTemplateHandler(new DefaultUriBuilderFactory(BASE_URL));
 
         RestTemplateAdapter restTemplateAdapter = RestTemplateAdapter.create(restTemplate);
         HttpServiceProxyFactory httpServiceProxyFactory = HttpServiceProxyFactory.builderFor(restTemplateAdapter)

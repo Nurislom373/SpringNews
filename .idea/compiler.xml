@@ -8,16 +8,14 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="SpringDefault" />
-        <module name="RSocketServer" />
         <module name="SSE" />
         <module name="ReactiveWebSocket" />
-        <module name="RSocketClient" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
-        <module name="GatlingPerformanceTest" />
         <module name="WebSocket" />
         <module name="WebSocketSTOMP" />
         <module name="SpringAOP" />
+        <module name="Retrofit" />
         <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
@@ -33,6 +31,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="GatlingPerformanceTest" target="17" />
       <module name="gRPC" target="17" />
       <module name="JDBCTemplate" target="17" />
       <module name="JpaSpecification" target="17" />
@@ -42,6 +41,8 @@
       <module name="MapStruct" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
       <module name="RSocket" target="17" />
+      <module name="RSocketClient" target="17" />
+      <module name="RSocketServer" target="17" />
       <module name="RSocketWithoutSpring" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
@@ -80,6 +81,7 @@
       <module name="RateLimitingWithSpring" options="-parameters" />
       <module name="ReactiveClientWebSocket" options="-parameters" />
       <module name="ReactiveWebSocket" options="-parameters" />
+      <module name="Retrofit" options="-parameters" />
       <module name="SSE" options="-parameters" />
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />

@@ -28,6 +28,7 @@
         <option value="$PROJECT_DIR$/Mockito/pom.xml" />
         <option value="$PROJECT_DIR$/RestHttpInterface/SpringDefault/pom.xml" />
         <option value="$PROJECT_DIR$/RestHttpInterface/Retrofit/pom.xml" />
+        <option value="$PROJECT_DIR$/RestHttpInterface/OpenFeign/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
@@ -39,9 +40,11 @@
         <option value="$PROJECT_DIR$/gRPC/pom.xml" />
       </set>
     </option>
-    <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
   <component name="ProjectRootManager" version="2" languageLevel="JDK_17" project-jdk-name="17" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/out" />
+  </component>
+  <component name="SuppressKotlinCodeStyleNotification">
+    <option name="disableForAll" value="true" />
   </component>
 </project>

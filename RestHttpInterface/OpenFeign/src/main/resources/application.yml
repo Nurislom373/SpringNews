@@ -1,0 +1,25 @@
+spring:
+  cloud:
+    loadbalancer:
+      ribbon:
+        enable: false
+    openfeign:
+      client:
+        config:
+          default:
+            connectTimeout: 5000
+            readTimeout: 5000
+            loggerLevel: basic
+          todo:
+            url: https://jsonplaceholder.typicode.com/
+            connectTimeout: 5000
+            readTimeout: 5000
+            logger-level: basic
+            dismiss404: false
+            request-interceptors:
+              - org.khasanof.openfeign.interceptor.FeignTodoRequestInterceptor
+            response-interceptor: org.khasanof.openfeign.interceptor.FeignTodoResponseInterceptor
+            default-request-headers:
+              header: value
+            micrometer:
+              enabled: false

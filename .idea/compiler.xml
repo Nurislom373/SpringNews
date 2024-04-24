@@ -16,6 +16,7 @@
         <module name="WebSocketSTOMP" />
         <module name="SpringAOP" />
         <module name="Retrofit" />
+        <module name="OpenFeign" />
         <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
@@ -74,6 +75,7 @@
       <module name="Junit5Spring" options="-parameters" />
       <module name="Keycloak" options="-parameters" />
       <module name="Mockito" options="-parameters" />
+      <module name="OpenFeign" options="-parameters" />
       <module name="RSocket" options="-parameters" />
       <module name="RSocketClient" options="-parameters" />
       <module name="RSocketServer" options="-parameters" />

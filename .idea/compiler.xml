@@ -21,6 +21,7 @@
         <module name="WSS" />
         <module name="WebSocketHandler" />
         <module name="ReactiveClientWebSocket" />
+        <module name="SpringValidator" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />
@@ -98,6 +99,7 @@
       <module name="SpringLiquibaseMigration" options="-parameters" />
       <module name="SpringQueryDSL" options="-parameters" />
       <module name="SpringReactiveR2DBC" options="-parameters" />
+      <module name="SpringValidator" options="-parameters" />
       <module name="SpringWorkingYAML" options="-parameters" />
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />

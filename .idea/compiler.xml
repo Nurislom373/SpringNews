@@ -17,6 +17,7 @@
         <module name="SpringAOP" />
         <module name="Retrofit" />
         <module name="OpenFeign" />
+        <module name="ApacheFlink" />
         <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
@@ -70,6 +71,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="ApacheFlink" options="-parameters" />
       <module name="GatlingPerformanceTest" options="-parameters" />
       <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />

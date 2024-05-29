@@ -12,7 +12,7 @@ import org.springframework.web.reactive.socket.WebSocketHandler;
 import org.springframework.web.reactive.socket.server.WebSocketService;
 import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
 import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
-import org.springframework.web.reactive.socket.server.upgrade.TomcatRequestUpgradeStrategy;
+import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
 
 import java.util.HashMap;
 import java.util.List;
@@ -62,8 +62,7 @@ public class ReactiveWSConfig {
 
     @Bean
     public WebSocketService webSocketService() {
-        TomcatRequestUpgradeStrategy strategy = new TomcatRequestUpgradeStrategy();
-        strategy.setMaxSessionIdleTimeout(0L);
+        ReactorNettyRequestUpgradeStrategy strategy = new ReactorNettyRequestUpgradeStrategy();
         return new HandshakeWebSocketService(strategy);
     }
 }

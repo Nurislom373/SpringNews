@@ -1,4 +1,4 @@
-package org.khasanof.reactivewebsocket;
+package org.khasanof.reactivewebsocket.handler;
 
 import com.github.javafaker.Faker;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +16,7 @@ import reactor.core.publisher.Mono;
  */
 @Slf4j
 @Component
-public class ReactiveWebSocketHandler implements WebSocketHandler {
+public class SimpleReactiveWebSocketHandler implements WebSocketHandler {
 
     @Override
     public Mono<Void> handle(WebSocketSession session) {
@@ -26,5 +26,4 @@ public class ReactiveWebSocketHandler implements WebSocketHandler {
                 .map(webSocketMessage -> session.textMessage(Faker.instance().lorem().paragraph()));
         return session.send(socketMessageFlux);
     }
-
 }

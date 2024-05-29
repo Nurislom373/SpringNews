@@ -1,5 +1,7 @@
-package org.khasanof.reactivewebsocket;
+package org.khasanof.reactivewebsocket.config;
 
+import org.khasanof.reactivewebsocket.handler.ReactiveWebSocketHandler;
+import org.khasanof.reactivewebsocket.handler.SimpleReactiveWebSocketHandler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,15 +27,18 @@ import java.util.Map;
 public class ReactiveWSConfig {
 
     @Autowired
+    private SimpleReactiveWebSocketHandler simpleReactiveWebSocketHandler;
+
+    @Autowired
     private ReactiveWebSocketHandler reactiveWebSocketHandler;
 
     @Bean
     public HandlerMapping handlerMapping() {
         Map<String, WebSocketHandler> webSocketHandlerMap = new HashMap<>();
+        webSocketHandlerMap.put("/simple", simpleReactiveWebSocketHandler);
         webSocketHandlerMap.put("/reactive", reactiveWebSocketHandler);
 
         Map<String, CorsConfiguration> configurationMap = new HashMap<>();
-        configurationMap.put("/**", corsConfiguration());
 
         SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping(webSocketHandlerMap, 1);
         simpleUrlHandlerMapping.setCorsConfigurations(configurationMap);
@@ -61,5 +66,4 @@ public class ReactiveWSConfig {
         strategy.setMaxSessionIdleTimeout(0L);
         return new HandshakeWebSocketService(strategy);
     }
-
 }

@@ -9,6 +9,7 @@
         <outputRelativeToContentRoot value="true" />
         <module name="SpringDefault" />
         <module name="SSE" />
+        <module name="StateMachine" />
         <module name="ReactiveWebSocket" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
@@ -64,7 +65,6 @@
       <module name="SwaggerUI2" target="17" />
       <module name="Thymeleaf" target="17" />
       <module name="user-service" target="17" />
-      <module name="WebFlux" target="17" />
       <module name="WebFluxServerSideEvent" target="17" />
       <module name="WSS" target="17" />
     </bytecodeTargetLevel>
@@ -103,6 +103,7 @@
       <module name="SpringReactiveR2DBC" options="-parameters" />
       <module name="SpringValidator" options="-parameters" />
       <module name="SpringWorkingYAML" options="-parameters" />
+      <module name="StateMachine" options="-parameters" />
       <module name="SwaggerUI2" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="" />

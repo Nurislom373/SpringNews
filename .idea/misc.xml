@@ -31,6 +31,8 @@
         <option value="$PROJECT_DIR$/RestHttpInterface/OpenFeign/pom.xml" />
         <option value="$PROJECT_DIR$/SpringValidator/pom.xml" />
         <option value="$PROJECT_DIR$/ApacheFlink/pom.xml" />
+        <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
+        <option value="$PROJECT_DIR$/StateMachine/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

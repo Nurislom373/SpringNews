@@ -36,6 +36,8 @@
         <option value="$PROJECT_DIR$/StateMachine/pom.xml" />
         <option value="$PROJECT_DIR$/Excel/pom.xml" />
         <option value="$PROJECT_DIR$/Excel/Poiji/pom.xml" />
+        <option value="$PROJECT_DIR$/CSV/OpenCSV/pom.xml" />
+        <option value="$PROJECT_DIR$/CSV/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

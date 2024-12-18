@@ -2,6 +2,7 @@
 <project version="4">
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/Excel/Poiji" />
     <file type="web" url="file://$PROJECT_DIR$/JDBCTemplate" />
     <file type="web" url="file://$PROJECT_DIR$/Spring6Thymeleaf" />
     <file type="web" url="file://$PROJECT_DIR$/SpringSecurityOAuth2" />
@@ -33,6 +34,8 @@
         <option value="$PROJECT_DIR$/ApacheFlink/pom.xml" />
         <option value="$PROJECT_DIR$/WebFlux/pom.xml" />
         <option value="$PROJECT_DIR$/StateMachine/pom.xml" />
+        <option value="$PROJECT_DIR$/Excel/pom.xml" />
+        <option value="$PROJECT_DIR$/Excel/Poiji/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

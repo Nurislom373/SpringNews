@@ -19,6 +19,7 @@
         <module name="Retrofit" />
         <module name="OpenFeign" />
         <module name="ApacheFlink" />
+        <module name="Excel" />
         <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
@@ -32,6 +33,15 @@
           <entry name="$USER_HOME$/.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
         </processorPath>
         <module name="JDBCTemplate.main" />
+      </profile>
+      <profile name="Annotation profile for Poiji" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Poiji" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -79,6 +89,7 @@
       <module name="Keycloak" options="-parameters" />
       <module name="Mockito" options="-parameters" />
       <module name="OpenFeign" options="-parameters" />
+      <module name="Poiji" options="-parameters" />
       <module name="RSocket" options="-parameters" />
       <module name="RSocketClient" options="-parameters" />
       <module name="RSocketServer" options="-parameters" />

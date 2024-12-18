@@ -34,7 +34,7 @@
         </processorPath>
         <module name="JDBCTemplate.main" />
       </profile>
-      <profile name="Annotation profile for Excel" enabled="true">
+      <profile name="Annotation profile for Jackson" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -43,6 +43,7 @@
         </processorPath>
         <module name="OpenCSV" />
         <module name="Poiji" />
+        <module name="Jackson" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -84,6 +85,7 @@
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApacheFlink" options="-parameters" />
       <module name="GatlingPerformanceTest" options="-parameters" />
+      <module name="Jackson" options="-parameters" />
       <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />
       <module name="Junit5Spring" options="-parameters" />

@@ -20,6 +20,7 @@
         <module name="Retrofit" />
         <module name="OpenFeign" />
         <module name="ApacheFlink" />
+        <module name="Spring-Batch" />
         <module name="Mockito" />
         <module name="WSS" />
         <module name="WebSocketHandler" />
@@ -34,7 +35,7 @@
         </processorPath>
         <module name="JDBCTemplate.main" />
       </profile>
-      <profile name="Annotation profile for Jackson" enabled="true">
+      <profile name="Annotation profile for Excel" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
@@ -44,6 +45,16 @@
         <module name="OpenCSV" />
         <module name="Poiji" />
         <module name="Jackson" />
+      </profile>
+      <profile name="Annotation profile for Spring Batch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Spring-Batch-52" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -62,7 +73,6 @@
       <module name="RSocketWithoutSpring" target="17" />
       <module name="ServiceOne" target="17" />
       <module name="ServiceTwo" target="17" />
-      <module name="Spring-Batch" target="17" />
       <module name="Spring6Thymeleaf" target="17" />
       <module name="SpringBootResilience4j" target="1.5" />
       <module name="SpringDataJPA" target="17" />
@@ -106,6 +116,7 @@
       <module name="ServiceOne" options="-parameters" />
       <module name="ServiceTwo" options="-parameters" />
       <module name="Spring-Batch" options="-parameters" />
+      <module name="Spring-Batch-52" options="-parameters" />
       <module name="Spring6Thymeleaf" options="" />
       <module name="SpringAOP" options="-parameters" />
       <module name="SpringBootResilience4j" options="" />

@@ -72,7 +72,8 @@ public class CompanyBatchConfig {
 
     @Bean
     public Step step() {
-        return stepBuilderFactory.get("csv-step").<Company, Company>chunk(10)
+        return stepBuilderFactory.get("csv-step")
+                .<Company, Company>chunk(10)
                 .reader(reader())
                 .processor(companyProcessor())
                 .writer(writer())

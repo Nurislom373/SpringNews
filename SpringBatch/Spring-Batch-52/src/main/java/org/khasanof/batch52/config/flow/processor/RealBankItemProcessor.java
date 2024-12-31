@@ -1,7 +1,7 @@
 package org.khasanof.batch52.config.flow.processor;
 
 import lombok.extern.slf4j.Slf4j;
-import org.khasanof.batch52.model.BankCsvDTO;
+import org.khasanof.batch52.model.RealBankDTO;
 import org.springframework.batch.item.ItemProcessor;
 
 /**
@@ -10,7 +10,7 @@ import org.springframework.batch.item.ItemProcessor;
  * @since 12/31/2024 9:50 PM
  */
 @Slf4j
-public class RealBankItemProcessor implements ItemProcessor<BankCsvDTO, BankCsvDTO> {
+public class RealBankItemProcessor implements ItemProcessor<RealBankDTO, RealBankDTO> {
 
     /**
      *
@@ -19,7 +19,7 @@ public class RealBankItemProcessor implements ItemProcessor<BankCsvDTO, BankCsvD
      * @throws Exception
      */
     @Override
-    public BankCsvDTO process(BankCsvDTO item) throws Exception {
+    public RealBankDTO process(RealBankDTO item) throws Exception {
         log.debug("Request to process : {}", item);
         return item;
     }

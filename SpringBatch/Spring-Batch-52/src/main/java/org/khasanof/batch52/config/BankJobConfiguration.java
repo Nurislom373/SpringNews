@@ -4,7 +4,7 @@ import org.khasanof.batch52.config.flow.processor.RealBankItemProcessor;
 import org.khasanof.batch52.config.flow.writer.RealBankItemWriter;
 import org.khasanof.batch52.config.listener.BankExecutionListener;
 import org.khasanof.batch52.config.validator.BankJobParametersValidator;
-import org.khasanof.batch52.model.BankCsvDTO;
+import org.khasanof.batch52.model.RealBankDTO;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
@@ -21,7 +21,6 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
 import org.springframework.transaction.PlatformTransactionManager;
 
 /**
@@ -54,7 +53,7 @@ public class BankJobConfiguration {
      */
     public Step bankStep(JobRepository jobRepository, PlatformTransactionManager platformTransactionManager) {
         return new StepBuilder("bankStep1", jobRepository)
-                .<BankCsvDTO, BankCsvDTO>chunk(100, platformTransactionManager)
+                .<RealBankDTO, RealBankDTO>chunk(100, platformTransactionManager)
                 .reader(realBankItemReader())
                 .writer(realBankItemWriter())
                 .processor(realBankItemProcessor())
@@ -65,8 +64,8 @@ public class BankJobConfiguration {
      *
      * @return
      */
-    public ItemReader<BankCsvDTO> realBankItemReader() {
-        FlatFileItemReader<BankCsvDTO> reader = new FlatFileItemReader<>();
+    public ItemReader<RealBankDTO> realBankItemReader() {
+        FlatFileItemReader<RealBankDTO> reader = new FlatFileItemReader<>();
         reader.setLinesToSkip(1);
         reader.setLineMapper(lineMapper());
         reader.setName("RealBankItemReader");
@@ -78,7 +77,7 @@ public class BankJobConfiguration {
      *
      * @return
      */
-    public ItemWriter<BankCsvDTO> realBankItemWriter() {
+    public ItemWriter<RealBankDTO> realBankItemWriter() {
         return new RealBankItemWriter();
     }
 
@@ -86,7 +85,7 @@ public class BankJobConfiguration {
      *
      * @return
      */
-    public ItemProcessor<BankCsvDTO, BankCsvDTO> realBankItemProcessor() {
+    public ItemProcessor<RealBankDTO, RealBankDTO> realBankItemProcessor() {
         return new RealBankItemProcessor();
     }
 
@@ -94,16 +93,16 @@ public class BankJobConfiguration {
      *
      * @return
      */
-    private LineMapper<BankCsvDTO> lineMapper() {
-        DefaultLineMapper<BankCsvDTO> lineMapper = new DefaultLineMapper<>();
+    private LineMapper<RealBankDTO> lineMapper() {
+        DefaultLineMapper<RealBankDTO> lineMapper = new DefaultLineMapper<>();
 
         DelimitedLineTokenizer delimitedLineTokenizer = new DelimitedLineTokenizer();
         delimitedLineTokenizer.setDelimiter(",");
         delimitedLineTokenizer.setStrict(false);
         delimitedLineTokenizer.setNames("mfo", "name", "address", "city");
 
-        BeanWrapperFieldSetMapper<BankCsvDTO> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
-        fieldSetMapper.setTargetType(BankCsvDTO.class);
+        BeanWrapperFieldSetMapper<RealBankDTO> fieldSetMapper = new BeanWrapperFieldSetMapper<>();
+        fieldSetMapper.setTargetType(RealBankDTO.class);
 
         lineMapper.setLineTokenizer(delimitedLineTokenizer);
         lineMapper.setFieldSetMapper(fieldSetMapper);

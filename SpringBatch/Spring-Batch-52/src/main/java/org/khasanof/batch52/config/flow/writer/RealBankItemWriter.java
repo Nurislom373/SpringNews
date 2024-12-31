@@ -1,7 +1,7 @@
 package org.khasanof.batch52.config.flow.writer;
 
 import lombok.extern.slf4j.Slf4j;
-import org.khasanof.batch52.model.BankCsvDTO;
+import org.khasanof.batch52.model.RealBankDTO;
 import org.springframework.batch.item.Chunk;
 import org.springframework.batch.item.ItemWriter;
 
@@ -11,7 +11,7 @@ import org.springframework.batch.item.ItemWriter;
  * @since 12/31/2024 9:53 PM
  */
 @Slf4j
-public class RealBankItemWriter implements ItemWriter<BankCsvDTO> {
+public class RealBankItemWriter implements ItemWriter<RealBankDTO> {
 
     /**
      *
@@ -19,7 +19,7 @@ public class RealBankItemWriter implements ItemWriter<BankCsvDTO> {
      * @throws Exception
      */
     @Override
-    public void write(Chunk<? extends BankCsvDTO> chunk) throws Exception {
+    public void write(Chunk<? extends RealBankDTO> chunk) throws Exception {
         log.debug("Request to write - size: {}, items: {}", chunk.getItems().size(), chunk.getItems());
     }
 }

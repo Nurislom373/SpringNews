@@ -14,7 +14,7 @@ import java.io.Serializable;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class BankCsvDTO implements Serializable {
+public class RealBankDTO implements Serializable {
 
     private String mfo;
 

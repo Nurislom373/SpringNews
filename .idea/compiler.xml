@@ -35,6 +35,16 @@
         </processorPath>
         <module name="JDBCTemplate.main" />
       </profile>
+      <profile name="Annotation profile for Clickhouse" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="Clickhouse" />
+      </profile>
       <profile name="Annotation profile for Excel" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
@@ -94,6 +104,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApacheFlink" options="-parameters" />
+      <module name="Clickhouse" options="-parameters" />
       <module name="GatlingPerformanceTest" options="-parameters" />
       <module name="Jackson" options="-parameters" />
       <module name="JacksonBoot" options="-parameters" />

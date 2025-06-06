@@ -4,6 +4,7 @@
     <file url="file://$PROJECT_DIR$/ApacheFlink/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CSV/Jackson/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/CSV/OpenCSV/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/Clickhouse/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/Excel/Poiji/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/GatlingPerformanceTest/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/JacksonBoot/src/main/java" charset="UTF-8" />

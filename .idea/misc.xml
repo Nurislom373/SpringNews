@@ -42,6 +42,7 @@
         <option value="$PROJECT_DIR$/SpringBatch/pom.xml" />
         <option value="$PROJECT_DIR$/SpringBatch/SpringBatchOld/pom.xml" />
         <option value="$PROJECT_DIR$/SpringBatch/Spring-Batch-52/pom.xml" />
+        <option value="$PROJECT_DIR$/Clickhouse/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

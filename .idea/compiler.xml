@@ -26,6 +26,7 @@
         <module name="WebSocketHandler" />
         <module name="ReactiveClientWebSocket" />
         <module name="SpringValidator" />
+        <module name="clickhouse-client-v2" />
       </profile>
       <profile name="Gradle Imported" enabled="true">
         <outputRelativeToContentRoot value="true" />

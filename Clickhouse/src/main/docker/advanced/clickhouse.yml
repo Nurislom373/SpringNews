@@ -1,0 +1,23 @@
+version: '3'
+services:
+  clickhouse-server:
+    image: clickhouse/clickhouse-server:24.3.6
+    container_name: clickhouse-server
+    ports:
+      - "9001:9000"
+    volumes:
+        - ./config/clickhouse_config.xml:/etc/clickhouse-server/config.xml
+        - ./config/clickhouse_metrika.xml:/etc/clickhouse-server/metrika.xml
+#        - ./config/macros/macros-01.xml:/etc/clickhouse-server/config.d/macros.xml
+        - ./config/users.xml:/etc/clickhouse-server/users.xml
+        # - ./data/server-01:/var/lib/clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    network_mode: host
+    cap_add:
+      - SYS_NICE
+      - NET_ADMIN
+      - IPC_LOCK
+      - SYS_PTRACE

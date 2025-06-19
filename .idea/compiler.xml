@@ -67,6 +67,16 @@
         </processorPath>
         <module name="Spring-Batch-52" />
       </profile>
+      <profile name="Annotation profile for spring-hazelcast" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+        </processorPath>
+        <module name="spring-hazelcast" />
+      </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
       <module name="GatlingPerformanceTest" target="17" />
@@ -151,6 +161,7 @@
       <module name="WebSocketHandler" options="-parameters" />
       <module name="WebSocketSTOMP" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
+      <module name="spring-hazelcast" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>
   </component>

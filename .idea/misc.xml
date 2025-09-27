@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/Excel/Poiji" />
+    <file type="web" url="file://$PROJECT_DIR$/HLS-Stream" />
     <file type="web" url="file://$PROJECT_DIR$/JDBCTemplate" />
     <file type="web" url="file://$PROJECT_DIR$/Spring6Thymeleaf" />
     <file type="web" url="file://$PROJECT_DIR$/SpringSecurityOAuth2" />
@@ -46,6 +47,7 @@
         <option value="$PROJECT_DIR$/clickhouse-client-v2/pom.xml" />
         <option value="$PROJECT_DIR$/spring-hazelcast/spring-hazelcast/pom.xml" />
         <option value="$PROJECT_DIR$/spring-hazelcast/pom.xml" />
+        <option value="$PROJECT_DIR$/HLS-Stream/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

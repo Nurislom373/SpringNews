@@ -76,6 +76,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="spring-hazelcast" />
+        <module name="HLS-Stream" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -117,6 +118,7 @@
       <module name="ApacheFlink" options="-parameters" />
       <module name="Clickhouse" options="-parameters" />
       <module name="GatlingPerformanceTest" options="-parameters" />
+      <module name="HLS-Stream" options="-parameters" />
       <module name="Jackson" options="-parameters" />
       <module name="JacksonBoot" options="-parameters" />
       <module name="JpaSpecification" options="-parameters" />

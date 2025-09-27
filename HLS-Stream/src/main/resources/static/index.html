@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Live HLS Stream (JavaCV)</title>
+    <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+<body>
+<h2>Channel 1 (JavaCV)</h2>
+<video id="video" width="600" controls autoplay></video>
+
+<script>
+    var video = document.getElementById('video');
+    if (Hls.isSupported()) {
+        var hls = new Hls();
+        hls.loadSource("/channel1/stream.m3u8");
+        hls.attachMedia(video);
+    } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+        video.src = "/channel1/stream.m3u8";
+    }
+</script>
+</body>
+</html>

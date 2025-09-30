@@ -75,6 +75,7 @@
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
+        <module name="MediaMTX" />
         <module name="spring-hazelcast" />
         <module name="HLS-Stream" />
       </profile>
@@ -124,6 +125,7 @@
       <module name="JpaSpecification" options="-parameters" />
       <module name="Junit5Spring" options="-parameters" />
       <module name="Keycloak" options="-parameters" />
+      <module name="MediaMTX" options="-parameters" />
       <module name="Mockito" options="-parameters" />
       <module name="OpenCSV" options="-parameters" />
       <module name="OpenFeign" options="-parameters" />

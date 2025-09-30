@@ -1,0 +1,29 @@
+<video id="video" autoplay playsinline controls></video>
+<script src="https://cdn.jsdelivr.net/npm/sockjs-client/dist/sockjs.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/stompjs/lib/stomp.min.js"></script>
+<script>
+    const video = document.getElementById('video');
+    const pc = new RTCPeerConnection();
+
+    pc.ontrack = e => video.srcObject = e.streams[0];
+
+    // STOMP
+    const socket = new SockJS('/stomp');
+    const stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, () => {
+
+        // SDP answer
+        stompClient.subscribe("/topic/answer", async msg => {
+            const sdpAnswer = msg.body;
+            await pc.setRemoteDescription({ type: 'answer', sdp: sdpAnswer });
+        });
+
+        // Create offer
+        pc.createOffer({ offerToReceiveVideo: true, offerToReceiveAudio: true })
+            .then(async offer => {
+                await pc.setLocalDescription(offer);
+                stompClient.send("/app/offer", {}, offer.sdp);
+            });
+    });
+</script>

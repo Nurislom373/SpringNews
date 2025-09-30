@@ -1,0 +1,10 @@
+version: "3.8"
+services:
+  mediamtx:
+    image: bluenviron/mediamtx:latest
+    container_name: mediamtx
+    ports:
+      - "8000:8000"       # RTMP / RTSP server
+      - "8888:8888"       # API / Web UI
+      - "8554:8554"       # RTSP
+      - "9000-9005:9000-9005/udp" # WebRTC media ports

@@ -49,6 +49,7 @@
         <option value="$PROJECT_DIR$/spring-hazelcast/pom.xml" />
         <option value="$PROJECT_DIR$/HLS-Stream/pom.xml" />
         <option value="$PROJECT_DIR$/MediaMTX/pom.xml" />
+        <option value="$PROJECT_DIR$/hibernate-second-lvl-cache/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

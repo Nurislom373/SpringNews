@@ -12,6 +12,7 @@
         <module name="StateMachine" />
         <module name="CSV" />
         <module name="ReactiveWebSocket" />
+        <module name="spring-batch-old" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
         <module name="WebSocket" />
@@ -42,42 +43,80 @@
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
         </processorPath>
         <module name="Clickhouse" />
-      </profile>
-      <profile name="Annotation profile for Excel" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
-        </processorPath>
-        <module name="OpenCSV" />
-        <module name="Poiji" />
-        <module name="Jackson" />
-      </profile>
-      <profile name="Annotation profile for Spring Batch" enabled="true">
-        <sourceOutputDir name="target/generated-sources/annotations" />
-        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
-        </processorPath>
-        <module name="Spring-Batch-52" />
       </profile>
       <profile name="Annotation profile for spring-hazelcast" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/unknown/spring-boot-configuration-processor-unknown.jar" />
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
+        </processorPath>
+        <module name="spring-hazelcast" />
+      </profile>
+      <profile name="Annotation profile for HLS-Stream" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.4/spring-boot-configuration-processor-3.3.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+        </processorPath>
+        <module name="HLS-Stream" />
+      </profile>
+      <profile name="Annotation profile for MediaMTX" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.10/spring-boot-configuration-processor-3.4.10.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
         </processorPath>
         <module name="MediaMTX" />
-        <module name="spring-hazelcast" />
-        <module name="HLS-Stream" />
+      </profile>
+      <profile name="Annotation profile for OpenCSV" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="OpenCSV" />
+        <module name="Jackson" />
+      </profile>
+      <profile name="Annotation profile for Excel" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+        </processorPath>
+        <module name="Poiji" />
+      </profile>
+      <profile name="Annotation profile for Spring Batch" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.7/spring-boot-configuration-processor-3.3.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.7/spring-boot-configuration-processor-3.3.7.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.28/lombok-1.18.28.jar" />
+        </processorPath>
+        <module name="Spring-Batch-52" />
+      </profile>
+      <profile name="Annotation profile for hibernate-second-lvl-cache" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
+        </processorPath>
+        <module name="hibernate-scd-lvl-cache" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
@@ -90,6 +129,7 @@
       <module name="khasanof-common-rate-limiting" target="17" />
       <module name="MapStruct" target="17" />
       <module name="RateLimitingWithSpring" target="17" />
+      <module name="reactive-stream" target="17" />
       <module name="RSocket" target="17" />
       <module name="RSocketClient" target="17" />
       <module name="RSocketServer" target="17" />
@@ -164,7 +204,9 @@
       <module name="WebSocketClient" options="-parameters" />
       <module name="WebSocketHandler" options="-parameters" />
       <module name="WebSocketSTOMP" options="-parameters" />
+      <module name="hibernate-scd-lvl-cache" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
+      <module name="spring-batch-old" options="-parameters" />
       <module name="spring-hazelcast" options="-parameters" />
       <module name="user-service" options="-parameters" />
     </option>

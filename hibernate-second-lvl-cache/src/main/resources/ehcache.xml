@@ -1,0 +1,38 @@
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="false"
+         monitoring="autodetect"
+         dynamicConfig="true">
+
+    <!-- Настройки по умолчанию -->
+    <defaultCache
+            eternal="false"
+            maxElementsInMemory="1000"
+            overflowToDisk="false"
+            timeToIdleSeconds="300"
+            timeToLiveSeconds="600"
+            statistics="true" />
+
+    <!-- Конкретный регион для User -->
+    <cache name="org.khasanof.domain.User"
+           eternal="false"
+           maxElementsInMemory="1000"
+           overflowToDisk="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           statistics="true"
+           copyOnRead="true"
+           copyOnWrite="true" />
+
+    <!-- Если есть Order -->
+    <cache name="org.khasanof.domain.Order"
+           eternal="false"
+           maxElementsInMemory="1000"
+           overflowToDisk="false"
+           timeToIdleSeconds="300"
+           timeToLiveSeconds="600"
+           statistics="true"
+           copyOnRead="true"
+           copyOnWrite="true" />
+
+</ehcache>

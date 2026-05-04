@@ -11,6 +11,7 @@
         <module name="SSE" />
         <module name="StateMachine" />
         <module name="CSV" />
+        <module name="Cassandra" />
         <module name="ReactiveWebSocket" />
         <module name="spring-batch-old" />
         <module name="WebSocketClient" />
@@ -158,6 +159,7 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="ApacheFlink" options="-parameters" />
+      <module name="Cassandra" options="-parameters" />
       <module name="Clickhouse" options="-parameters" />
       <module name="GatlingPerformanceTest" options="-parameters" />
       <module name="HLS-Stream" options="-parameters" />

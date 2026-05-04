@@ -51,6 +51,7 @@
         <option value="$PROJECT_DIR$/MediaMTX/pom.xml" />
         <option value="$PROJECT_DIR$/hibernate-second-lvl-cache/pom.xml" />
         <option value="$PROJECT_DIR$/TCP-Server/pom.xml" />
+        <option value="$PROJECT_DIR$/Cassandra/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">

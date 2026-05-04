@@ -22,12 +22,23 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
         try {
             byte[] data = hexToBytes(msg);
 
+            // Minimum frame: 7E + len(2) + cmd + seq + crc + 0D
+            if (data.length < 7) {
+                System.out.println("Invalid frame: too short");
+                return;
+            }
+
             if (data[0] != 0x7E || data[data.length - 1] != 0x0D) {
                 System.out.println("Invalid frame");
                 return;
             }
 
             int len = ((data[1] & 0xFF) << 8) | (data[2] & 0xFF);
+            if (len < 2 || len + 5 != data.length) {
+                System.out.println("Invalid frame length: " + len);
+                return;
+            }
+
             byte cmd = data[3];
             byte seq = data[4];
 
@@ -94,12 +105,30 @@ public class TcpHandler extends SimpleChannelInboundHandler<String> {
     // ===== Utils =====
 
     private byte[] hexToBytes(String hex) {
-        int len = hex.length();
+        if (hex == null) {
+            throw new IllegalArgumentException("Hex message is null");
+        }
+
+        String normalizedHex = hex.replaceAll("\\s+", "");
+        if (normalizedHex.isEmpty()) {
+            throw new IllegalArgumentException("Hex message is empty");
+        }
+
+        if ((normalizedHex.length() & 1) != 0) {
+            throw new IllegalArgumentException("Hex message has odd length: " + normalizedHex.length());
+        }
+
+        int len = normalizedHex.length();
         byte[] data = new byte[len / 2];
 
         for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(hex.charAt(i), 16) << 4)
-                            + Character.digit(hex.charAt(i + 1), 16));
+            int high = Character.digit(normalizedHex.charAt(i), 16);
+            int low = Character.digit(normalizedHex.charAt(i + 1), 16);
+
+            if (high == -1 || low == -1) {
+                throw new IllegalArgumentException("Invalid hex character at index " + i + ": " + normalizedHex.substring(i, i + 2));
+            }
+            data[i / 2] = (byte) ((high << 4) + low);
         }
         return data;
     }

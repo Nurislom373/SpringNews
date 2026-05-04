@@ -17,6 +17,7 @@
         <module name="JacksonBoot" />
         <module name="WebSocket" />
         <module name="WebSocketSTOMP" />
+        <module name="TCP-Server" />
         <module name="SpringAOP" />
         <module name="Retrofit" />
         <module name="OpenFeign" />
@@ -197,6 +198,7 @@
       <module name="SpringWorkingYAML" options="-parameters" />
       <module name="StateMachine" options="-parameters" />
       <module name="SwaggerUI2" options="-parameters" />
+      <module name="TCP-Server" options="-parameters" />
       <module name="Thymeleaf" options="-parameters" />
       <module name="WebFlux" options="" />
       <module name="WebFluxServerSideEvent" options="-parameters" />

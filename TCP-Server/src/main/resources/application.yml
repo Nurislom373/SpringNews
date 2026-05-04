@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: TCPServer
+tcp:
+  port: 9000

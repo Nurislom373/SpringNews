@@ -11,14 +11,12 @@
         <module name="SSE" />
         <module name="StateMachine" />
         <module name="CSV" />
-        <module name="Cassandra" />
         <module name="ReactiveWebSocket" />
         <module name="spring-batch-old" />
         <module name="WebSocketClient" />
         <module name="JacksonBoot" />
         <module name="WebSocket" />
         <module name="WebSocketSTOMP" />
-        <module name="TCP-Server" />
         <module name="SpringAOP" />
         <module name="Retrofit" />
         <module name="OpenFeign" />
@@ -46,6 +44,8 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.32/lombok-1.18.32.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
         </processorPath>
         <module name="Clickhouse" />
       </profile>
@@ -54,6 +54,8 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.12/spring-boot-configuration-processor-3.3.12.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.38/lombok-1.18.38.jar" />
         </processorPath>
@@ -66,6 +68,8 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.4/spring-boot-configuration-processor-3.3.4.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.3.4/spring-boot-configuration-processor-3.3.4.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.34/lombok-1.18.34.jar" />
         </processorPath>
         <module name="HLS-Stream" />
       </profile>
@@ -76,18 +80,33 @@
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.10/spring-boot-configuration-processor-3.4.10.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.4.10/spring-boot-configuration-processor-3.4.10.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.40/lombok-1.18.40.jar" />
         </processorPath>
         <module name="MediaMTX" />
       </profile>
-      <profile name="Annotation profile for OpenCSV" enabled="true">
+      <profile name="Annotation profile for riak" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
-          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
         </processorPath>
-        <module name="OpenCSV" />
-        <module name="Jackson" />
+        <module name="riak" />
+      </profile>
+      <profile name="Annotation profile for TCP-Server" enabled="true">
+        <sourceOutputDir name="target/generated-sources/annotations" />
+        <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
+        <outputRelativeToContentRoot value="true" />
+        <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.14/spring-boot-configuration-processor-3.5.14.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/springframework/boot/spring-boot-configuration-processor/3.5.14/spring-boot-configuration-processor-3.5.14.jar" />
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.46/lombok-1.18.46.jar" />
+        </processorPath>
+        <module name="TCP-Server" />
+        <module name="Cassandra" />
       </profile>
       <profile name="Annotation profile for Excel" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -97,7 +116,9 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.36/lombok-1.18.36.jar" />
         </processorPath>
+        <module name="OpenCSV" />
         <module name="Poiji" />
+        <module name="Jackson" />
       </profile>
       <profile name="Annotation profile for Spring Batch" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
@@ -116,6 +137,7 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
+          <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/1.18.42/lombok-1.18.42.jar" />
         </processorPath>
         <module name="hibernate-scd-lvl-cache" />
@@ -210,6 +232,7 @@
       <module name="WebSocketSTOMP" options="-parameters" />
       <module name="hibernate-scd-lvl-cache" options="-parameters" />
       <module name="khasanof-common-rate-limiting" options="-parameters" />
+      <module name="riak" options="-parameters" />
       <module name="spring-batch-old" options="-parameters" />
       <module name="spring-hazelcast" options="-parameters" />
       <module name="user-service" options="-parameters" />

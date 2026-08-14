@@ -1,0 +1,7 @@
+spring:
+  application:
+    name: riak
+
+riak:
+  host: localhost
+  port: 8087

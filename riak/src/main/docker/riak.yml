@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  riak:
+    image: basho/riak-kv:2.1.4
+    container_name: riak
+    hostname: riak
+    ports:
+      - "8087:8087"   # Protocol Buffers (Java Client)
+      - "8098:8098"   # HTTP API
+    environment:
+      RIAK_BACKEND: leveldb
+      RIAK_NODENAME: riak@riak
+    volumes:
+      - riak_data:/var/lib/riak
+    restart: unless-stopped
+
+volumes:
+  riak_data:
